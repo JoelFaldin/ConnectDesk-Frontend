@@ -1,0 +1,11 @@
+.highAdminComponent {
+    background-image: linear-gradient(to bottom, #fff 60%, #e6e6e6);
+    width: 100vw;
+    height: 100vh;
+}
+
+.highAdmin-title {
+    margin-top: 5vh;
+    /* text-align: center; */
+    font-family: system-ui;
+}
