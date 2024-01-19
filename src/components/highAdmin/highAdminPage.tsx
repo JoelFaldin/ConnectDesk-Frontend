@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import './adminTable.css'
 import GeneralTable from "../tables/adminTable/GeneralTable"
 
-const HighAdmin = () => {
+const HighAdminPage = () => {
     const navigate = useNavigate()
     const handleClick = () => {
         navigate('/createUser')
@@ -18,4 +18,4 @@ const HighAdmin = () => {
     )
 }
 
-export default HighAdmin
+export default HighAdminPage

@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Login from "../login/Login"
 import './router.css'
-import AdminTable from "../admin/AdminComponent"
-import UserTable from "../user/UserTable"
+import AdminPage from "../admin/AdminPage"
 import CreateUser from "../highAdmin/createUser/createUser"
-import HighAdmin from "../highAdmin/highAdmin"
+import HighAdminPage from "../highAdmin/highAdminPage"
+import UserPage from "../user/UserPage"
 
 const RouterComponent = () => {
     return (
@@ -12,9 +12,9 @@ const RouterComponent = () => {
             <Router>
                 <Routes>
                     <Route path="/login" element={<Login />} />
-                    <Route path="/data/superadmin" element={<HighAdmin />} />
-                    <Route path="/data/admin" element={<AdminTable />} />
-                    <Route path="/data/user" element={<UserTable />} />
+                    <Route path="/data/superadmin" element={<HighAdminPage />} />
+                    <Route path="/data/admin" element={<AdminPage />} />
+                    <Route path="/data/user" element={<UserPage />} />
                     <Route path="/createUser" element={<CreateUser />} />
                 </Routes>
             </Router>

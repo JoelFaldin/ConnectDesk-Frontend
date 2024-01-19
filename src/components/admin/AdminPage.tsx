@@ -1,12 +1,10 @@
-// import NormalTable from "../tables/NormalTable"
 import GeneralTable from '../tables/adminTable/GeneralTable'
-import './adminComponent.css'
+import './AdminPage.css'
 
-const AdminComponent = () => {
+const AdminPage = () => {
     return (
         <>
             <h2>Conectado como administrador</h2>
-            {/* This table will be able to be edited */}
             {/* Normal Admin */}
             <GeneralTable rol={'admin'} />
 
@@ -14,4 +12,4 @@ const AdminComponent = () => {
     )
 }
 
-export default AdminComponent
+export default AdminPage
