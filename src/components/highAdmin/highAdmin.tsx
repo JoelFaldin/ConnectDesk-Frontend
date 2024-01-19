@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
-import AdminTable from '../tables/adminTable/GeneralTable'
 import './adminTable.css'
+import GeneralTable from "../tables/adminTable/GeneralTable"
 
 const HighAdmin = () => {
     const navigate = useNavigate()
@@ -13,7 +13,7 @@ const HighAdmin = () => {
             <h1 className="highAdmin-title">Acceso administrativo</h1>
             {/* <p>Conectado como: </p>  */}
             <button onClick={handleClick} id="newUser">Crear nuevo usuario</button>
-            <AdminTable rol={'superAdmin'} />
+            <GeneralTable rol={'superAdmin'} />
         </section>
     )
 }

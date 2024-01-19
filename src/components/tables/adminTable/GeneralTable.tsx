@@ -64,7 +64,7 @@ interface adminTable {
     rol: string
 }
 
-const AdminTable: React.FC<adminTable> = ({ rol }) => {
+const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [data, setData] = useState<Employee[]>([])
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
@@ -318,4 +318,4 @@ const AdminTable: React.FC<adminTable> = ({ rol }) => {
     )
 }
 
-export default AdminTable
+export default GeneralTable
