@@ -16,7 +16,7 @@ const EditCell: React.FC<editCell> = ({ row, table }) => {
             ...old,
             [row.id]: !old[row.id]
         }))
-                
+
         if (name !== 'editar') {
             meta?.revertData(row.index, name === 'cancelar')
         }

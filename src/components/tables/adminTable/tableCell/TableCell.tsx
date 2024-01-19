@@ -10,7 +10,6 @@ interface tableCell {
 
 const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
     const initialValue = getValue()
-    // const columnMeta = column.columnDef.meta
     const tableMeta = table.options.meta
     const [value, setValue] = useState('')
 
