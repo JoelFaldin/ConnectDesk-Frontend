@@ -66,16 +66,30 @@ interface adminTable {
 
 const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [data, setData] = useState<Employee[]>([])
+    const [number, setNumber] = useState(10)
+    const [page, setPage] = useState(1)
+    const [total, setTotal] = useState(0)
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
+    
     const rerender = () => {
-        dataService.getUsers()
-            .then(user => {
-                setData(user)
-                setCancelChange(user)
+        dataService.getUsers(number, page)
+            .then(data => {
+                setData(data.firstN)
+                setCancelChange(data.firstN)
             })
     }
+
+    useEffect(() => {
+        dataService.getUsers(number, page)
+            .then(data => {
+                setData(data.firstN)
+                setCancelChange(data.firstN)
+                setTotal(data.totalData)
+            })
+        rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
+    }, [])
     
     const columns = [
         columnhelper.group({
@@ -162,15 +176,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }),
     ]
 
-    useEffect(() => {
-        dataService.getUsers()
-            .then(user => {
-                setData(user)
-                setCancelChange(user)
-            })
-        rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
-    }, [])
-
     const table = useReactTable({
         data,
         columns,
@@ -201,7 +206,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 rerender()
             },
             updateData: async (rowIndex: number, columnId: string, value: unknown) => {
-                // Revisar, funciona bien!
                 dataService.updateUser(cancelChange[rowIndex].rut, columnId, value, rol)
                     .then(res => {
                         alert(res.message)
@@ -219,8 +223,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     await dataService.deleteUser(cancelChange[rowIndex].rut)
                     console.log('Usuario eliminado.')
                 }
-                const newUsers = await dataService.getUsers()
-                setData(newUsers)
                 rerender()
             }
         },
@@ -291,19 +293,19 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     <div>Página actual:</div>
                     <strong>
                         { table.getState().pagination.pageIndex + 1 } of {' '}
-                        { table.getPageCount() }
+                        { Math.floor(total / number) + 1 }
                     </strong>
                 </span>
                 <span className="pagination">
                     | Ir a la página:
                     <input
                         type="number"
-                        defaultValue={table.getState().pagination.pageIndex + 1} 
-                        onChange={e => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0
-                            table.setPageIndex(Number(page))
+                        defaultValue={page} 
+                        onChange={event => {
+                            setPage(Number(event.target.value))
                         }}
                         className="page-input"
+                        min={1}
                     />
                 </span>
                 <select value={table.getState().pagination.pageSize} onChange={e => table.setPageSize(Number(e.target.value))}>

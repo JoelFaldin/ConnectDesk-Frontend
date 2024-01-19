@@ -15,9 +15,15 @@ interface userModel {
     anexoMunicipal: string
 }
 
-const getUsers = async () => {
-    const request = axios.get(url)
+const getUsers = async (number: number, page: number) => {
+    const request = axios.get(`${url}`, {
+        params: {
+            page: page,
+            pageSize: number
+        }
+    })
     const employee = await request
+    console.log(employee.data)
     return employee.data
 }
 
