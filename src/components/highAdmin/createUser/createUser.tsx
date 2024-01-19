@@ -3,6 +3,7 @@ import handleRequests from "../../../services/handleRequests"
 import { useNavigate } from "react-router-dom"
 import './createUser.css'
 import objectService from "../../../services/checkObject"
+import rutFormater from "../../../services/rutFormater"
 
 const CreateUser = () => {
     const [newRut, setNewRut] = useState('')
@@ -56,11 +57,9 @@ const CreateUser = () => {
     }
 
     const handleRut = (event: ChangeEvent<HTMLInputElement>) => {
-        const filterCharacters = /[^0-9\.k-]/g
-        if (filterCharacters.test(event.target.value) || event.target.value.length + 1 === 14) {
-            return
-        } else if (!filterCharacters.test(event.target.value)) {
-            setNewRut(event.target.value)
+        const rut = event.target.value
+        if (rutFormater(rut)) {
+            setNewRut(rut)
         }
     }
 

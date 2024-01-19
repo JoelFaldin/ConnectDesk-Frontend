@@ -169,7 +169,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 setCancelChange(user)
             })
         rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
-        console.log(rol)
     }, [])
 
     const table = useReactTable({

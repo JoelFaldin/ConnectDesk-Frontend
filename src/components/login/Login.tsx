@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react'
 import './login.css'
 import { useNavigate } from 'react-router-dom'
 import handleRequest from '../../services/handleRequests'
+import rutFormater from '../../services/rutFormater'
 
 const Login = () => {
     const [rut, setRut] = useState<string>('')
@@ -9,11 +10,9 @@ const Login = () => {
     const navigate = useNavigate()
 
     const handleRut = (event: ChangeEvent<HTMLInputElement>) => {
-        const filterCharacters = /[^0-9\.k-]/g
-        if (filterCharacters.test(event.target.value) || event.target.value.length + 1 === 14) {
-            return
-        } else if (!filterCharacters.test(event.target.value)) {
-            setRut(event.target.value)
+        const rut = event.target.value
+        if (rutFormater(rut)) {
+            setRut(rut)
         }
     }
     
