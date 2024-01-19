@@ -33,8 +33,8 @@ const createUser = async (object: userModel) => {
     return res.data
 }
 
-const updateUser = async (rut: string, column: string, value: unknown, isTheAdmin: boolean) => {
-    const request = axios.put(`/api/update/${rut}`, { column, value, isTheAdmin })
+const updateUser = async (rut: string, column: string, value: unknown, rol: string) => {
+    const request = axios.put(`/api/update/${rut}`, { column, value, rol })
     const res = await request
     return res.data
 }

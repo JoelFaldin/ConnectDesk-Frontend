@@ -10,11 +10,6 @@ const RouterComponent = () => {
     return (
         <div className="router">
             <Router>
-                {/* <div>
-                    <Link to={'login'}>Login</Link>
-                    <Link to={'data'}>Tabla</Link>
-                </div> */}
-        
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/data/superadmin" element={<HighAdmin />} />

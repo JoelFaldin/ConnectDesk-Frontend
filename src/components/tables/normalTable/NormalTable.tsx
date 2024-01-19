@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getFilteredRowModel, getSortedRowModel } from '@tanstack/react-table'
-import '../styles/tableStyles.css'
+import { useEffect, useState } from "react"
 import dataService from "../../../services/handleRequests"
 import Filter from "../filters/Filter"
+import '../styles/tableStyles.css'
+
 import TableCell from "../adminTable/tableCell/TableCell"
 
 // Forma de la fila:

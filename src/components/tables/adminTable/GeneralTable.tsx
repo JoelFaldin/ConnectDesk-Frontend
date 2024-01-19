@@ -1,10 +1,10 @@
-import { ColumnDef, useReactTable, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, flexRender, RowData, createColumnHelper, getSortedRowModel } from '@tanstack/react-table'
+import { ColumnDef, useReactTable, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, flexRender, RowData, createColumnHelper, getSortedRowModel, VisibilityState } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
 import dataService from '../../../services/handleRequests'
 import Filter from '../filters/Filter'
 import '../styles/tableStyles.css'
 
-// Editable editable cell:
+// Celdas editables:
 import TableCell from './tableCell/TableCell'
 import EditCell from './adminEdit/EditCell'
 import EditAdminCell from './superAdminEdit/EditAdminCell'
@@ -61,13 +61,14 @@ const defaultColumn: Partial<ColumnDef<Employee>> = {
 const columnhelper = createColumnHelper<Employee>()
 
 interface adminTable {
-    isTheAdmin: boolean
+    rol: string
 }
 
-const AdminTable: React.FC<adminTable> = ({ isTheAdmin }) => {
+const AdminTable: React.FC<adminTable> = ({ rol }) => {
     const [data, setData] = useState<Employee[]>([])
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
     const rerender = () => {
         dataService.getUsers()
             .then(user => {
@@ -155,7 +156,9 @@ const AdminTable: React.FC<adminTable> = ({ isTheAdmin }) => {
         columnhelper.display({
             header: 'Acciones',
             id: "edit",
-            cell: isTheAdmin ? EditAdminCell : EditCell
+            cell: rol === 'superAdmin'
+                ? EditAdminCell
+                : rol === 'admin' ? EditCell : ''
         }),
     ]
 
@@ -165,16 +168,22 @@ const AdminTable: React.FC<adminTable> = ({ isTheAdmin }) => {
                 setData(user)
                 setCancelChange(user)
             })
+        rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
+        console.log(rol)
     }, [])
 
     const table = useReactTable({
         data,
         columns,
         defaultColumn,
+        state: {
+            columnVisibility
+        },
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        onColumnVisibilityChange: setColumnVisibility,
         meta: {
             newRows,
             setNewRows,
@@ -194,7 +203,7 @@ const AdminTable: React.FC<adminTable> = ({ isTheAdmin }) => {
             },
             updateData: async (rowIndex: number, columnId: string, value: unknown) => {
                 // Revisar, funciona bien!
-                dataService.updateUser(cancelChange[rowIndex].rut, columnId, value, isTheAdmin)
+                dataService.updateUser(cancelChange[rowIndex].rut, columnId, value, rol)
                     .then(res => {
                         alert(res.message)
                         console.log(res)

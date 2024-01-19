@@ -23,7 +23,7 @@ const EditCell: React.FC<editCell> = ({ row, table }) => {
     }    
 
     return meta?.newRows[row.id] ? (
-        <>
+        <div className="button-group">
             <a className="custom-button" onClick={() => setNewRows('cancelar')}>
                 <BiX size={26} />
             </a>
@@ -31,11 +31,13 @@ const EditCell: React.FC<editCell> = ({ row, table }) => {
             <a className="custom-button" onClick={() => setNewRows('guardar')}>
                 <BiSolidSave size={26} />
             </a>
-        </>
+        </div>
     ) : row.original.rol === 'admin' || row.original.rol === 'superAdmin' ? '' : (
-        <a className="custom-button" onClick={() => setNewRows('editar') }>
-            <BiEdit size={26} />
-        </a>
+        <div className="button-group">
+            <a className="custom-button" onClick={() => setNewRows('editar') }>
+                <BiEdit size={26} />
+            </a>
+        </div>
     )
 }
 

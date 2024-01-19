@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import AdminTable from '../tables/adminTable/AdminTable'
+import AdminTable from '../tables/adminTable/GeneralTable'
 import './adminTable.css'
 
 const HighAdmin = () => {
@@ -13,7 +13,7 @@ const HighAdmin = () => {
             <h1 className="highAdmin-title">Acceso administrativo</h1>
             {/* <p>Conectado como: </p>  */}
             <button onClick={handleClick} id="newUser">Crear nuevo usuario</button>
-            <AdminTable isTheAdmin={true} />
+            <AdminTable rol={'superAdmin'} />
         </section>
     )
 }
