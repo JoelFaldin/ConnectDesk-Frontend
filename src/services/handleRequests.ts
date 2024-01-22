@@ -23,7 +23,7 @@ const getUsers = async (number: number, page: number) => {
         }
     })
     const employee = await request
-    console.log(employee.data)
+    // console.log(employee.data)
     return employee.data
 }
 
