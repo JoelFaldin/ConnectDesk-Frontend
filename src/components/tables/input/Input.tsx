@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import './input.css'
 
 const Input = ({
     value: starterValue,
@@ -26,7 +25,7 @@ const Input = ({
 
     return (
         <>
-            <input className="filter" {...props} value={value} onChange={element => setValue(element.target.value)} />
+            <input className="min-w-90 py-0.5 px-0" {...props} value={value} onChange={element => setValue(element.target.value)} />
         </>
     )
 }

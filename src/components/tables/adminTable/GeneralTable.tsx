@@ -8,7 +8,13 @@ import '../styles/tableStyles.css'
 import TableCell from './tableCell/TableCell'
 import EditCell from './adminEdit/EditCell'
 import EditAdminCell from './superAdminEdit/EditAdminCell'
-import React from 'react'
+
+// Iconos:
+import { BiSolidChevronsLeft } from "react-icons/bi"
+import { BiSolidChevronLeft } from "react-icons/bi"
+import { BiSolidChevronRight } from "react-icons/bi"
+import { BiSolidChevronsRight } from "react-icons/bi"
+
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -89,7 +95,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 setTotal(data.totalData)
             })
         rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
-        console.log('first rerender')
     }, [])
     
     const columns = [
@@ -231,9 +236,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     useEffect(() => {
         rerender()
-        console.log(pageSize)
-        console.log(page)
-        console.log(data)
     }, [pageSize, page])
 
     return (
@@ -294,10 +296,20 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             </table>
             <div className="h-4" /> 
             <div className="flex justify-center items-center gap-2">
-                <button className="border-2 border-solid border-gray-950 cursor-pointer" onClick={() => setPage(1)} >{'<<'}</button>
-                <button className="border-2 border-solid border-gray-950 cursor-pointer" onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)} >{'<'}</button>
-                <button className="border-2 border-solid border-gray-950 cursor-pointer" onClick={() => setPage(page + 1)} >{'>'}</button>
-                <button className="border-2 border-solid border-gray-950 cursor-pointer" onClick={() => setPage(Math.floor(total / pageSize) + 1)} >{'>>'}</button>
+                <div className="flex">
+                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(1)}>
+                        <BiSolidChevronsLeft size={24} />
+                    </a>
+                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}>
+                        <BiSolidChevronLeft size={24} />
+                    </a>
+                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(page + 1)}>
+                        <BiSolidChevronRight size={24} />
+                    </a>
+                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(Math.floor(total / pageSize) + 1)}>
+                        <BiSolidChevronsRight size={24} />
+                    </a>
+                </div>
                 <span className="flex items-center gap-2">
                     <div>Página actual:</div>
                     <strong>
@@ -316,13 +328,15 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                 setPage(Number(event.target.value))
                             }
                         }}
-                        className="border-1 p-1 rounded w-8"
+                        className="p-0.5 rounded w-8"
                     />
                 </span>
                 <select value={table.getState().pagination.pageSize} onChange={e => {
                     setPageSize(Number(e.target.value))
                     table.setPageSize(Number(e.target.value))
-                    }}>
+                    }}
+                    className="p-0.5 rounded w-32"
+                    >
                     { [10, 20, 30, 40, 50].map(number => {
                         return <option key={number} value={number}>Mostrar {number}</option>
                     }) }
