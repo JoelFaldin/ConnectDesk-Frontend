@@ -1,5 +1,4 @@
 import { BiX, BiSolidSave, BiEdit } from "react-icons/bi";
-import '../styleCell.css'
 
 interface editCell {
     row: any,
@@ -11,7 +10,6 @@ const EditCell: React.FC<editCell> = ({ row, table }) => {
     
 
     const setNewRows = (name: string) => {
-        console.log(row.original.rol)
         meta?.setNewRows((old: []) => ({
             ...old,
             [row.id]: !old[row.id]
@@ -23,18 +21,18 @@ const EditCell: React.FC<editCell> = ({ row, table }) => {
     }    
 
     return meta?.newRows[row.id] ? (
-        <div className="button-group">
-            <a className="custom-button" onClick={() => setNewRows('cancelar')}>
+        <div className="flex flex-row justify-center">
+            <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('cancelar')}>
                 <BiX size={26} />
             </a>
             {" "}
-            <a className="custom-button" onClick={() => setNewRows('guardar')}>
+            <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('guardar')}>
                 <BiSolidSave size={26} />
             </a>
         </div>
     ) : row.original.rol === 'admin' || row.original.rol === 'superAdmin' ? '' : (
-        <div className="button-group">
-            <a className="custom-button" onClick={() => setNewRows('editar') }>
+        <div className="flex flex-row justify-center">
+            <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('editar') }>
                 <BiEdit size={26} />
             </a>
         </div>

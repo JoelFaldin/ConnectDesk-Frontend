@@ -66,15 +66,15 @@ interface adminTable {
 
 const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [data, setData] = useState<Employee[]>([])
-    const [number, setNumber] = useState(10)
     const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [total, setTotal] = useState(0)
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
     
     const rerender = () => {
-        dataService.getUsers(number, page)
+        dataService.getUsers(pageSize, page)
             .then(data => {
                 setData(data.firstN)
                 setCancelChange(data.firstN)
@@ -82,13 +82,14 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     useEffect(() => {
-        dataService.getUsers(number, page)
+        dataService.getUsers(page, pageSize)
             .then(data => {
                 setData(data.firstN)
                 setCancelChange(data.firstN)
                 setTotal(data.totalData)
             })
         rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
+        console.log('first rerender')
     }, [])
     
     const columns = [
@@ -225,23 +226,30 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 }
                 rerender()
             }
-        },
+        },  
     })
 
+    useEffect(() => {
+        rerender()
+        console.log(pageSize)
+        console.log(page)
+        console.log(data)
+    }, [pageSize, page])
+
     return (
-       <div className="table-container">
-            <table className="table">
+       <div className="p-2 ">
+            <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md table">
                 <thead>
                     {table.getHeaderGroups().map(group => (
-                        <tr key={group.id} className="table-row">
+                        <tr key={group.id}>
                             {group.headers.map(header => (
-                                <th key={header.id} colSpan={header.colSpan}>
+                                <th key={header.id} colSpan={header.colSpan} className="bg-zinc-200 border-2 border-solid border-gray-300 py-0.5 px-1 w-fit min-w-32">
                                     {header.isPlaceholder ? null : (
                                     <>
                                         <div
                                         {...{
                                             className: header.column.getCanSort()
-                                            ? 'can-filter'
+                                            ? 'cursor-pointer'
                                             : '',
                                             onClick: header.column.getToggleSortingHandler(),
                                         }}
@@ -267,12 +275,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         </tr>
                     ))}
                 </thead>
-                <tbody>
-                    {/* Aquí debe poderse renderizar dependiendo del rol del usuario */}
+                <tbody className="border-b border-solid border-gray-100">
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id} className="normal-row" >
+                        <tr key={row.id} className="border-b border-solid border-gray-300" >
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin' ? "admin-data" : "normal-data"}>
+                                <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
+                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 min-w-28 max-h-2"
+                                    : "text-left py-2 px-2.5 border-r border-solir border-gray-300 max-h-2"}>
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
@@ -283,32 +292,37 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     ))}
                 </tbody>
             </table>
-            <div className="divisor" /> 
-            <div className="footer">
-                <button className="nav-button" onClick={() => { table.setPageIndex(0) }} disabled={!table.getCanPreviousPage()}>{'<<'}</button>
-                <button className="nav-button" onClick={() => { table.previousPage() }} disabled={!table.getCanPreviousPage()}>{'<'}</button>
-                <button className="nav-button" onClick={() => { table.nextPage() }} disabled={!table.getCanNextPage()}>{'>'}</button>
-                <button className="nav-button" onClick={() => { table.setPageIndex(table.getPageCount() - 1) }} disabled={!table.getCanNextPage()}>{'>>'}</button>
-                <span className="pagination">
+            <div className="h-4" /> 
+            <div className="flex justify-center items-center gap-2">
+                <button className="border-2 border-solid border-gray-950 cursor-pointer" onClick={() => setPage(1)} >{'<<'}</button>
+                <button className="border-2 border-solid border-gray-950 cursor-pointer" onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)} >{'<'}</button>
+                <button className="border-2 border-solid border-gray-950 cursor-pointer" onClick={() => setPage(page + 1)} >{'>'}</button>
+                <button className="border-2 border-solid border-gray-950 cursor-pointer" onClick={() => setPage(Math.floor(total / pageSize) + 1)} >{'>>'}</button>
+                <span className="flex items-center gap-2">
                     <div>Página actual:</div>
                     <strong>
-                        { table.getState().pagination.pageIndex + 1 } of {' '}
-                        { Math.floor(total / number) + 1 }
+                        { page } de {' '}
+                        { Math.floor(total / pageSize) + 1 }
                     </strong>
                 </span>
-                <span className="pagination">
+                <span className="flex items-center gap-2">
                     | Ir a la página:
                     <input
-                        type="number"
-                        defaultValue={page} 
+                        type="text"
+                        value={page}
                         onChange={event => {
-                            setPage(Number(event.target.value))
+                            const fakeNumber = Number(event.target.value)
+                            if (!Number.isNaN(fakeNumber)) {
+                                setPage(Number(event.target.value))
+                            }
                         }}
-                        className="page-input"
-                        min={1}
+                        className="border-1 p-1 rounded w-8"
                     />
                 </span>
-                <select value={table.getState().pagination.pageSize} onChange={e => table.setPageSize(Number(e.target.value))}>
+                <select value={table.getState().pagination.pageSize} onChange={e => {
+                    setPageSize(Number(e.target.value))
+                    table.setPageSize(Number(e.target.value))
+                    }}>
                     { [10, 20, 30, 40, 50].map(number => {
                         return <option key={number} value={number}>Mostrar {number}</option>
                     }) }

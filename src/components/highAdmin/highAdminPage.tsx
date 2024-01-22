@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import './adminTable.css'
+// import './adminTable.css'
 import GeneralTable from "../tables/adminTable/GeneralTable"
 
 const HighAdminPage = () => {

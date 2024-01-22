@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import './tableCell.css'
 
 interface tableCell {
     getValue: () => '',
@@ -28,7 +27,7 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
                 onChange={e => setValue(e.target.value)}
                 onBlur={blur}
                 type={column.columnDef.meta?.type || "text"}
-                className='input-cell'
+                className='items-center w-10/12 py-0.5 px-0'
             />
         )
     }
