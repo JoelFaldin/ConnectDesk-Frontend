@@ -1,10 +1,9 @@
-import axios from "axios";
+import axios from "axios"
 const url = '/api/data'
 
 interface userModel {
     rut: string,
     nombres: string,
-
     apellidos: string,
     email: string,
     passHash: string,

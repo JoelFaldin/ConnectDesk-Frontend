@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import dataService from '../../../services/handleRequests'
 import Filter from '../filters/Filter'
 import '../styles/tableStyles.css'
+import handleFilterRequest from '../../../services/handleFilterRequest'
 
 // Celdas editables:
 import TableCell from './tableCell/TableCell'
@@ -78,6 +79,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
+
+    // Estado para decidir el orden de los filtros:
+    const [filterOrder, setFilterOrder] = useState('')
     
     const rerender = () => {
         dataService.getUsers(pageSize, page)
@@ -238,6 +242,32 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         rerender()
     }, [pageSize, page])
 
+    const handleFilter = (column: string) => {
+        if (filterOrder === 'asc') {
+            handleFilterRequest.toggleFilter(column, 'desc')
+                .then(filtered => {
+                    console.log(filtered)
+                })
+            // console.log('hey')
+            setFilterOrder('desc')
+        } else if (filterOrder === 'desc') {
+            handleFilterRequest.toggleFilter(column, 'normal')
+                .then(filtered => {
+                    console.log(filtered)
+                })
+            // console.log('normal')
+            setFilterOrder('normal')
+        } else if (filterOrder === 'normal') {
+            handleFilterRequest.toggleFilter(column, 'asc')
+                .then(filtered => {
+                    console.log(filtered)
+                })
+            // console.log('asc')
+            setFilterOrder('asc')
+        }
+        // console.log(column)
+    }
+
     return (
        <div className="p-2 ">
             <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md table">
@@ -248,14 +278,14 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                 <th key={header.id} colSpan={header.colSpan} className="bg-zinc-200 border-2 border-solid border-gray-300 py-0.5 px-1 w-fit min-w-32">
                                     {header.isPlaceholder ? null : (
                                     <>
-                                        <div
+                                        <div 
                                         {...{
-                                            className: header.column.getCanSort()
-                                            ? 'cursor-pointer'
-                                            : '',
-                                            onClick: header.column.getToggleSortingHandler(),
+                                            className: 'cursor-pointer'
+                                            // onClick: header.column.getToggleSortingHandler(),
                                         }}
+                                        onClick={() => handleFilter(header.id)}
                                         >
+                                        {/* className='cursor-pointer' */}
                                         {flexRender(
                                             header.column.columnDef.header,
                                             header.getContext()
