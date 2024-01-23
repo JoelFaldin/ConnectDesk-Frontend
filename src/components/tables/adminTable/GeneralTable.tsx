@@ -276,12 +276,17 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
                 .then(res => {
                     res.length === 0 ? setShowMessage(true) : setShowMessage(false)
-                    console.log(res)
                     setData(res)
                     setCancelChange(res)
                 })
         }, 500)
         return () => clearInterval(timeout)
+    }
+
+    const handlePageSize = (event: ChangeEvent<HTMLSelectElement>) => {
+        setPageSize(Number(event.target.value))
+        table.setPageSize(Number(event.target.value))
+        rerender()
     }
 
     return (
@@ -343,6 +348,18 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         </tr>
                     ))}
                 </tbody>
+                <tfoot>
+                    {/* <div className='flex justify-around items-center'>
+                        <div>
+                            <p className="font-medium p-3">
+                                Mostrando <span className="underline decoration-1 underline-offset-2">{pageSize}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
+                            </p>
+                        </div>
+                        <div>
+                            <p>test</p>
+                        </div>
+                    </div> */}
+                </tfoot>
             </table>
             <div className="h-4" /> 
             { showMessage
@@ -388,11 +405,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         className="p-0.5 rounded w-8"
                     />
                 </span>
-                <select value={table.getState().pagination.pageSize} onChange={e => {
-                    setPageSize(Number(e.target.value))
-                    table.setPageSize(Number(e.target.value))
-                    rerender()
-                    }}
+                <select value={table.getState().pagination.pageSize} onChange={handlePageSize}
                     className="p-0.5 rounded w-32"
                     >
                     { [10, 20, 30, 40, 50].map(number => {
