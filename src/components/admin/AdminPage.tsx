@@ -1,5 +1,4 @@
 import GeneralTable from '../tables/adminTable/GeneralTable'
-import './AdminPage.css'
 
 const AdminPage = () => {
     return (
@@ -7,7 +6,6 @@ const AdminPage = () => {
             <h2>Conectado como administrador</h2>
             {/* Normal Admin */}
             <GeneralTable rol={'admin'} />
-
         </>
     )
 }

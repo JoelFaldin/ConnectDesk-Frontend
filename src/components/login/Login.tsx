@@ -109,7 +109,7 @@ const Login = () => {
                                 Ingresar
                             </button>
                         </div>
-                        {/* Falta: hacer componentes para cambiar la contraseña */}
+                        {/* Falta: hacer componente para cambiar la contraseña */}
                     </form>
                 </div>
             </div>

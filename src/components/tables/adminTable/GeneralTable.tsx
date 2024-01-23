@@ -312,8 +312,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         <tr key={row.id} className="border-b border-solid border-gray-300" >
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
-                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 min-w-28 max-h-2"
-                                    : "text-left py-2 px-2.5 border-r border-solir border-gray-300 max-h-2"}>
+                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 max-w-9/12 max-h-2"
+                                    : "text-left py-2 px-2.5 border-r border-solid border-gray-300 max-w-28 max-h-2"}>
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
@@ -371,7 +371,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         return <option key={number} value={number}>Mostrar {number}</option>
                     }) }
                 </select>
-                <button onClick={(() => rerender())}>Rerender</button>
             </div>
        </div> 
     )
