@@ -312,8 +312,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         <tr key={row.id} className="border-b border-solid border-gray-300" >
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
-                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 max-w-9/12 max-h-2"
-                                    : "text-left py-2 px-2.5 border-r border-solid border-gray-300 max-w-28 max-h-2"}>
+                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 w-fit max-h-2"
+                                    : "text-left py-2 px-2.5 border-r border-solid border-gray-300 w-fit max-h-2"}>
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
