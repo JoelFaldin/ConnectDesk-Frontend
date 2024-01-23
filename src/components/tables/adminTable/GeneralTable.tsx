@@ -1,7 +1,7 @@
 import { ColumnDef, useReactTable, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, flexRender, RowData, createColumnHelper, getSortedRowModel, VisibilityState } from '@tanstack/react-table'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import dataService from '../../../services/handleRequests'
-import Filter from '../filters/Filter'
+// import Filter from '../filters/Filter'
 import '../styles/tableStyles.css'
 import handleFilterRequest from '../../../services/handleFilterRequest'
 
@@ -24,7 +24,7 @@ declare module '@tanstack/react-table' {
         newRows: any,
         setNewRows: any,
         revertData: any,
-        removeRow: any
+        removeRow: any,
     }
 }
 
@@ -80,22 +80,22 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
 
-    // Estado para decidir el orden de los filtros:
+    // Estado para los filtros:
     const [filterOrder, setFilterOrder] = useState('normal')
     
     const rerender = () => {
         dataService.getUsers(pageSize, page)
             .then(data => {
-                setData(data.firstN)
-                setCancelChange(data.firstN)
+                setData(data.content)
+                setCancelChange(data.content)
             })
     }
 
     useEffect(() => {
         dataService.getUsers(page, pageSize)
             .then(data => {
-                setData(data.firstN)
-                setCancelChange(data.firstN)
+                setData(data.content)
+                setCancelChange(data.content)
                 setTotal(data.totalData)
             })
         rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
@@ -234,13 +234,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     console.log('Usuario eliminado.')
                 }
                 rerender()
-            }
+            },
         },  
     })
 
     useEffect(() => {
         rerender()
-    }, [pageSize, page])
+    }, [page])
 
     const handleFilter = (column: string) => {
         console.log(filterOrder === 'asc' ? `${filterOrder} => desc` : filterOrder === 'desc' ? `${filterOrder} => normal` : `${filterOrder} => asc`)
@@ -267,7 +267,17 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 })
             setFilterOrder('asc')
         }
-        // console.log(column)
+    }
+
+    const handleSearchFilter = (event: ChangeEvent<HTMLInputElement>, column: any) => {
+        const timeout = setTimeout(() => {
+            handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
+                .then(res => {
+                    setData(res)
+                    setCancelChange(res)
+                })
+        }, 500)
+        return () => clearInterval(timeout)
     }
 
     return (
@@ -283,11 +293,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         <div 
                                         {...{
                                             className: 'cursor-pointer'
-                                            // onClick: header.column.getToggleSortingHandler(),
                                         }}
                                         onClick={() => handleFilter(header.id)}
                                         >
-                                        {/* className='cursor-pointer' */}
                                         {flexRender(
                                             header.column.columnDef.header,
                                             header.getContext()
@@ -299,7 +307,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         </div>
                                         {header.column.getCanFilter() ? (
                                         <div>
-                                            <Filter column={header.column} table={table} />
+                                            {/* header.column */}
+                                            <input
+                                                type="text"
+                                                onChange={event => handleSearchFilter(event, header.column.id)}
+                                                placeholder='Buscar...'
+                                                className="w-28 p-1 rounded my-2"
+                                            />
                                         </div>
                                         ) : null}
                                     </>
@@ -358,6 +372,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                             const fakeNumber = Number(event.target.value)
                             if (!Number.isNaN(fakeNumber)) {
                                 setPage(Number(event.target.value))
+                                rerender()
                             }
                         }}
                         className="p-0.5 rounded w-8"
@@ -366,6 +381,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 <select value={table.getState().pagination.pageSize} onChange={e => {
                     setPageSize(Number(e.target.value))
                     table.setPageSize(Number(e.target.value))
+                    rerender()
                     }}
                     className="p-0.5 rounded w-32"
                     >
