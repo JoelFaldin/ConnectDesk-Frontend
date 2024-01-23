@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from "react"
 import handleRequests from "../../../services/handleRequests"
 import { useNavigate } from "react-router-dom"
-import './createUser.css'
 import objectService from "../../../services/checkObject"
 import rutFormater from "../../../services/rutFormater"
 
@@ -102,13 +101,14 @@ const CreateUser = () => {
         setPassword(event.target.value)
     }
 
+    // Las sections debiesen tener border color!
     return (
-        <div className="newUser-wrapper">
-            <div className="newUser-form">
-                <h1 className="newUser-title">Añadir un nuevo usuario</h1>
-                <form style={{ display: 'flex', justifyContent: 'center' }}>
-                    <section className="general-info">
-                        <h2 className="newUser-subtitle">Información personal</h2>
+        <div className="h-fit flex">
+            <div className="max-w-6/12 mt-32 mx-auto">
+                <h1 className="text-center">Añadir un nuevo usuario</h1>
+                <form className="flex justify-center">
+                    <section className="m-2.5 p-5 border-2 border-solid border-slate-950 max-w-fit">
+                        <h2 className="text-xl">Información personal</h2>
                         <label className="newUserElement" htmlFor="crearRut">Rut:</label><br />
                         <input id="crearRut" type="text" onChange={handleRut} value={newRut} placeholder="12.345.678-9"></input><br />
                         <label htmlFor="crearNombres">Nombres:</label><br />
@@ -119,8 +119,8 @@ const CreateUser = () => {
                         <input id="crearCorreo" type="text" onChange={e => setEmail(e.target.value)} placeholder="ejemplo@correo.com"></input><br />
                     </section>
 
-                    <section className="work-info">
-                        <h3 className="newUser-subtitle">Información de trabajo</h3>
+                    <section className="m-2.5 p-5 border-2 border-solid border-slate-950 max-w-fit">
+                        <h3 className="text-xl">Información de trabajo</h3>
                         <label htmlFor="rol">Rol:</label><br />
                         <select id="rol" onChange={handleRol} value={rol}>
                             <optgroup label="-- Seleccionar una opción">
@@ -147,10 +147,10 @@ const CreateUser = () => {
                         <input id="anexo-muni" type="text" onChange={handleAnexo} placeholder="9999" value={anexo}></input><br />
                     </section>
                 </form>
-                <section className="newUser-submitSection">
-                    <label htmlFor="contraseña">Ingrese una contraseña:</label>
-                    <input id="contraseña" type="password" onChange={handlePassword}></input><br />
-                    <input className="newUser-submit" type="submit" value="Registrarse" onClick={handleNewUser} disabled={false} />
+                <section className="flex flex-col justify-center">
+                    <label className="w-52 m-auto text-center" htmlFor="contraseña">Ingrese una contraseña:</label>
+                    <input className="w-52 m-auto text-center" id="contraseña" type="password" onChange={handlePassword}></input><br />
+                    <input className="w-52 m-auto text-center" type="submit" value="Registrarse" onClick={handleNewUser} disabled={false} />
                 </section>
             </div>
         </div>

@@ -325,7 +325,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 </tbody>
             </table>
             <div className="h-4" /> 
-            <div className="flex justify-center items-center gap-2">
+            <div className="flex justify-center items-center gap-2 mb-28">
                 <div className="flex">
                     <a className="cursor-pointer py-0 px-2" onClick={() => setPage(1)}>
                         <BiSolidChevronsLeft size={24} />
