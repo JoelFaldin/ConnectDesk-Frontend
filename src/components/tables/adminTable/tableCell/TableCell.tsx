@@ -27,7 +27,7 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
                 onChange={e => setValue(e.target.value)}
                 onBlur={blur}
                 type={column.columnDef.meta?.type || "text"}
-                className='items-center py-0.5 px-1 w-[96%] max-w-36'
+                className='items-center w-9/12 py-0.5 px-0'
             />
         )
     }

@@ -2,8 +2,7 @@ import { ColumnDef, useReactTable, getCoreRowModel, getFilteredRowModel, getPagi
 import { useEffect, useState } from 'react'
 import dataService from '../../../services/handleRequests'
 import Filter from '../filters/Filter'
-import '../styles/tableStyles.css'
-import handleFilterRequest from '../../../services/handleFilterRequest'
+// import '../styles/tableStyles.css'
 
 // Celdas editables:
 import TableCell from './tableCell/TableCell'
@@ -15,7 +14,6 @@ import { BiSolidChevronsLeft } from "react-icons/bi"
 import { BiSolidChevronLeft } from "react-icons/bi"
 import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsRight } from "react-icons/bi"
-
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -41,7 +39,7 @@ type Employee = {
     anexoMunicipal: number
 }
 
-// Editing data in a normal cell:
+// Editar información en una normal cell:
 const defaultColumn: Partial<ColumnDef<Employee>> = {
     cell: ({ getValue, row: { index }, column: { id }, table }) => {
         const initialValue = getValue()
@@ -73,18 +71,15 @@ interface adminTable {
 
 const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [data, setData] = useState<Employee[]>([])
+    const [number] = useState(10)
     const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(10)
     const [total, setTotal] = useState(0)
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
-
-    // Estado para decidir el orden de los filtros:
-    const [filterOrder, setFilterOrder] = useState('')
     
     const rerender = () => {
-        dataService.getUsers(pageSize, page)
+        dataService.getUsers(number, page)
             .then(data => {
                 setData(data.firstN)
                 setCancelChange(data.firstN)
@@ -92,10 +87,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     useEffect(() => {
-        dataService.getUsers(page, pageSize)
+        dataService.getUsers(number, page)
             .then(data => {
-                setData(data.firstN)
-                setCancelChange(data.firstN)
+                setData(data.content)
+                setCancelChange(data.content)
                 setTotal(data.totalData)
             })
         rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
@@ -235,57 +230,27 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 }
                 rerender()
             }
-        },  
+        },
     })
 
-    useEffect(() => {
-        rerender()
-    }, [pageSize, page])
-
-    const handleFilter = (column: string) => {
-        if (filterOrder === 'asc') {
-            handleFilterRequest.toggleFilter(column, 'desc')
-                .then(filtered => {
-                    console.log(filtered)
-                })
-            // console.log('hey')
-            setFilterOrder('desc')
-        } else if (filterOrder === 'desc') {
-            handleFilterRequest.toggleFilter(column, 'normal')
-                .then(filtered => {
-                    console.log(filtered)
-                })
-            // console.log('normal')
-            setFilterOrder('normal')
-        } else if (filterOrder === 'normal') {
-            handleFilterRequest.toggleFilter(column, 'asc')
-                .then(filtered => {
-                    console.log(filtered)
-                })
-            // console.log('asc')
-            setFilterOrder('asc')
-        }
-        // console.log(column)
-    }
-
     return (
-       <div className="p-2 ">
-            <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md table">
+       <div className="p-2">
+            <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md">
                 <thead>
                     {table.getHeaderGroups().map(group => (
-                        <tr key={group.id}>
+                        <tr key={group.id} className="table-row">
                             {group.headers.map(header => (
                                 <th key={header.id} colSpan={header.colSpan} className="bg-zinc-200 border-2 border-solid border-gray-300 py-0.5 px-1 w-fit min-w-32">
                                     {header.isPlaceholder ? null : (
                                     <>
-                                        <div 
+                                        <div
                                         {...{
-                                            className: 'cursor-pointer'
-                                            // onClick: header.column.getToggleSortingHandler(),
+                                            className: header.column.getCanSort()
+                                            ? 'can-filter'
+                                            : '',
+                                            onClick: header.column.getToggleSortingHandler(),
                                         }}
-                                        onClick={() => handleFilter(header.id)}
                                         >
-                                        {/* className='cursor-pointer' */}
                                         {flexRender(
                                             header.column.columnDef.header,
                                             header.getContext()
@@ -311,9 +276,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id} className="border-b border-solid border-gray-300" >
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
-                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 w-fit max-h-2"
-                                    : "text-left py-2 px-2.5 border-r border-solid border-gray-300 w-fit max-h-2"}>
+                                 <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
+                                 ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 min-w-28 max-h-2"
+                                 : "text-left py-2 px-2.5 border-r border-solir border-gray-300 max-h-2"}>
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
@@ -325,44 +290,41 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 </tbody>
             </table>
             <div className="h-4" /> 
-            <div className="flex justify-center items-center gap-2 mb-28">
+            <div className="flex justify-center items-center gap-2">
                 <div className="flex">
-                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(1)}>
+                    <a className="cursor-pointer px-2" onClick={() => { table.setPageIndex(0) }} >
                         <BiSolidChevronsLeft size={24} />
                     </a>
-                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}>
+                    <a className="cursor-pointer px-2" onClick={() => { table.previousPage() }} >
                         <BiSolidChevronLeft size={24} />
                     </a>
-                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(page + 1)}>
+                    <a className="cursor-pointer px-2" onClick={() => { table.nextPage() }} >
                         <BiSolidChevronRight size={24} />
                     </a>
-                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(Math.floor(total / pageSize) + 1)}>
+                    <a className="cursor-pointer px-2" onClick={() => { table.setPageIndex(table.getPageCount() - 1) }} >
                         <BiSolidChevronsRight size={24} />
                     </a>
                 </div>
                 <span className="flex items-center gap-2">
                     <div>Página actual:</div>
                     <strong>
-                        { page } de {' '}
-                        { Math.floor(total / pageSize) + 1 }
+                        { table.getState().pagination.pageIndex + 1 } of {' '}
+                        { Math.floor(total / number) + 1 }
                     </strong>
                 </span>
                 <span className="flex items-center gap-2">
                     | Ir a la página:
                     <input
-                        type="text"
-                        value={page}
+                        type="number"
+                        defaultValue={page} 
                         onChange={event => {
-                            const fakeNumber = Number(event.target.value)
-                            if (!Number.isNaN(fakeNumber)) {
-                                setPage(Number(event.target.value))
-                            }
+                            setPage(Number(event.target.value))
                         }}
                         className="p-0.5 rounded w-8"
+                        min={1}
                     />
                 </span>
                 <select value={table.getState().pagination.pageSize} onChange={e => {
-                    setPageSize(Number(e.target.value))
                     table.setPageSize(Number(e.target.value))
                     }}
                     className="p-0.5 rounded w-32"

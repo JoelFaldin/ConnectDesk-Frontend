@@ -32,31 +32,25 @@ const AdminEditCell: React.FC<editCell> = ({ row, table }) => {
 
     return meta?.newRows[row.id] ? (
         <div className="flex">
-            <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('cancelar')}>
-                <BiX size={26}  />
+            <a className="custom-button" onClick={() => setNewRows('cancelar')}>
+                <BiX size={26} />
             </a>
             {" "}
-            <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('guardar')}>
-                <BiSolidSave size={26}  />
+            <a className="custom-button" onClick={() => setNewRows('guardar')}>
+                <BiSolidSave size={26} />
             </a>
         </div>
     ) : (
         <div className="flex">
-            <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('editar')}>
-                <span className="inline">
-                    <BiEdit size={26} />
-                </span>
+            <a className="custom-button" onClick={() => setNewRows('editar')}>
+                <BiEdit size={26} />
                 {/* Se puede editar el color del icon con color="blue", también se pueden poner colores en hexadecimal!!! */}
             </a>
-            <a className="cursor-pointer py-0 px-2" onClick={deleteUser}>
-                <span className="inline">
-                    <BiXCircle size={26}  />
-                </span>
+            <a className="custom-button" onClick={deleteUser}>
+                <BiXCircle size={26} />
             </a>
-            <a className="cursor-pointer py-0 px-2" onClick={makeAdmin}>
-                <span className="inline">
-                    <BiSolidUserPlus size={26}  />
-                </span>
+            <a className="custom-button">
+                <BiSolidUserPlus size={26} onClick={makeAdmin} />
             </a>
         </div>
     )
