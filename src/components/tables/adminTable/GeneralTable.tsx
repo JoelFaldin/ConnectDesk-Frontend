@@ -15,6 +15,7 @@ import { BiSolidChevronsLeft } from "react-icons/bi"
 import { BiSolidChevronLeft } from "react-icons/bi"
 import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsRight } from "react-icons/bi"
+import { Message } from '../message/Message'
 
 
 // Revisar esta declaración de módulo:
@@ -82,6 +83,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     // Estado para los filtros:
     const [filterOrder, setFilterOrder] = useState('normal')
+    const [showMessage, setShowMessage] = useState(false)
     
     const rerender = () => {
         dataService.getUsers(pageSize, page)
@@ -273,6 +275,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         const timeout = setTimeout(() => {
             handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
                 .then(res => {
+                    res.length === 0 ? setShowMessage(true) : setShowMessage(false)
+                    console.log(res)
                     setData(res)
                     setCancelChange(res)
                 })
@@ -341,6 +345,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 </tbody>
             </table>
             <div className="h-4" /> 
+            { showMessage
+            ?
+            <div className="flex justify-center mb-5">
+                <Message />
+            </div>
+            :
             <div className="flex justify-center items-center gap-2 mb-28">
                 <div className="flex">
                     <a className="cursor-pointer py-0 px-2" onClick={() => setPage(1)}>
@@ -390,6 +400,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     }) }
                 </select>
             </div>
+            }
        </div> 
     )
 }
