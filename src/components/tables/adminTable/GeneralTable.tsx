@@ -1,9 +1,10 @@
 import { ColumnDef, useReactTable, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, flexRender, RowData, createColumnHelper, getSortedRowModel, VisibilityState } from '@tanstack/react-table'
 import { ChangeEvent, useEffect, useState } from 'react'
 import dataService from '../../../services/handleRequests'
-// import Filter from '../filters/Filter'
 import '../styles/tableStyles.css'
 import handleFilterRequest from '../../../services/handleFilterRequest'
+// import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+
 
 // Celdas editables:
 import TableCell from './tableCell/TableCell'
@@ -349,16 +350,62 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     ))}
                 </tbody>
                 <tfoot>
-                    {/* <div className='flex justify-around items-center'>
-                        <div>
-                            <p className="font-medium p-3">
-                                Mostrando <span className="underline decoration-1 underline-offset-2">{pageSize}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
-                            </p>
-                        </div>
-                        <div>
-                            <p>test</p>
-                        </div>
-                    </div> */}
+                    <tr className="">
+                        <td colSpan={5}>
+                            <div className="flex justify-start p-4">
+                                <p className="font-medium">
+                                    Mostrando <span className="underline decoration-1 underline-offset-2">{pageSize}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
+                                </p>
+                            </div>
+                        </td>
+                        <td colSpan={5}>
+                            <div className="flex justify-end p-4 gap-6">
+                                <span className="flex items-center gap-2">
+                                    <p>Página actual:</p>
+                                    <strong>
+                                        { page } de {' '}
+                                        { Math.floor(total / pageSize) + 1 }
+                                    </strong>
+                                </span>
+                                <span className="flex items-center gap-2">
+                                    Ir a la página:
+                                    <input
+                                        type="text"
+                                        value={page}
+                                        onChange={event => {
+                                            const fakeNumber = Number(event.target.value)
+                                            if (!Number.isNaN(fakeNumber)) {
+                                                setPage(Number(event.target.value))
+                                                rerender()
+                                            }
+                                        }}
+                                        className="p-0.5 rounded w-8"
+                                    />
+                                </span>
+                                <select value={table.getState().pagination.pageSize} onChange={handlePageSize}
+                                    className="p-0.5 rounded w-32"
+                                    >
+                                    { [10, 20, 30, 40, 50].map(number => {
+                                        return <option key={number} value={number}>Mostrar {number}</option>
+                                    }) }
+                                </select>
+                                <span className="flex items-center gap-1">
+                                    <button className="cursor-pointer py-1 px-1 border rounded nav-button" onClick={() => setPage(1)}>
+                                        <BiSolidChevronsLeft size={24} />
+                                    </button>
+                                    <button className="cursor-pointer py-1 px-2 border rounded nav-button" onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}>
+                                        <BiSolidChevronLeft size={24} />
+                                    </button>
+                                    <button className="cursor-pointer py-1 px-2 border rounded nav-button" onClick={() => setPage(page + 1)}>
+                                        <BiSolidChevronRight size={24} />
+                                    </button>
+                                    <button className="cursor-pointer py-1 px-2 border rounded nav-button" onClick={() => setPage(Math.floor(total / pageSize) + 1)}>
+                                        <BiSolidChevronsRight size={24} />
+                                    </button>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
             <div className="h-4" /> 
@@ -369,49 +416,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             </div>
             :
             <div className="flex justify-center items-center gap-2 mb-28">
-                <div className="flex">
-                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(1)}>
-                        <BiSolidChevronsLeft size={24} />
-                    </a>
-                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}>
-                        <BiSolidChevronLeft size={24} />
-                    </a>
-                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(page + 1)}>
-                        <BiSolidChevronRight size={24} />
-                    </a>
-                    <a className="cursor-pointer py-0 px-2" onClick={() => setPage(Math.floor(total / pageSize) + 1)}>
-                        <BiSolidChevronsRight size={24} />
-                    </a>
-                </div>
-                <span className="flex items-center gap-2">
-                    <div>Página actual:</div>
-                    <strong>
-                        { page } de {' '}
-                        { Math.floor(total / pageSize) + 1 }
-                    </strong>
-                </span>
-                <span className="flex items-center gap-2">
-                    | Ir a la página:
-                    <input
-                        type="text"
-                        value={page}
-                        onChange={event => {
-                            const fakeNumber = Number(event.target.value)
-                            if (!Number.isNaN(fakeNumber)) {
-                                setPage(Number(event.target.value))
-                                rerender()
-                            }
-                        }}
-                        className="p-0.5 rounded w-8"
-                    />
-                </span>
-                <select value={table.getState().pagination.pageSize} onChange={handlePageSize}
-                    className="p-0.5 rounded w-32"
-                    >
-                    { [10, 20, 30, 40, 50].map(number => {
-                        return <option key={number} value={number}>Mostrar {number}</option>
-                    }) }
-                </select>
+                
+                
             </div>
             }
        </div> 

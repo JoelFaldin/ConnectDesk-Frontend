@@ -5,3 +5,7 @@
 .table tbody tr:nth-child(odd) {
   background-color: #fff;
 }
+
+/* .nav-button:hover {
+  background-color: dimgray;
+} */
