@@ -17,6 +17,7 @@ import { BiSolidChevronLeft } from "react-icons/bi"
 import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsRight } from "react-icons/bi"
 import { Message } from '../message/Message'
+import handleRequests from '../../../services/handleRequests'
 
 
 // Revisar esta declaración de módulo:
@@ -81,6 +82,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
+
 
     // Estado para los filtros:
     const [filterOrder, setFilterOrder] = useState('normal')
@@ -285,9 +287,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     const handlePageSize = (event: ChangeEvent<HTMLSelectElement>) => {
-        setPageSize(Number(event.target.value))
+        handleRequests.getUsers(Number(event.target.value), page)
+            .then(res => {
+                setData(res.content)
+                setCancelChange(res.content)
+            })
         table.setPageSize(Number(event.target.value))
-        rerender()
+        setPageSize(Number(event.target.value))
     }
 
     return (
@@ -382,7 +388,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className="p-0.5 rounded w-8"
                                     />
                                 </span>
-                                <select value={table.getState().pagination.pageSize} onChange={handlePageSize}
+                                <select value={pageSize} onChange={handlePageSize}
                                     className="p-0.5 rounded w-32"
                                     >
                                     { [10, 20, 30, 40, 50].map(number => {

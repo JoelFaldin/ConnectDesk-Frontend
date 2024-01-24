@@ -15,7 +15,7 @@ interface userModel {
 }
 
 const getUsers = async (pageSize: number, page: number) => {
-    const request = axios.get(`${url}`, {
+        const request = axios.get(`${url}`, {
         params: {
             page,
             pageSize
