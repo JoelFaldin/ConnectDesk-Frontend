@@ -396,16 +396,16 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     }) }
                                 </select>
                                 <span className="flex items-center gap-1">
-                                    <button className="cursor-pointer py-1 px-1 border rounded nav-button" onClick={() => setPage(1)}>
+                                    <button className="cursor-pointer py-1 px-1 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button" onClick={() => setPage(1)}>
                                         <BiSolidChevronsLeft size={24} />
                                     </button>
-                                    <button className="cursor-pointer py-1 px-2 border rounded nav-button" onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}>
+                                    <button className="cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button" onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}>
                                         <BiSolidChevronLeft size={24} />
                                     </button>
-                                    <button className="cursor-pointer py-1 px-2 border rounded nav-button" onClick={() => setPage(page + 1)}>
+                                    <button className="cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button" onClick={() => setPage(page + 1)}>
                                         <BiSolidChevronRight size={24} />
                                     </button>
-                                    <button className="cursor-pointer py-1 px-2 border rounded nav-button" onClick={() => setPage(Math.floor(total / pageSize) + 1)}>
+                                    <button className="cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button" onClick={() => setPage(Math.floor(total / pageSize) + 1)}>
                                         <BiSolidChevronsRight size={24} />
                                     </button>
                                 </span>
