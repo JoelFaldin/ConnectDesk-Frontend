@@ -3,8 +3,6 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import dataService from '../../../services/handleRequests'
 import '../styles/tableStyles.css'
 import handleFilterRequest from '../../../services/handleFilterRequest'
-// import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-
 
 // Celdas editables:
 import TableCell from './tableCell/TableCell'
@@ -18,6 +16,7 @@ import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsRight } from "react-icons/bi"
 import { Message } from '../message/Message'
 import handleRequests from '../../../services/handleRequests'
+import { BiSolidUserPlus } from "react-icons/bi";
 
 
 // Revisar esta declaración de módulo:
@@ -44,7 +43,7 @@ type Employee = {
     anexoMunicipal: number
 }
 
-// Editing data in a normal cell:
+// Editar info en una celda:
 const defaultColumn: Partial<ColumnDef<Employee>> = {
     cell: ({ getValue, row: { index }, column: { id }, table }) => {
         const initialValue = getValue()
@@ -74,6 +73,7 @@ interface adminTable {
     rol: string
 }
 
+// Componente principal:
 const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [data, setData] = useState<Employee[]>([])
     const [page, setPage] = useState(1)
@@ -389,7 +389,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     />
                                 </span>
                                 <select value={pageSize} onChange={handlePageSize}
-                                    className="p-0.5 rounded w-32"
+                                    className="px-2 py-1 rounded w-32"
                                     >
                                     { [10, 20, 30, 40, 50].map(number => {
                                         return <option key={number} value={number}>Mostrar {number}</option>
@@ -415,17 +415,15 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 </tfoot>
             </table>
             <div className="h-4" /> 
-            { showMessage
-            ?
+            { showMessage ? 
             <div className="flex justify-center mb-5">
                 <Message />
             </div>
-            :
-            <div className="flex justify-center items-center gap-2 mb-28">
-                
-                
-            </div>
-            }
+            : '' }
+            <button className="float-right mr-64 flex gap-2 rounded-md bg-green-50 px-2 py-1 ring-1 ring-inset ring-green-600/20">
+                <BiSolidUserPlus className="text-green-700" size={24} />
+                <span className="text-base text-green-700">Crear nuevo usuario</span>
+            </button>
        </div> 
     )
 }
