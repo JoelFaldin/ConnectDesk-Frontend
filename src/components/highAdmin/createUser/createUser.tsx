@@ -103,53 +103,157 @@ const CreateUser = () => {
 
     // Las sections debiesen tener border color!
     return (
-        <div className="h-fit flex">
+        <div className="h-fit">
             <div className="max-w-6/12 mt-32 mx-auto">
                 <h1 className="text-center text-xl font-bold p-4">Añadir un nuevo usuario</h1>
-                <form className="flex justify-center">
-                    <section className="pr-3 max-w-fit border-r-2 border-r-slate-500">
-                        <h2 className="text-xl pb-2">Información personal</h2>
-                        <label className="newUserElement" htmlFor="crearRut">Rut:</label><br />
-                        <input id="crearRut" className="p-2 w-fit" type="text" onChange={handleRut} value={newRut} placeholder="12.345.678-9"></input><br />
-                        <label htmlFor="crearNombres">Nombres:</label><br />
-                        <input id="crearNombres" className="p-2 w-fit" type="text" onChange={e => setNombres(e.target.value)} placeholder="Nombre(s)..."></input><br />
-                        <label htmlFor="crearApellidos">Apellidos:</label><br />
-                        <input id="crearApellidos" className="p-2 w-fit" type="text" onChange={e => setApellidos(e.target.value)} placeholder="Apellido(s)..."></input><br />
-                        <label htmlFor="crearCorreo">Correo:</label><br />
-                        <input id="crearCorreo" className="p-2 w-fit" type="text" onChange={e => setEmail(e.target.value)} placeholder="ejemplo@correo.com"></input><br />
-                    </section>
+                    <form>
+                    <div className="flex justify-center mt-7">
+                        <section className="pr-9 max-w-fit">
+                            <h2 className="text-xl font-medium pb-2">Información personal</h2>
 
-                    <section className="pl-3 max-w-fit border-l-2 border-l-slate-500">
-                        <h3 className="text-xl pb-2">Información de trabajo</h3>
-                        <label htmlFor="rol">Rol:</label><br />
-                        <select id="rol" className="p-2 w-11/12" onChange={handleRol} value={rol}>
-                            <optgroup label="-- Seleccionar una opción">
-                                <option>user</option>
-                                <option>admin</option>
-                                <option>superAdmin</option>
-                            </optgroup>
-                        </select><br />
-                        <label htmlFor="dependencias">Dependencias:</label><br />
-                        <select id="dependencias" className="p-2 w-11/12" onChange={event => setDependencias(event.target.value)} value={dependencias}>
-                                <optgroup label="-- Selecciona una opción">
-                                    <option>Municipalidad norte</option>
-                                    <option>Municipalidad centro</option>
-                                    <option>Municipalidad sur</option>
-                                </optgroup>
-                        </select><br />
-                        <label htmlFor="direcciones">Direcciones:</label><br />
-                        <input id="direcciones" className="p-2 w-11/12" type="text" onChange={e => setDireccion(e.target.value)} placeholder="Iquique"></input><br />
-                        <label htmlFor="num-muni">Número municipal:</label><br />
-                        <input id="num-muni" className="p-2 w-11/12" type="text" onChange={handleNumMuni} placeholder="9 1111 1111" value={numMuni}></input><br />
-                        <label htmlFor="anexo-muni">Anexo municipal:</label><br />
-                        <input id="anexo-muni" className="p-2 w-11/12" type="text" onChange={handleAnexo} placeholder="9999" value={anexo}></input><br />
+                            <label htmlFor="crearRut" className="block text-sm font-medium leading-6 text-gray-900">Rut:</label>
+                            <div className="mb-2">
+                                <input id="crearRut"
+                                    name="rut"
+                                    type="text"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={handleRut} value={newRut}
+                                    placeholder="12.345.678-9" 
+                                />
+                            </div>
+
+                            <label htmlFor="crearNombres" className="block text-sm font-medium leading-6 text-gray-900">Nombres:</label>
+                            <div className="mb-2">
+                                <input id="crearNombres"
+                                    name="nombres"
+                                    type="text"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={event => setNombres(event.target.value)}
+                                    placeholder="Nombre(s)..."
+                                />
+                            </div>
+
+                            <label htmlFor="crearApellidos" className="block text-sm font-medium leading-6 text-gray-900" >Apellidos:</label>
+                            <div className="mb-2">
+                                <input
+                                    id="crearApellidos"
+                                    name="apellidos"
+                                    type="text"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={e => setApellidos(e.target.value)}
+                                    placeholder="Apellido(s)..."
+                                />
+                            </div>
+
+                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Correo Electrónico:</label>
+                            <div className="mb-2">
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="ejemplo@correo.com"
+                                    />
+                            </div>
+                        </section>
+
+                        <section className="pl-9 max-w-fit">
+                            <h3 className="text-xl font-medium pb-2">Información de trabajo</h3>
+
+                            <label htmlFor="rol" className="block text-sm font-medium leading-6 text-gray-900">Rol:</label>
+                            <div className="mb-2">
+                                <select
+                                    id="rol"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={handleRol}
+                                    value={rol}
+                                >
+                                    <optgroup label="-- Seleccionar una opción">
+                                        <option>user</option>
+                                        <option>admin</option>
+                                        <option>superAdmin</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <label htmlFor="dependencias" className="block text-sm font-medium leading-6 text-gray-900">Dependencias:</label>
+                            <div className="mb-2">
+                                <select
+                                    id="dependencias"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={event => setDependencias(event.target.value)}
+                                    value={dependencias}
+                                >
+                                        <optgroup label="-- Selecciona una opción">
+                                            <option>Municipalidad norte</option>
+                                            <option>Municipalidad centro</option>
+                                            <option>Municipalidad sur</option>
+                                        </optgroup>
+                                </select>
+                            </div>
+                            
+                            <label htmlFor="direcciones" className="block text-sm font-medium leading-6 text-gray-900">Direcciones:</label>
+                            <div className="mb-2">
+                                <input
+                                    id="direcciones"
+                                    name="dirección"
+                                    type="text"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring.inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={e => setDireccion(e.target.value)}
+                                    placeholder="Iquique"
+                                />
+                            </div>
+
+                            <label htmlFor="num-muni" className="block text-sm font-medium leading-6 text-gray-900">Número municipal:</label>
+                            <div className="mb-2">
+                                <input
+                                    id="num-muni"
+                                    name="numeroMunicipal"
+                                    type="text"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={handleNumMuni} placeholder="9 1111 1111" value={numMuni}
+                                />
+                            </div>
+
+                            <label htmlFor="anexo-muni" className="block text-sm font-medium leading-6 text-gray-900">Anexo municipal:</label>
+                            <div className="mb-2">
+                                <input
+                                    id="anexo-muni"
+                                    name="anexoMunicipal"
+                                    type="text"
+                                    required
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm-text-sm sm:leading-6"
+                                    onChange={handleAnexo}
+                                    placeholder="9999"
+                                    value={anexo} />
+                            </div>
+                        </section>
+                    </div>
+                    
+                    <section className="flex flex-col justify-center items-center mt-7">
+                        <label htmlFor="contraseña" className="block text-sm font-medium leading-6 text-gray-900">Ingrese una contraseña:</label>
+                        <div className="mb-2">
+                            <input 
+                                id="contraseña"
+                                name="contraseña"
+                                type="password"
+                                required
+                                className="block w-full rounded border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                onChange={handlePassword}
+                            />
+                            <input id="submit" name="submit" type="submit" className="block w-full mt-4 py-1.5 text-xl text-center items-center rounded-md bg-indigo-200 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:bg-indigo-200 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300" value="Registrar Usuario" />
+                        </div>
                     </section>
                 </form>
-                <section className="flex flex-col justify-center">
-                    <label className="w-52 m-auto text-center pt-6" htmlFor="contraseña">Ingrese una contraseña:</label>
-                    <input className="w-52 m-auto text-center" id="contraseña" type="password" onChange={handlePassword}></input><br />
-                    <input className="w-52 m-auto text-center" type="submit" value="Registrarse" onClick={handleNewUser} disabled={false} />
-                </section>
+
             </div>
         </div>
     )

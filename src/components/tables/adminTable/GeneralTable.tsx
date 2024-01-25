@@ -468,7 +468,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             </table>
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
-                <div id="newUserForm" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gray-300 right-0 top-0 translate-x-full">
+                <div id="newUserForm" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
                     <CreateUser />
                 </div>
             </div>
