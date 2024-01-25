@@ -441,18 +441,22 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         <BiSolidChevronLeft size={24} />
                                     </button>
                                     <button
-                                        className={page + 1 >= Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
-                                        onClick={() => setPage(page + 1)}
-                                        disabled={page + 1 >= Math.floor(total / pageSize) + 1 ? true : false}
-                                        title={page + 1 >= Math.floor(total / pageSize) + 1 ? '' : "Ir a la siguiente página"}
+                                        className={page + 1 > Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
+                                        onClick={() => {
+                                            console.log(page)
+                                            setPage(page + 1)
+                                            
+                                        }}
+                                        disabled={page + 1 > Math.floor(total / pageSize) + 1 ? true : false}
+                                        title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Ir a la siguiente página"}
                                     >
                                         <BiSolidChevronRight size={24} />
                                     </button>
                                     <button
-                                        className={page + 1 >= Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
+                                        className={page + 1 > Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
                                         onClick={() => setPage(Math.floor(total / pageSize) + 1)}
-                                        disabled={page + 1 >= Math.floor(total / pageSize) + 1 ? true : false}
-                                        title={page + 1 >= Math.floor(total / pageSize) + 1 ? '' : "Ir a la última página"}
+                                        disabled={page + 1 > Math.floor(total / pageSize) + 1 ? true : false}
+                                        title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Ir a la última página"}
                                     >
                                         <BiSolidChevronsRight size={24} />
                                     </button>
