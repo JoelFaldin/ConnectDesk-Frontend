@@ -156,6 +156,7 @@ const CreateUser = () => {
                                     type="email"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={event => setEmail(event.target.value)}
                                     placeholder="ejemplo@correo.com"
                                     />
                             </div>
@@ -249,7 +250,13 @@ const CreateUser = () => {
                                 className="block w-full rounded border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 onChange={handlePassword}
                             />
-                            <input id="submit" name="submit" type="submit" className="block w-full mt-4 py-1.5 text-xl text-center items-center rounded-md bg-indigo-200 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:bg-indigo-200 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300" value="Registrar Usuario" />
+                            <input
+                                id="submit"
+                                name="submit"
+                                type="submit"
+                                className="block w-full mt-4 py-1.5 text-xl text-center items-center rounded-md bg-indigo-200 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:bg-indigo-200 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
+                                onClick={handleNewUser}
+                                value="Registrar Usuario" />
                         </div>
                     </section>
                 </form>
