@@ -243,13 +243,16 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 rerender()
             },
             makeAdmin: async (rowIndex: number) => {
-                try {
-                    const request = await dataService.makeAdmin(cancelChange[rowIndex].rut)
-                    console.log(request.message)
-                } catch(error) {
-                    console.log(error)
+                const decision = window.confirm(cancelChange[rowIndex].rol === 'user' ? `¿Quieres que este usuario se convierta en admin?` : `¿Quieres que este usuario deje de ser admin?`)
+                if (decision) {
+                    try {
+                        const request = await dataService.makeAdmin(cancelChange[rowIndex].rut)
+                        console.log(request.message)
+                    } catch(error) {
+                        console.log(error)
+                    }
+                    rerender()
                 }
-                rerender()
             }
         },  
     })
