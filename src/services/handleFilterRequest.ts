@@ -2,7 +2,6 @@ import axios from "axios"
 const url = '/api/filter/'
 
 const toggleFilter = async (column: string, order: string, searchValue: string, searchColumn: string, pageSize: number, page: number) => {
-    console.log(searchValue, searchColumn)
     const request = await axios.get(`${url}`, {
         params: {
             column,

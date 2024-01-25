@@ -23,17 +23,17 @@ const EditCell: React.FC<editCell> = ({ row, table }) => {
     return meta?.newRows[row.id] ? (
         <div className="flex flex-row justify-center">
             <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('cancelar')}>
-                <BiX size={26} />
+                <BiX size={26} className="hover:text-rose-700" />
             </a>
             {" "}
             <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('guardar')}>
-                <BiSolidSave size={26} />
+                <BiSolidSave size={26} className="hover:text-lime-600" />
             </a>
         </div>
     ) : row.original.rol === 'admin' || row.original.rol === 'superAdmin' ? '' : (
         <div className="flex flex-row justify-center">
             <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('editar') }>
-                <BiEdit size={26} />
+                <BiEdit size={26} className="hover:text-green-500" />
             </a>
         </div>
     )
