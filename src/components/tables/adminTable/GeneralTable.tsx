@@ -1,23 +1,22 @@
 import { ColumnDef, useReactTable, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, flexRender, RowData, createColumnHelper, getSortedRowModel, VisibilityState } from '@tanstack/react-table'
-import { ChangeEvent, useEffect, useState } from 'react'
-import dataService from '../../../services/handleRequests'
-import '../styles/tableStyles.css'
 import handleFilterRequest from '../../../services/handleFilterRequest'
-import handleRequests from '../../../services/handleRequests'
 import CreateUser from '../../highAdmin/createUser/createUser'
+import handleRequests from '../../../services/handleRequests'
+import dataService from '../../../services/handleRequests'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 // Celdas editables:
+import EditAdminCell from './superAdminEdit/EditAdminCell'
 import TableCell from './tableCell/TableCell'
 import EditCell from './adminEdit/EditCell'
-import EditAdminCell from './superAdminEdit/EditAdminCell'
 
 // Iconos:
+import { BiSolidChevronsRight } from "react-icons/bi"
+import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsLeft } from "react-icons/bi"
 import { BiSolidChevronLeft } from "react-icons/bi"
-import { BiSolidChevronRight } from "react-icons/bi"
-import { BiSolidChevronsRight } from "react-icons/bi"
-import { Message } from '../message/Message'
-import { BiSolidUserPlus } from "react-icons/bi";
+import { BiSolidUserPlus } from "react-icons/bi"
+import { Message } from "../message/Message"
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -46,23 +45,14 @@ type Employee = {
 
 // Editar info en una celda:
 const defaultColumn: Partial<ColumnDef<Employee>> = {
-    cell: ({ getValue, row: { index }, column: { id }, table }) => {
+    cell: ({ getValue }) => {
         const initialValue = getValue()
         const [value, setValue] = useState(initialValue)
-
-        const blur = () => {
-            table.options.meta?.updateData(index, id, value)
-        }
-
-        useEffect(() => {
-            setValue(initialValue)
-        }, [initialValue])
 
         return (
             <input 
                 value={value as string}
                 onChange={e => setValue(e.target.value)}
-                onBlur={blur}
             />
         )
     }
@@ -204,9 +194,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             columnVisibility
         },
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         meta: {
             newRows,
@@ -225,11 +215,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 }
                 rerender()
             },
+            // Este update data se puede utilizar para resolver el onblur cuando se edita un dato!
             updateData: (rowIndex: number, columnId: string, value: unknown) => {
                 dataService.updateUser(cancelChange[rowIndex].rut, columnId, value, rol)
                     .then(res => {
                         alert(res.message)
-                        // console.log(res)
+                        console.log('test')
                         rerender()
                     })
                     .catch(error => {
@@ -293,10 +284,11 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const handleSearchFilter = (event: ChangeEvent<HTMLInputElement>, column: any) => {
         setSearchValue(event.target.value)
         setSearchColumn(column)
+        
         const timeout = setTimeout(() => {
             handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
                 .then(res => {
-                    res.length === 0 ? setShowMessage(true) : setShowMessage(false)
+                    res.filteredData.length === 0 ? setShowMessage(true) : setShowMessage(false)
                     setData(res.filteredData)
                     setCancelChange(res.filteredData)
                     setTotal(res.totalData)
@@ -365,7 +357,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 </thead>
                 <tbody className="border-b border-solid border-gray-100">
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id} className="border-b border-solid border-gray-300" >
+                        <tr key={row.id} className="border-b border-solid border-gray-300 odd:bg-white even:bg-#f3f3f3" >
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
                                     ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 w-fit max-h-2"
@@ -380,16 +372,18 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     ))}
                 </tbody>
                 <tfoot className='bg-gradient-to-t from-to-slate-300 to-white'>
-                    <tr>
-                        <td colSpan={10}>
-                            <div className="flex justify-end pt-2">
-                                <button className="flex gap-2 rounded-md bg-green-50 px-2 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
-                                    <BiSolidUserPlus className="text-green-700" size={24} />
-                                    <span className="text-base text-green-700">Crear nuevo usuario</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    {rol === 'superAdmin' ?
+                        <tr>
+                            <td colSpan={10}>
+                                <div className="flex justify-end pt-2">
+                                    <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
+                                        <BiSolidUserPlus className="text-green-700" size={24} />
+                                        <span className="text-base text-green-700">Crear usuario</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    : ''}
                     <tr>
                         <td colSpan={5}>
                             <div className="flex justify-start p-2">
@@ -468,17 +462,17 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     </tr>
                 </tfoot>
             </table>
-            { showMessage ? 
-            <div className="flex justify-center mb-5">
-                <Message />
-            </div>
-            : '' }
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
                 <div id="newUserForm" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gray-300 right-0 top-0 translate-x-full">
                     <CreateUser />
                 </div>
             </div>
+            { showMessage ? 
+            <div className="flex justify-center mb-5">
+                <Message />
+            </div>
+            : '' }
        </div>
     )
 }

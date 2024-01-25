@@ -17,6 +17,7 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
     }, [initialValue])
 
     const blur = () => {
+        // Acá se puede enviar la información a la tabla principal
         table.options.meta?.updateData(row.index, column.id, value)
     }
 
@@ -24,7 +25,8 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         return (
             <input
                 value={value}
-                onChange={e => setValue(e.target.value)}
+                onChange={event => setValue(event.target.value)}
+                // Este onBlur es la fuente de todos los males!!!!
                 onBlur={blur}
                 type={column.columnDef.meta?.type || "text"}
                 className='items-center py-0.5 px-1 w-[96%] max-w-36'

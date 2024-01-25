@@ -1,3 +1,11 @@
+## Eliminar:
+components/tables/tableCell/tableCell.css  
+components/tables/styleCell.css  
+components/tables/styles/tableStyles.css  
+components/admin/AdminPage.css  
+components/router/router.css  
+app.css  
+
 Mock data to access:  
 
 Super Admin:
