@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import dataService from '../../../services/handleRequests'
 import '../styles/tableStyles.css'
 import handleFilterRequest from '../../../services/handleFilterRequest'
+import handleRequests from '../../../services/handleRequests'
 
 // Celdas editables:
 import TableCell from './tableCell/TableCell'
@@ -15,8 +16,7 @@ import { BiSolidChevronLeft } from "react-icons/bi"
 import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsRight } from "react-icons/bi"
 import { Message } from '../message/Message'
-import handleRequests from '../../../services/handleRequests'
-
+import { BiSolidUserPlus } from "react-icons/bi";
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -377,17 +377,27 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         </tr>
                     ))}
                 </tbody>
-                <tfoot>
-                    <tr className="🌿">
+                <tfoot className='bg-gradient-to-t from-to-slate-300 to-white'>
+                    <tr>
+                        <td colSpan={10}>
+                            <div className="flex justify-end pt-2">
+                                <button className="flex gap-2 rounded-md bg-green-50 px-2 py-1 ring-1 ring-inset ring-green-600/20">
+                                    <BiSolidUserPlus className="text-green-700" size={24} />
+                                    <span className="text-base text-green-700">Crear nuevo usuario</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colSpan={5}>
-                            <div className="flex justify-start p-4">
+                            <div className="flex justify-start p-2">
                                 <p className="font-medium">
                                     Mostrando <span className="underline decoration-1 underline-offset-2">{data.length}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
                                 </p>
                             </div>
                         </td>
                         <td colSpan={5}>
-                            <div className="flex justify-end p-4 gap-6">
+                            <div className="flex justify-end p-2 gap-6">
                                 <span className="flex items-center gap-2">
                                     <p>Página actual:</p>
                                     <strong>
