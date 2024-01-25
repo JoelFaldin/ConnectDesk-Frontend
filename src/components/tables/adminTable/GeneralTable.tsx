@@ -17,6 +17,7 @@ import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsRight } from "react-icons/bi"
 import { Message } from '../message/Message'
 import { BiSolidUserPlus } from "react-icons/bi";
+import CreateUser from '../../highAdmin/createUser/createUser'
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -75,20 +76,25 @@ interface adminTable {
 
 // Componente principal:
 const GeneralTable: React.FC<adminTable> = ({ rol }) => {
+    // Info de la tabla:
     const [data, setData] = useState<Employee[]>([])
+    const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [total, setTotal] = useState(0)
+
+    // Funcionamiento de la tabla:
     const [newRows, setNewRows] = useState({})
-    const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
+
+    // Valores para los filtros:
     const [searchValue, setSearchValue] = useState('')
     const [searchColumn, setSearchColumn] = useState('')
-
-
-    // Estado para los filtros:
     const [filterOrder, setFilterOrder] = useState('normal')
     const [showMessage, setShowMessage] = useState(false)
+
+    // Formulario para el nuevo usuario:
+    const [showForm, setShowForm] = useState(false)
     
     const rerender = () => {
         dataService.getUsers(pageSize, page)
@@ -318,6 +324,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         setPageSize(Number(event.target.value))
     }
 
+    const handleNewUser = () => {
+        document.getElementById('newUserContainer')?.classList.toggle('invisible')
+        document.getElementById('newUserFormBG')?.classList.toggle('opacity-0')
+        document.getElementById('newUserFormBG')?.classList.toggle('opacity-50')
+        document.getElementById('newUserForm')?.classList.toggle('translate-x-full')
+    }
+
     return (
        <div className="p-2">
             <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md table">
@@ -381,7 +394,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     <tr>
                         <td colSpan={10}>
                             <div className="flex justify-end pt-2">
-                                <button className="flex gap-2 rounded-md bg-green-50 px-2 py-1 ring-1 ring-inset ring-green-600/20">
+                                <button className="flex gap-2 rounded-md bg-green-50 px-2 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
                                     <BiSolidUserPlus className="text-green-700" size={24} />
                                     <span className="text-base text-green-700">Crear nuevo usuario</span>
                                 </button>
@@ -467,7 +480,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 <Message />
             </div>
             : '' }
-       </div> 
+            <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
+                <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
+                <div id="newUserForm" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gray-300 right-0 top-0 translate-x-full">
+                    <CreateUser />
+                </div>
+            </div>
+       </div>
     )
 }
 
