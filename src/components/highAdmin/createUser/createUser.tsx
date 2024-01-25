@@ -105,24 +105,24 @@ const CreateUser = () => {
     return (
         <div className="h-fit flex">
             <div className="max-w-6/12 mt-32 mx-auto">
-                <h1 className="text-center">Añadir un nuevo usuario</h1>
+                <h1 className="text-center text-xl font-bold p-4">Añadir un nuevo usuario</h1>
                 <form className="flex justify-center">
-                    <section className="m-2.5 p-5 border-2 border-solid border-slate-950 max-w-fit">
-                        <h2 className="text-xl">Información personal</h2>
+                    <section className="pr-3 max-w-fit border-r-2 border-r-slate-500">
+                        <h2 className="text-xl pb-2">Información personal</h2>
                         <label className="newUserElement" htmlFor="crearRut">Rut:</label><br />
-                        <input id="crearRut" type="text" onChange={handleRut} value={newRut} placeholder="12.345.678-9"></input><br />
+                        <input id="crearRut" className="p-2 w-fit" type="text" onChange={handleRut} value={newRut} placeholder="12.345.678-9"></input><br />
                         <label htmlFor="crearNombres">Nombres:</label><br />
-                        <input id="crearNombres" type="text" onChange={e => setNombres(e.target.value)} placeholder="Nombre(s) por aquí..."></input><br />
+                        <input id="crearNombres" className="p-2 w-fit" type="text" onChange={e => setNombres(e.target.value)} placeholder="Nombre(s)..."></input><br />
                         <label htmlFor="crearApellidos">Apellidos:</label><br />
-                        <input id="crearApellidos" type="text" onChange={e => setApellidos(e.target.value)} placeholder="Apellido(s) por aquí..."></input><br />
+                        <input id="crearApellidos" className="p-2 w-fit" type="text" onChange={e => setApellidos(e.target.value)} placeholder="Apellido(s)..."></input><br />
                         <label htmlFor="crearCorreo">Correo:</label><br />
-                        <input id="crearCorreo" type="text" onChange={e => setEmail(e.target.value)} placeholder="ejemplo@correo.com"></input><br />
+                        <input id="crearCorreo" className="p-2 w-fit" type="text" onChange={e => setEmail(e.target.value)} placeholder="ejemplo@correo.com"></input><br />
                     </section>
 
-                    <section className="m-2.5 p-5 border-2 border-solid border-slate-950 max-w-fit">
-                        <h3 className="text-xl">Información de trabajo</h3>
+                    <section className="pl-3 max-w-fit border-l-2 border-l-slate-500">
+                        <h3 className="text-xl pb-2">Información de trabajo</h3>
                         <label htmlFor="rol">Rol:</label><br />
-                        <select id="rol" onChange={handleRol} value={rol}>
+                        <select id="rol" className="p-2 w-11/12" onChange={handleRol} value={rol}>
                             <optgroup label="-- Seleccionar una opción">
                                 <option>user</option>
                                 <option>admin</option>
@@ -130,25 +130,23 @@ const CreateUser = () => {
                             </optgroup>
                         </select><br />
                         <label htmlFor="dependencias">Dependencias:</label><br />
-                    <select id="dependencias" onChange={event => setDependencias(event.target.value)} value={dependencias}>
-                            <optgroup label="-- Selecciona una opción">
-                                <option>Municipalidad norte</option>
-                                <option>Municipalidad centro</option>
-                                <option>Municipalidad sur</option>
-                            </optgroup>
-                    </select><br />
-                        {/* <input id="dependencias" type="text" onChange={e => setDependencias(e.target.value)} placeholder="Municipalidad norte"></input><br /> */}
-
+                        <select id="dependencias" className="p-2 w-11/12" onChange={event => setDependencias(event.target.value)} value={dependencias}>
+                                <optgroup label="-- Selecciona una opción">
+                                    <option>Municipalidad norte</option>
+                                    <option>Municipalidad centro</option>
+                                    <option>Municipalidad sur</option>
+                                </optgroup>
+                        </select><br />
                         <label htmlFor="direcciones">Direcciones:</label><br />
-                        <input id="direcciones" type="text" onChange={e => setDireccion(e.target.value)} placeholder="Iquique"></input><br />
+                        <input id="direcciones" className="p-2 w-11/12" type="text" onChange={e => setDireccion(e.target.value)} placeholder="Iquique"></input><br />
                         <label htmlFor="num-muni">Número municipal:</label><br />
-                        <input id="num-muni" type="text" onChange={handleNumMuni} placeholder="9 1111 1111" value={numMuni}></input><br />
+                        <input id="num-muni" className="p-2 w-11/12" type="text" onChange={handleNumMuni} placeholder="9 1111 1111" value={numMuni}></input><br />
                         <label htmlFor="anexo-muni">Anexo municipal:</label><br />
-                        <input id="anexo-muni" type="text" onChange={handleAnexo} placeholder="9999" value={anexo}></input><br />
+                        <input id="anexo-muni" className="p-2 w-11/12" type="text" onChange={handleAnexo} placeholder="9999" value={anexo}></input><br />
                     </section>
                 </form>
                 <section className="flex flex-col justify-center">
-                    <label className="w-52 m-auto text-center" htmlFor="contraseña">Ingrese una contraseña:</label>
+                    <label className="w-52 m-auto text-center pt-6" htmlFor="contraseña">Ingrese una contraseña:</label>
                     <input className="w-52 m-auto text-center" id="contraseña" type="password" onChange={handlePassword}></input><br />
                     <input className="w-52 m-auto text-center" type="submit" value="Registrarse" onClick={handleNewUser} disabled={false} />
                 </section>

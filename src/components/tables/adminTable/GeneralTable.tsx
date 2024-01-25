@@ -92,9 +92,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [searchColumn, setSearchColumn] = useState('')
     const [filterOrder, setFilterOrder] = useState('normal')
     const [showMessage, setShowMessage] = useState(false)
-
-    // Formulario para el nuevo usuario:
-    const [showForm, setShowForm] = useState(false)
     
     const rerender = () => {
         dataService.getUsers(pageSize, page)
@@ -268,14 +265,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }, [page])
 
     const handleFilter = (column: string) => {
-        console.log(filterOrder === 'asc' ? `${filterOrder} => desc` : filterOrder === 'desc' ? `${filterOrder} => normal` : `${filterOrder} => asc`)
-        
-        console.log(searchValue, searchColumn)
-
+        // console.log(filterOrder === 'asc' ? `${filterOrder} => desc` : filterOrder === 'desc' ? `${filterOrder} => normal` : `${filterOrder} => asc`)
         if (filterOrder === 'asc') {
             handleFilterRequest.toggleFilter(column, 'desc', searchValue, searchColumn, pageSize, page)
                 .then(res => {
-                    // console.log(res)
                     setData(res.filteredData)
                     setCancelChange(res.filteredData)
                 })
@@ -283,7 +276,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         } else if (filterOrder === 'desc') {
             handleFilterRequest.toggleFilter(column, 'normal', searchValue, searchColumn, pageSize, page)
                 .then(res => {
-                    // console.log(res)
                     setData(res.filteredData)
                     setCancelChange(res.filteredData)
                 })
@@ -291,7 +283,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         } else if (filterOrder === 'normal') {
             handleFilterRequest.toggleFilter(column, 'asc', searchValue, searchColumn, pageSize, page)
                 .then(res => {
-                    // console.log(res)
                     setData(res.filteredData)
                     setCancelChange(res.filteredData)
                 })
