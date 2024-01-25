@@ -1,5 +1,4 @@
 import { BiX, BiSolidSave, BiEdit, BiXCircle,BiSolidUserPlus   } from "react-icons/bi";
-import dataService from '../../../../services/handleRequests'
 
 interface editCell {
     row: any,
@@ -24,10 +23,7 @@ const AdminEditCell: React.FC<editCell> = ({ row, table }) => {
     }
 
     const makeAdmin = () => {
-        const rut = row.original.rut
-        dataService.makeAdmin(rut)
-            .then(res => console.log(res))
-            .catch(error => console.log(error.message))
+        meta?.makeAdmin(row.index)
     }
 
     return meta?.newRows[row.id] ? (

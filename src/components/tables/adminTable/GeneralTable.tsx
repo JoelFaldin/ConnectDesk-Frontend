@@ -26,6 +26,7 @@ declare module '@tanstack/react-table' {
         setNewRows: any,
         revertData: any,
         removeRow: any,
+        makeAdmin: any
     }
 }
 
@@ -219,7 +220,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 }
                 rerender()
             },
-            updateData: async (rowIndex: number, columnId: string, value: unknown) => {
+            updateData: (rowIndex: number, columnId: string, value: unknown) => {
                 dataService.updateUser(cancelChange[rowIndex].rut, columnId, value, rol)
                     .then(res => {
                         alert(res.message)
@@ -239,6 +240,15 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 }
                 rerender()
             },
+            makeAdmin: async (rowIndex: number) => {
+                try {
+                    const request = await dataService.makeAdmin(cancelChange[rowIndex].rut)
+                    console.log(request.message)
+                } catch(error) {
+                    console.log(error)
+                }
+                rerender()
+            }
         },  
     })
 
@@ -278,11 +288,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
                 .then(res => {
                     res.length === 0 ? setShowMessage(true) : setShowMessage(false)
-                    setData(res)
-                    setCancelChange(res)
+                    setData(res.filteredData)
+                    setCancelChange(res.filteredData)
+                    setTotal(res.totalData)
                 })
         }, 500)
-        return () => clearInterval(timeout)
+        return () => clearTimeout(timeout)
     }
 
     const handlePageSize = (event: ChangeEvent<HTMLSelectElement>) => {
