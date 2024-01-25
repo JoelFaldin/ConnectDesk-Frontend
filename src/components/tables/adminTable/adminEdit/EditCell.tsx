@@ -1,5 +1,4 @@
 import { BiX, BiSolidSave, BiEdit } from "react-icons/bi";
-import '../styleCell.css'
 
 interface editCell {
     row: any,
@@ -11,7 +10,6 @@ const EditCell: React.FC<editCell> = ({ row, table }) => {
     
 
     const setNewRows = (name: string) => {
-        console.log(row.original.rol)
         meta?.setNewRows((old: []) => ({
             ...old,
             [row.id]: !old[row.id]

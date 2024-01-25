@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import './input.css'
 
 const Input = ({
     value: starterValue,

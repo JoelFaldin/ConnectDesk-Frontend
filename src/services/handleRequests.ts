@@ -1,10 +1,9 @@
-import axios from "axios";
+import axios from "axios"
 const url = '/api/data'
 
 interface userModel {
     rut: string,
     nombres: string,
-
     apellidos: string,
     email: string,
     passHash: string,
@@ -15,15 +14,14 @@ interface userModel {
     anexoMunicipal: string
 }
 
-const getUsers = async (number: number, page: number) => {
-    const request = axios.get(`${url}`, {
+const getUsers = async (pageSize: number, page: number) => {
+        const request = axios.get(`${url}`, {
         params: {
-            page: page,
-            pageSize: number
+            page,
+            pageSize
         }
     })
     const employee = await request
-    // console.log(employee.data)
     return employee.data
 }
 

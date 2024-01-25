@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Login from "../login/Login"
-import './router.css'
 import AdminPage from "../admin/AdminPage"
 import CreateUser from "../highAdmin/createUser/createUser"
 import HighAdminPage from "../highAdmin/highAdminPage"

@@ -19,6 +19,8 @@ const searchFilter = async (column: string, value: string, pageSize: number, pag
         return toggleFilter(column, 'normal', pageSize, page)
     }
     
+    console.log('test')
+
     const request = await axios.get(`${url}/search/`, {
         params: {
             column,

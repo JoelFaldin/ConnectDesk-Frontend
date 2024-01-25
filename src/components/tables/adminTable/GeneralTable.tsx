@@ -1,8 +1,8 @@
 import { ColumnDef, useReactTable, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, flexRender, RowData, createColumnHelper, getSortedRowModel, VisibilityState } from '@tanstack/react-table'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import dataService from '../../../services/handleRequests'
-import Filter from '../filters/Filter'
-// import '../styles/tableStyles.css'
+import '../styles/tableStyles.css'
+import handleFilterRequest from '../../../services/handleFilterRequest'
 
 // Celdas editables:
 import TableCell from './tableCell/TableCell'
@@ -14,6 +14,9 @@ import { BiSolidChevronsLeft } from "react-icons/bi"
 import { BiSolidChevronLeft } from "react-icons/bi"
 import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsRight } from "react-icons/bi"
+import { Message } from '../message/Message'
+import handleRequests from '../../../services/handleRequests'
+
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -22,7 +25,7 @@ declare module '@tanstack/react-table' {
         newRows: any,
         setNewRows: any,
         revertData: any,
-        removeRow: any
+        removeRow: any,
     }
 }
 
@@ -39,7 +42,7 @@ type Employee = {
     anexoMunicipal: number
 }
 
-// Editar información en una normal cell:
+// Editar info en una celda:
 const defaultColumn: Partial<ColumnDef<Employee>> = {
     cell: ({ getValue, row: { index }, column: { id }, table }) => {
         const initialValue = getValue()
@@ -69,25 +72,31 @@ interface adminTable {
     rol: string
 }
 
+// Componente principal:
 const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [data, setData] = useState<Employee[]>([])
-    const [number] = useState(10)
     const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [total, setTotal] = useState(0)
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
+
+
+    // Estado para los filtros:
+    const [filterOrder, setFilterOrder] = useState('normal')
+    const [showMessage, setShowMessage] = useState(false)
     
     const rerender = () => {
-        dataService.getUsers(number, page)
+        dataService.getUsers(pageSize, page)
             .then(data => {
-                setData(data.firstN)
-                setCancelChange(data.firstN)
+                setData(data.content)
+                setCancelChange(data.content)
             })
     }
 
     useEffect(() => {
-        dataService.getUsers(number, page)
+        dataService.getUsers(page, pageSize)
             .then(data => {
                 setData(data.content)
                 setCancelChange(data.content)
@@ -229,27 +238,78 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     console.log('Usuario eliminado.')
                 }
                 rerender()
-            }
-        },
+            },
+        },  
     })
+
+    useEffect(() => {
+        rerender()
+    }, [page])
+
+    const handleFilter = (column: string) => {
+        console.log(filterOrder === 'asc' ? `${filterOrder} => desc` : filterOrder === 'desc' ? `${filterOrder} => normal` : `${filterOrder} => asc`)
+        
+        if (filterOrder === 'asc') {
+            handleFilterRequest.toggleFilter(column, 'desc', pageSize, page)
+                .then(filtered => {
+                    setData(filtered)
+                    setCancelChange(filtered)
+                })
+            setFilterOrder('desc')
+        } else if (filterOrder === 'desc') {
+            handleFilterRequest.toggleFilter(column, 'normal', pageSize, page)
+                .then(filtered => {
+                    setData(filtered)
+                    setCancelChange(filtered)
+                })
+            setFilterOrder('normal')
+        } else if (filterOrder === 'normal') {
+            handleFilterRequest.toggleFilter(column, 'asc', pageSize, page)
+                .then(filtered => {
+                    setData(filtered)
+                    setCancelChange(filtered)
+                })
+            setFilterOrder('asc')
+        }
+    }
+
+    const handleSearchFilter = (event: ChangeEvent<HTMLInputElement>, column: any) => {
+        const timeout = setTimeout(() => {
+            handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
+                .then(res => {
+                    res.length === 0 ? setShowMessage(true) : setShowMessage(false)
+                    setData(res)
+                    setCancelChange(res)
+                })
+        }, 500)
+        return () => clearInterval(timeout)
+    }
+
+    const handlePageSize = (event: ChangeEvent<HTMLSelectElement>) => {
+        handleRequests.getUsers(Number(event.target.value), page)
+            .then(res => {
+                setData(res.content)
+                setCancelChange(res.content)
+            })
+        table.setPageSize(Number(event.target.value))
+        setPageSize(Number(event.target.value))
+    }
 
     return (
        <div className="p-2">
-            <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md">
+            <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md table">
                 <thead>
                     {table.getHeaderGroups().map(group => (
-                        <tr key={group.id} className="table-row">
+                        <tr key={group.id}>
                             {group.headers.map(header => (
                                 <th key={header.id} colSpan={header.colSpan} className="bg-zinc-200 border-2 border-solid border-gray-300 py-0.5 px-1 w-fit min-w-32">
                                     {header.isPlaceholder ? null : (
                                     <>
-                                        <div
+                                        <div 
                                         {...{
-                                            className: header.column.getCanSort()
-                                            ? 'can-filter'
-                                            : '',
-                                            onClick: header.column.getToggleSortingHandler(),
+                                            className: 'cursor-pointer'
                                         }}
+                                        onClick={() => handleFilter(header.id)}
                                         >
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -262,7 +322,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         </div>
                                         {header.column.getCanFilter() ? (
                                         <div>
-                                            <Filter column={header.column} table={table} />
+                                            {/* header.column */}
+                                            <input
+                                                type="text"
+                                                onChange={event => handleSearchFilter(event, header.column.id)}
+                                                placeholder='Buscar...'
+                                                className="w-28 p-1 rounded my-2"
+                                            />
                                         </div>
                                         ) : null}
                                     </>
@@ -276,9 +342,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id} className="border-b border-solid border-gray-300" >
                             {row.getVisibleCells().map(cell => (
-                                 <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
-                                 ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 min-w-28 max-h-2"
-                                 : "text-left py-2 px-2.5 border-r border-solir border-gray-300 max-h-2"}>
+                                <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
+                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 w-fit max-h-2"
+                                    : "text-left py-2 px-2.5 border-r border-solid border-gray-300 w-fit max-h-2"}>
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
@@ -288,52 +354,86 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         </tr>
                     ))}
                 </tbody>
+                <tfoot>
+                    <tr className="🌿">
+                        <td colSpan={5}>
+                            <div className="flex justify-start p-4">
+                                <p className="font-medium">
+                                    Mostrando <span className="underline decoration-1 underline-offset-2">{pageSize}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
+                                </p>
+                            </div>
+                        </td>
+                        <td colSpan={5}>
+                            <div className="flex justify-end p-4 gap-6">
+                                <span className="flex items-center gap-2">
+                                    <p>Página actual:</p>
+                                    <strong>
+                                        { page } de {' '}
+                                        { Math.floor(total / pageSize) + 1 }
+                                    </strong>
+                                </span>
+                                <span className="flex items-center gap-2">
+                                    Ir a la página:
+                                    <input
+                                        type="text"
+                                        value={page}
+                                        onChange={event => {
+                                            const fakeNumber = Number(event.target.value)
+                                            if (!Number.isNaN(fakeNumber)) {
+                                                setPage(Number(event.target.value))
+                                                rerender()
+                                            }
+                                        }}
+                                        className="px-2 rounded w-8"
+                                    />
+                                </span>
+                                <select value={pageSize} onChange={handlePageSize}
+                                    className="px-2 py-1 rounded w-32"
+                                    >
+                                    { [10, 20, 30, 40, 50].map(number => {
+                                        return <option key={number} value={number}>Mostrar {number}</option>
+                                    }) }
+                                </select>
+                                <span className="flex items-center gap-1">
+                                    <button
+                                        className={page - 1 <= 0 ? "cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded" : "cursor-pointer py-1 px-1 border border-slate-300 bg-white hover:bg-gray-100 rounded"}
+                                        onClick={() => setPage(1)}
+                                        disabled={page - 1 <= 0 ? true : false}
+                                    >
+                                        <BiSolidChevronsLeft size={24} />
+                                    </button>
+                                    <button
+                                        className={page - 1 <= 0 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
+                                        onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}
+                                        disabled={page - 1 <= 0 ? true : false}
+                                        >
+                                        <BiSolidChevronLeft size={24} />
+                                    </button>
+                                    <button
+                                        className={page + 1 >= Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
+                                        onClick={() => setPage(page + 1)}
+                                        disabled={page + 1 >= Math.floor(total / pageSize) + 1 ? true : false}
+                                    >
+                                        <BiSolidChevronRight size={24} />
+                                    </button>
+                                    <button
+                                        className={page + 1 >= Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
+                                        onClick={() => setPage(Math.floor(total / pageSize) + 1)}
+                                        disabled={page + 1 >= Math.floor(total / pageSize) + 1 ? true : false}
+                                    >
+                                        <BiSolidChevronsRight size={24} />
+                                    </button>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
-            <div className="h-4" /> 
-            <div className="flex justify-center items-center gap-2">
-                <div className="flex">
-                    <a className="cursor-pointer px-2" onClick={() => { table.setPageIndex(0) }} >
-                        <BiSolidChevronsLeft size={24} />
-                    </a>
-                    <a className="cursor-pointer px-2" onClick={() => { table.previousPage() }} >
-                        <BiSolidChevronLeft size={24} />
-                    </a>
-                    <a className="cursor-pointer px-2" onClick={() => { table.nextPage() }} >
-                        <BiSolidChevronRight size={24} />
-                    </a>
-                    <a className="cursor-pointer px-2" onClick={() => { table.setPageIndex(table.getPageCount() - 1) }} >
-                        <BiSolidChevronsRight size={24} />
-                    </a>
-                </div>
-                <span className="flex items-center gap-2">
-                    <div>Página actual:</div>
-                    <strong>
-                        { table.getState().pagination.pageIndex + 1 } of {' '}
-                        { Math.floor(total / number) + 1 }
-                    </strong>
-                </span>
-                <span className="flex items-center gap-2">
-                    | Ir a la página:
-                    <input
-                        type="number"
-                        defaultValue={page} 
-                        onChange={event => {
-                            setPage(Number(event.target.value))
-                        }}
-                        className="p-0.5 rounded w-8"
-                        min={1}
-                    />
-                </span>
-                <select value={table.getState().pagination.pageSize} onChange={e => {
-                    table.setPageSize(Number(e.target.value))
-                    }}
-                    className="p-0.5 rounded w-32"
-                    >
-                    { [10, 20, 30, 40, 50].map(number => {
-                        return <option key={number} value={number}>Mostrar {number}</option>
-                    }) }
-                </select>
+            { showMessage ? 
+            <div className="flex justify-center mb-5">
+                <Message />
             </div>
+            : '' }
        </div> 
     )
 }
