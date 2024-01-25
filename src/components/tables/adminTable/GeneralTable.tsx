@@ -82,6 +82,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [newRows, setNewRows] = useState({})
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
+    const [searchValue, setSearchValue] = useState('')
+    const [searchColumn, setSearchColumn] = useState('')
 
 
     // Estado para los filtros:
@@ -259,31 +261,38 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const handleFilter = (column: string) => {
         console.log(filterOrder === 'asc' ? `${filterOrder} => desc` : filterOrder === 'desc' ? `${filterOrder} => normal` : `${filterOrder} => asc`)
         
+        console.log(searchValue, searchColumn)
+
         if (filterOrder === 'asc') {
-            handleFilterRequest.toggleFilter(column, 'desc', pageSize, page)
-                .then(filtered => {
-                    setData(filtered)
-                    setCancelChange(filtered)
+            handleFilterRequest.toggleFilter(column, 'desc', searchValue, searchColumn, pageSize, page)
+                .then(res => {
+                    // console.log(res)
+                    setData(res.filteredData)
+                    setCancelChange(res.filteredData)
                 })
             setFilterOrder('desc')
         } else if (filterOrder === 'desc') {
-            handleFilterRequest.toggleFilter(column, 'normal', pageSize, page)
-                .then(filtered => {
-                    setData(filtered)
-                    setCancelChange(filtered)
+            handleFilterRequest.toggleFilter(column, 'normal', searchValue, searchColumn, pageSize, page)
+                .then(res => {
+                    // console.log(res)
+                    setData(res.filteredData)
+                    setCancelChange(res.filteredData)
                 })
             setFilterOrder('normal')
         } else if (filterOrder === 'normal') {
-            handleFilterRequest.toggleFilter(column, 'asc', pageSize, page)
-                .then(filtered => {
-                    setData(filtered)
-                    setCancelChange(filtered)
+            handleFilterRequest.toggleFilter(column, 'asc', searchValue, searchColumn, pageSize, page)
+                .then(res => {
+                    // console.log(res)
+                    setData(res.filteredData)
+                    setCancelChange(res.filteredData)
                 })
             setFilterOrder('asc')
         }
     }
 
     const handleSearchFilter = (event: ChangeEvent<HTMLInputElement>, column: any) => {
+        setSearchValue(event.target.value)
+        setSearchColumn(column)
         const timeout = setTimeout(() => {
             handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
                 .then(res => {
@@ -370,7 +379,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         <td colSpan={5}>
                             <div className="flex justify-start p-4">
                                 <p className="font-medium">
-                                    Mostrando <span className="underline decoration-1 underline-offset-2">{pageSize}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
+                                    Mostrando <span className="underline decoration-1 underline-offset-2">{data.length}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
                                 </p>
                             </div>
                         </td>
