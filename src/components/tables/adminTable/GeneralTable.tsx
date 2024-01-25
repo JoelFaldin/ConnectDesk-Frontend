@@ -4,6 +4,7 @@ import dataService from '../../../services/handleRequests'
 import '../styles/tableStyles.css'
 import handleFilterRequest from '../../../services/handleFilterRequest'
 import handleRequests from '../../../services/handleRequests'
+import CreateUser from '../../highAdmin/createUser/createUser'
 
 // Celdas editables:
 import TableCell from './tableCell/TableCell'
@@ -17,7 +18,6 @@ import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsRight } from "react-icons/bi"
 import { Message } from '../message/Message'
 import { BiSolidUserPlus } from "react-icons/bi";
-import CreateUser from '../../highAdmin/createUser/createUser'
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -229,7 +229,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 dataService.updateUser(cancelChange[rowIndex].rut, columnId, value, rol)
                     .then(res => {
                         alert(res.message)
-                        console.log(res)
+                        // console.log(res)
                         rerender()
                     })
                     .catch(error => {
@@ -332,11 +332,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                 <th key={header.id} colSpan={header.colSpan} className="bg-zinc-200 border-2 border-solid border-gray-300 py-0.5 px-1 w-fit min-w-32">
                                     {header.isPlaceholder ? null : (
                                     <>
-                                        <div 
-                                        {...{
-                                            className: 'cursor-pointer'
-                                        }}
-                                        onClick={() => handleFilter(header.id)}
+                                        <div className={header.id === 'edit' || header.id === '1_Muni info_rol' || header.id === '1_Persona_rut' ? '' : 'cursor-pointer select-none hover:underline hover:underline-offset-2'}
+                                        onClick={() => header.id === 'edit' || header.id === '1_Muni info_rol' || header.id === '1_Persona_rut' ? '' : handleFilter(header.id)}
+                                        title={header.id === 'edit' || header.id === '1_Muni info_rol' || header.id === '1_Persona_rut' ? '' :  `Filtrar por ${header.id}`}
                                         >
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -421,7 +419,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                                 rerender()
                                             }
                                         }}
-                                        className="px-2 rounded w-8"
+                                        className="px-2 py-1 rounded w-8"
                                     />
                                 </span>
                                 <select value={pageSize} onChange={handlePageSize}
@@ -436,6 +434,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className={page - 1 <= 0 ? "cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded" : "cursor-pointer py-1 px-1 border border-slate-300 bg-white hover:bg-gray-100 rounded"}
                                         onClick={() => setPage(1)}
                                         disabled={page - 1 <= 0 ? true : false}
+                                        title={page - 1 <= 0 ? '' : "Ir al principio"}
                                     >
                                         <BiSolidChevronsLeft size={24} />
                                     </button>
@@ -443,6 +442,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className={page - 1 <= 0 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
                                         onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}
                                         disabled={page - 1 <= 0 ? true : false}
+                                        title={page - 1 <= 0 ? '' : "Ir a la anterior página"}
                                         >
                                         <BiSolidChevronLeft size={24} />
                                     </button>
@@ -450,6 +450,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className={page + 1 >= Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
                                         onClick={() => setPage(page + 1)}
                                         disabled={page + 1 >= Math.floor(total / pageSize) + 1 ? true : false}
+                                        title={page + 1 >= Math.floor(total / pageSize) + 1 ? '' : "Ir a la siguiente página"}
                                     >
                                         <BiSolidChevronRight size={24} />
                                     </button>
@@ -457,6 +458,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className={page + 1 >= Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
                                         onClick={() => setPage(Math.floor(total / pageSize) + 1)}
                                         disabled={page + 1 >= Math.floor(total / pageSize) + 1 ? true : false}
+                                        title={page + 1 >= Math.floor(total / pageSize) + 1 ? '' : "Ir a la última página"}
                                     >
                                         <BiSolidChevronsRight size={24} />
                                     </button>
