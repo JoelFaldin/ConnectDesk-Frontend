@@ -23,6 +23,8 @@ const Login = () => {
     const handleAuth = async (rut: string, password: string) => {
         try {
             const res = await handleRequest.verify(rut, password)
+            // console.log(res.token)
+            localStorage.setItem('jwt', res.token)
             if (res.access === 'admin')            {
                 navigate('/data/admin')
             } else if (res.access === 'superAdmin') {

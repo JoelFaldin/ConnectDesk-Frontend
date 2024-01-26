@@ -36,7 +36,8 @@ const CreateUser = () => {
         if (objectService.checkObject(newUser)) {
             const filterEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
             if (filterEmail.test(email)) {
-                handleRequests.createUser(newUser)
+                const jwtToken = localStorage.getItem('jwt')
+                handleRequests.createUser(newUser, jwtToken)
                 .then(res => {
                     alert(res.message)
                     setTimeout(() => {

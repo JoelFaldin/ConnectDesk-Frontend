@@ -217,16 +217,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             },
             // Este update data se puede utilizar para resolver el onblur cuando se edita un dato!
             updateData: (rowIndex: number, columnId: string, value: unknown) => {
-                dataService.updateUser(cancelChange[rowIndex].rut, columnId, value, rol)
-                    .then(res => {
-                        alert(res.message)
-                        console.log('test')
-                        rerender()
-                    })
-                    .catch(error => {
-                        alert(error.response.data.error)
-                        rerender()
-                    })
+                console.log(rowIndex, columnId, value)
+                
+
             },
             removeRow: async (rowIndex: number) => {
                 const decision = window.confirm('¿Quieres eliminar este usuario?')
@@ -312,7 +305,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         document.getElementById('newUserFormBG')?.classList.toggle('opacity-0')
         document.getElementById('newUserFormBG')?.classList.toggle('opacity-50')
         document.getElementById('newUserForm')?.classList.toggle('translate-x-full')
+        
     }
+
+    // console.log(localStorage.getItem('jwt'))
 
     return (
        <div className="p-2">

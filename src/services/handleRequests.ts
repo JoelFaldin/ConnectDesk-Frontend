@@ -26,13 +26,13 @@ const getUsers = async (pageSize: number, page: number) => {
 }
 
 const verify = async (rut: string, password: string): Promise<any> => {
-    const request = axios.post('/api/verify', { rut, password })
-    const res = await request
+    const request = axios.post('/api/verifyLogin', { rut, password })
+    const res = await request  
     return res.data
 }
 
-const createUser = async (object: userModel) => {
-    const request = axios.post('/api/newUser', object)
+const createUser = async (object: userModel, jwt: any) => {
+    const request = axios.post('/api/newUser', object, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
