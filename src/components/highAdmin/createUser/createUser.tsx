@@ -254,7 +254,7 @@ const CreateUser = () => {
                                 id="submit"
                                 name="submit"
                                 type="submit"
-                                className="block w-full mt-4 py-1.5 text-xl text-center items-center rounded-md bg-indigo-200 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:bg-indigo-200 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
+                                className="block w-full mt-4 py-1.5 text-xl text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
                                 onClick={handleNewUser}
                                 value="Registrar Usuario" />
                         </div>

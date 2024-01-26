@@ -316,7 +316,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     return (
        <div className="p-2">
-            <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md table">
+            <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md">
                 <thead>
                     {table.getHeaderGroups().map(group => (
                         <tr key={group.id}>
