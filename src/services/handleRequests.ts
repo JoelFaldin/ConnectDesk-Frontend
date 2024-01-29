@@ -37,8 +37,9 @@ const createUser = async (object: userModel, jwt: any) => {
     return res.data
 }
 
-const updateUser = async (rut: string, column: string, value: unknown, rol: string) => {
-    const request = axios.put(`/api/update/${rut}`, { column, value, rol })
+const updateUser = async (rut: string, column: string, value: unknown, jwt: any) => {
+    console.log(rut, column, value, jwt)
+    const request = axios.put(`/api/update/${rut}`, { column, value }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
