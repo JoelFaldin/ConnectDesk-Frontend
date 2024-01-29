@@ -38,7 +38,7 @@ const createUser = async (object: userModel, jwt: any) => {
 }
 
 const updateUser = async (rut: string, column: string, value: unknown, jwt: any) => {
-    console.log(rut, column, value, jwt)
+    // console.log(rut, column, value, jwt)
     const request = axios.put(`/api/update/${rut}`, { column, value }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
@@ -72,7 +72,23 @@ const deleteDependency = async (index: number, jwt: any) => {
     const request = axios.delete(`/api/deleteDependency/${index}`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
-
 }
 
-export default { getUsers, verify, createUser, updateUser, deleteUser, makeAdmin, getDependencies, createDependency, deleteDependency }
+const updateDependency = async (newName: string | null, newDirection: string | null, index: number, jwt: any) => {
+    const request = axios.put(`/api/updateDependency/${index}`, { newName, newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
+    return res.data
+}
+
+export default {
+    getUsers,
+    verify,
+    createUser,
+    updateUser, 
+    deleteUser,
+    makeAdmin,
+    getDependencies,
+    createDependency,
+    deleteDependency,
+    updateDependency,
+}

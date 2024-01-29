@@ -90,9 +90,9 @@ const createDependency = () => {
                                 <li key={`Grupo${index}`} className="pb-2 mb-8">
                                 {editState !== index ? (
                                     <>
-                                    <p key={`Dependencia${index}`}>{element.nombre}</p>
-                                    <i key={`Direccion${index}`} className="block text-base pl-4">{element.direccion}</i>
-                                    <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} index={index} rerender={rerender} />
+                                        <p key={`Dependencia${index}`}>{element.nombre}</p>
+                                        <i key={`Direccion${index}`} className="block text-base pl-4">{element.direccion}</i>
+                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} index={index} rerender={rerender} />
                                     </>
                                 ) : (
                                     <EditDependency key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} rerender={rerender} />
