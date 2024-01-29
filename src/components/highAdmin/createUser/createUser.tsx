@@ -1,10 +1,13 @@
 import { ChangeEvent, useState } from "react"
 import handleRequests from "../../../services/handleRequests"
-import { useNavigate } from "react-router-dom"
 import objectService from "../../../services/checkObject"
 import rutFormater from "../../../services/rutFormater"
 
-const CreateUser = () => {
+interface newUser {
+    onFinish: () => void
+}
+
+const CreateUser: React.FC<newUser> = ({ onFinish }) => {
     const [newRut, setNewRut] = useState('')
     const [nombres, setNombres] = useState('')
     const [apellidos, setApellidos] = useState('')
@@ -15,8 +18,6 @@ const CreateUser = () => {
     const [anexo, setAnexo] = useState('')
     const [password, setPassword] = useState('')
     const [rol, setRol] = useState('user')
-
-    const navigate = useNavigate()
 
     const handleNewUser = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
@@ -40,9 +41,17 @@ const CreateUser = () => {
                 handleRequests.createUser(newUser, jwtToken)
                 .then(res => {
                     alert(res.message)
-                    setTimeout(() => {
-                        navigate('/data/superadmin')
-                    }, 500)
+                    setNewRut('')
+                    setNombres('')
+                    setApellidos('')
+                    setEmail('')
+                    setDependencias('Municipalidad norte')
+                    setDireccion('')
+                    setNumMuni('')
+                    setAnexo('')
+                    setPassword('')
+                    setRol('user')
+                    onFinish()
                 })
                 .catch(error => {
                     alert(error.response.data.error)

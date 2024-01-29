@@ -4,6 +4,7 @@ import CreateUser from '../../highAdmin/createUser/createUser'
 import handleRequests from '../../../services/handleRequests'
 import dataService from '../../../services/handleRequests'
 import { ChangeEvent, useEffect, useState } from 'react'
+import { Message } from "../message/Message"
 
 // Celdas editables:
 import EditAdminCell from './superAdminEdit/EditAdminCell'
@@ -16,7 +17,7 @@ import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsLeft } from "react-icons/bi"
 import { BiSolidChevronLeft } from "react-icons/bi"
 import { BiSolidUserPlus } from "react-icons/bi"
-import { Message } from "../message/Message"
+import { BiImageAdd } from "react-icons/bi";
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -88,6 +89,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             .then(data => {
                 setData(data.content)
                 setCancelChange(data.content)
+                setTotal(data.totalData)
             })
     }
 
@@ -249,7 +251,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }, [page])
 
     const handleFilter = (column: string) => {
-        // console.log(filterOrder === 'asc' ? `${filterOrder} => desc` : filterOrder === 'desc' ? `${filterOrder} => normal` : `${filterOrder} => asc`)
         if (filterOrder === 'asc') {
             handleFilterRequest.toggleFilter(column, 'desc', searchValue, searchColumn, pageSize, page)
                 .then(res => {
@@ -305,10 +306,16 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         document.getElementById('newUserFormBG')?.classList.toggle('opacity-0')
         document.getElementById('newUserFormBG')?.classList.toggle('opacity-50')
         document.getElementById('newUserForm')?.classList.toggle('translate-x-full')
-        
+        rerender()
     }
 
-    // console.log(localStorage.getItem('jwt'))
+    const handleNewDependency = () => {
+        console.log('test')
+        document.getElementById('newDependencyContainer')?.classList.toggle('invisible')
+        document.getElementById('newDependencyBG')?.classList.toggle('opacity-0')
+        document.getElementById('newDependencyBG')?.classList.toggle('opacity-50')
+        document.getElementById('newDependency')?.classList.toggle('translate-x-full')
+    }
 
     return (
        <div className="p-2">
@@ -370,11 +377,19 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 <tfoot className='bg-gradient-to-t from-to-slate-300 to-white'>
                     {rol === 'superAdmin' ?
                         <tr>
-                            <td colSpan={10}>
+                            <td colSpan={9}>
+                                <div className="flex justify-end pt-2">
+                                    <button className="flex mr-2 gap-1 rounded-md bg-yellow-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-200 hover:ring-yellow-500" onClick={handleNewDependency}>
+                                        <BiImageAdd className="text-yellow-700" size={24} />
+                                        <span className="text-base text-yellow-700 pr-1">Crear dependencias</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td colSpan={2}>
                                 <div className="flex justify-end pt-2">
                                     <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
                                         <BiSolidUserPlus className="text-green-700" size={24} />
-                                        <span className="text-base text-green-700">Crear usuario</span>
+                                        <span className="text-base text-green-700 pr-1">Crear usuario</span>
                                     </button>
                                 </div>
                             </td>
@@ -462,10 +477,17 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     </tr>
                 </tfoot>
             </table>
+            {/* Slideovers: */}
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
                 <div id="newUserForm" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateUser />
+                    <CreateUser onFinish={handleNewUser} />
+                </div>
+            </div>
+            <div id="newDependencyContainer" className="fixed inset-0 w-full h-full invisible">
+                <div id="newDependencyBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDependency}></div>
+                <div id="newDependency" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
+                    <p>test</p>
                 </div>
             </div>
             { showMessage ? 
