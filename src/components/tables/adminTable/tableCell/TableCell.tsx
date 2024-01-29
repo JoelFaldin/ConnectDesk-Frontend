@@ -20,11 +20,56 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         // Acá se puede enviar la información a la tabla principal
         table.options.meta?.updateData(row.index, column.id, value)
     }
-    
-    // console.log(column.id)
 
     if (tableMeta?.newRows[row.id]) {
-        return column.id !== 'rol' ? (
+        return column.id === 'dependencias' ? (
+            <select className="items-center py-0.5 pl-1 max-w-fit" onChange={event => setValue(event.target.value)}>
+                <option value="">{value}</option>
+                {
+                    value === 'Municipalidad norte' ?
+                    (
+                        <>
+                            <option value="Municipalidad centro">Municipalidad centro</option>
+                            <option value="Municipalidad sur">Municipalidad sur</option>
+                        </>
+                    ) : value === 'Municipalidad centro' ? (
+                        <>
+                            <option value="Municipalidad norte">Municipalidad norte</option>
+                            <option value="Municipalidad sur">Municipalidad sur</option>
+                        </>
+                    ) : (
+                        <>
+                            <option value="Municipalidad norte">Municipalidad norte</option>
+                            <option value="Municipalidad centro">Municipalidad centro</option>
+                        </>
+                    )
+                }
+            </select>
+        ) : column.id === 'rol' ? (
+            <select className="items-center py-0.5 pl-1 w-fit" onChange={event => setValue(event.target.value)}>
+                <option value="">{value}</option>
+                {
+                    value === 'user' ?
+                    (
+                        <>
+                            <option value="admin">admin</option>
+                            <option value="superAdmin">superAdmin</option>
+                        </>
+                    ) : value === 'admin' ?
+                    (
+                        <>
+                            <option value="user">user</option>
+                            <option value="superAdmin">superAdmin</option>
+                        </>
+                    ) : (
+                        <>
+                            <option value="user">user</option>
+                            <option value="admin">admin</option>
+                        </>
+                    )
+                }
+            </select>
+        ) : (
             <input
                 value={value}
                 onChange={event => setValue(event.target.value)}
@@ -33,12 +78,6 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
                 type={column.columnDef.meta?.type || "text"}
                 className='items-center py-0.5 px-1 w-[96%] max-w-36'
             />
-        ) : (
-            <select className="items-center py-0.5 pl-3 w-full" onChange={event => setValue(event.target.value)}>
-                <option value="user">user</option>
-                <option value="admin">admin</option>
-                <option value="superAdmin">superAdmin</option>
-            </select>
         )
     }
     return <span>{value}</span>
