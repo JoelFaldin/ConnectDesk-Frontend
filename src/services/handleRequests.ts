@@ -56,4 +56,16 @@ const makeAdmin = async (rut: string) => {
     return res.data
 }
 
-export default { getUsers, verify, createUser, updateUser, deleteUser, makeAdmin }
+const getDependencies = async () => {
+    const request = axios.get('/api/dependencies')
+    const res = await request
+    return res.data
+}
+
+const createDependency = async (nombre: string, direccion: string, jwt: any) => {
+    const request = axios.post('/api/newDependency', { nombre, direccion }, { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
+    return res.data
+}
+
+export default { getUsers, verify, createUser, updateUser, deleteUser, makeAdmin, getDependencies, createDependency }

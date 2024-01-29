@@ -18,6 +18,7 @@ import { BiSolidChevronsLeft } from "react-icons/bi"
 import { BiSolidChevronLeft } from "react-icons/bi"
 import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi";
+import CreateDependency from '../../highAdmin/createDependency/createDependency'
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -310,11 +311,11 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     const handleNewDependency = () => {
-        console.log('test')
         document.getElementById('newDependencyContainer')?.classList.toggle('invisible')
         document.getElementById('newDependencyBG')?.classList.toggle('opacity-0')
         document.getElementById('newDependencyBG')?.classList.toggle('opacity-50')
         document.getElementById('newDependency')?.classList.toggle('translate-x-full')
+        rerender()
     }
 
     return (
@@ -487,7 +488,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="newDependencyContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newDependencyBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDependency}></div>
                 <div id="newDependency" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <p>test</p>
+                    <CreateDependency onFinish={handleNewDependency} />
                 </div>
             </div>
             { showMessage ? 

@@ -37,10 +37,10 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
         if (objectService.checkObject(newUser)) {
             const filterEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
             if (filterEmail.test(email)) {
-                const jwtToken = localStorage.getItem('jwt')
-                handleRequests.createUser(newUser, jwtToken)
-                .then(res => {
-                    alert(res.message)
+                try {
+                    const jwtToken = localStorage.getItem('jwt')
+                    const userCrated = await handleRequests.createUser(newUser, jwtToken)
+                    alert(userCrated.message)
                     setNewRut('')
                     setNombres('')
                     setApellidos('')
@@ -52,10 +52,9 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                     setPassword('')
                     setRol('user')
                     onFinish()
-                })
-                .catch(error => {
-                    alert(error.response.data.error)
-                })
+                } catch(error) {
+                    alert(`Hubo un error: ${error}`)
+                }
             } else {
                 alert('Formato de correo incorrecto!')
             }
@@ -128,7 +127,8 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     type="text"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={handleRut} value={newRut}
+                                    onChange={handleRut}
+                                    value={newRut}
                                     placeholder="12.345.678-9" 
                                 />
                             </div>
@@ -260,11 +260,10 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                 className="block w-full rounded border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 onChange={handlePassword}
                             />
-                            <input
-                                id="submit"
+                            <input id="submit"
                                 name="submit"
                                 type="submit"
-                                className="block w-full mt-4 py-1.5 text-xl text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
+                                className="block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
                                 onClick={handleNewUser}
                                 value="Registrar Usuario" />
                         </div>
