@@ -1,27 +1,29 @@
 import { ChangeEvent, useState } from "react"
+import ActionButtons from "./actionButtons"
 
 interface editDep {
     index: number,
-    element: any
+    element: any,
+    toggleEdit: () => void,
+    rerender: () => void
 }
 
-const EditDependency: React.FC<editDep> = ({ index, element }) => {
+const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, rerender }) => {
     const [editNombre, setEditNombre] = useState<string | null>(null)
     const [editDireccion, setEditDireccion] = useState<string | null>(null)
 
     const handleEditDependency = (event: ChangeEvent<HTMLInputElement>) => {
         setEditNombre(event.target.value)
-        console.log(event.target.value)
     }
 
     const handleEditDirection = (event: ChangeEvent<HTMLInputElement>) => {
         setEditDireccion(event.target.value)
-        console.log(event.target.value)
     }
+
 
     return (
         <>
-            <li key={`EditarGrupo${index}`} className="py-2">
+            <span key={`EditarGrupo${index}`} className="py-2">
                 <label htmlFor={`EditarDep${index}`} className="block text-sm font-medium leading-6 text-gray-900">Nombre:</label>
                 <input key={`EditarDependencia${index}`}
                     type="text"
@@ -39,7 +41,8 @@ const EditDependency: React.FC<editDep> = ({ index, element }) => {
                     onChange={handleEditDirection}
                     className={"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"}
                 />
-            </li>
+            </span>
+            <ActionButtons toggleEdit={toggleEdit} index={index} rerender={rerender} />
         </>
     )
 }

@@ -1,17 +1,14 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import dataService from '../../../services/handleRequests'
 import EditDependency from "./editDependency"
-
-interface newDependency {
-    onFinish: () => void
-}
+import ActionButtons from "./actionButtons"
 
 interface dependencies {
     nombre: string,
     direccion: string
 }
 
-const createDependency: React.FC<newDependency> = ({ onFinish }) => {
+const createDependency = () => {
     const [dependencies, setDependencies] = useState<any>([])
     const [newDependencyName, setNewDependencyName] = useState('')
     const [newDireccion, setNewDireccion] = useState('')
@@ -19,7 +16,7 @@ const createDependency: React.FC<newDependency> = ({ onFinish }) => {
     const [dirWarning, setDirWarning] = useState(false)
     
     // Estados para editar:
-    const [editState, setEditState] = useState(false)
+    const [editState, setEditState] = useState<null | number>(null)
 
     useEffect(() => {
         dataService.getDependencies()
@@ -27,6 +24,11 @@ const createDependency: React.FC<newDependency> = ({ onFinish }) => {
                 setDependencies(data)
             })
     }, [])
+
+    const rerender = async () => {
+        const rerender = await dataService.getDependencies()
+        setDependencies(rerender)
+    }
 
     const handleDependencyName = (event: ChangeEvent<HTMLInputElement>) => {
         setNewDependencyName(event.target.value)
@@ -60,11 +62,17 @@ const createDependency: React.FC<newDependency> = ({ onFinish }) => {
                 await dataService.createDependency(newDependencyName, newDireccion, jwtToken)
                 setNewDependencyName('')
                 setNewDireccion('')
-                onFinish()
+                // Rerendering the list:
+                rerender()
+                alert('Dependencia creada!')
             } catch(error: any) {
                 alert(error.response.data.error)
             }
         }
+    }
+
+    const toggleEdit = (index: number) => {
+        setEditState(prev => prev === index ? null : index)
     }
 
     return (
@@ -72,29 +80,31 @@ const createDependency: React.FC<newDependency> = ({ onFinish }) => {
             <h1 className="text-center text-xl font-bold p-4 mt-32">Gestionar dependencias</h1>
             <div className="max-w-6/12 mt-10 mx-auto flex justify-center gap-8">
                 <section className="pr-9 max-w-fit">
-                    <h2 className="text-xl font-medium pb-2">Dependencias existentes:</h2>
+                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Dependencias existentes:</h2>
                     {
-                        dependencies.length === 0
-                            ? <p>No hay dependencias creadas.</p>
-                            : <ul>
-                                {
-                                    dependencies.map((element: dependencies, index: number) => {
-                                        return editState ? (
-                                            <li key={`Grupo${index}`} className="pb-2">
-                                                <p key={`Dependencia${index}`}>{element.nombre}</p>
-                                                <i key={`Direccion${index}`} className="text-base pl-4">{element.direccion}</i>
-                                            </li>
-                                        ) : (
-                                            <EditDependency index={index} element={element} />
-                                        )
-                                    })
-                                }
+                        dependencies.length === 0 ? (
+                            <p>No hay dependencias creadas.</p>
+                        ) : (
+                            <ul>
+                            {dependencies.map((element: dependencies, index: number) => (
+                                <li key={`Grupo${index}`} className="pb-2 mb-8">
+                                {editState !== index ? (
+                                    <>
+                                    <p key={`Dependencia${index}`}>{element.nombre}</p>
+                                    <i key={`Direccion${index}`} className="block text-base pl-4">{element.direccion}</i>
+                                    <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} index={index} rerender={rerender} />
+                                    </>
+                                ) : (
+                                    <EditDependency key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} rerender={rerender} />
+                                )}
+                                </li>
+                            ))}
                             </ul>
-                            
+                        )
                     }
                 </section>
                 <section className="pl-9 max-w-fit">
-                    <h2 className="text-xl font-medium pb-2">Crear dependencia:</h2>
+                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Crear dependencia:</h2>
                     <form>
                         <label htmlFor="dependencyName" className="block text-sm font-medium leading-6 text-gray-900">Nombre de la dependencia:</label>
                         <input id="dependencyName"

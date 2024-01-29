@@ -488,7 +488,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="newDependencyContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newDependencyBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDependency}></div>
                 <div id="newDependency" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateDependency onFinish={handleNewDependency} />
+                    <CreateDependency />
                 </div>
             </div>
             { showMessage ? 

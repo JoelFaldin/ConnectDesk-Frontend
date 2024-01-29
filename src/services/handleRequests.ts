@@ -68,4 +68,11 @@ const createDependency = async (nombre: string, direccion: string, jwt: any) => 
     return res.data
 }
 
-export default { getUsers, verify, createUser, updateUser, deleteUser, makeAdmin, getDependencies, createDependency }
+const deleteDependency = async (index: number, jwt: any) => {
+    const request = axios.delete(`/api/deleteDependency/${index}`, { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
+    return res.data
+
+}
+
+export default { getUsers, verify, createUser, updateUser, deleteUser, makeAdmin, getDependencies, createDependency, deleteDependency }
