@@ -98,7 +98,6 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
 
     const handleAnexo = (event: ChangeEvent<HTMLInputElement>) => {
         const filterAnexo = /[^0-9]/g
-        console.log(event.target.value.length)
         if (filterAnexo.test(event.target.value) || event.target.value.length + 1 === 6) {
             return
         } else {

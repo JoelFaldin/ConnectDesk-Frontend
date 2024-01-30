@@ -33,7 +33,6 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
         }
     }
 
-
     return (
         <>
             <span key={`EditarGrupo${index}`} className="py-2">
@@ -43,7 +42,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                     id={`EditarDep${index}`}
                     value={editNombre ?? element.nombre}
                     onChange={handleEditDependency}
-                    className={"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"}
+                    className={"block min-w-fit w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"}
                 />
 
                 <label htmlFor={`EditarDir${index}`} className="block text-sm font-medium leading-6 text-gray-900">Dirección:</label>
@@ -52,7 +51,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                     id={`EditarDir${index}`}
                     value={editDireccion ?? element.direccion}
                     onChange={handleEditDirection}
-                    className={"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-2"}
+                    className={"block min-w-fit w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-2"}
                 />
             </span>
             <span>

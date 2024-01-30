@@ -21,52 +21,30 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         table.options.meta?.updateData(row.index, column.id, value)
     }
 
+    const dependencies = ['Municipalidad norte', 'Municipalidad centro', 'Municipalidad sur']
+    const generateDependencies = dependencies.filter(item => item !== value)
+
+    const userValue = ['user', 'admin', 'superAdmin']
+    const generateUserValue = userValue.filter(item => item !== value)
+
     if (tableMeta?.newRows[row.id]) {
         return column.id === 'dependencias' ? (
+            // Renderizando dependencias generadas con generateDependencies():
             <select className="items-center py-0.5 pl-1 max-w-fit" onChange={event => setValue(event.target.value)}>
                 <option value="">{value}</option>
                 {
-                    value === 'Municipalidad norte' ?
-                    (
-                        <>
-                            <option value="Municipalidad centro">Municipalidad centro</option>
-                            <option value="Municipalidad sur">Municipalidad sur</option>
-                        </>
-                    ) : value === 'Municipalidad centro' ? (
-                        <>
-                            <option value="Municipalidad norte">Municipalidad norte</option>
-                            <option value="Municipalidad sur">Municipalidad sur</option>
-                        </>
-                    ) : (
-                        <>
-                            <option value="Municipalidad norte">Municipalidad norte</option>
-                            <option value="Municipalidad centro">Municipalidad centro</option>
-                        </>
-                    )
+                    generateDependencies.map(item => {
+                        return <option key={`dependencyItem${item}`} value={`${item}`}>{item}</option>
+                    })
                 }
             </select>
         ) : column.id === 'rol' && localStorage.getItem('userRol') === 'superAdmin' ? (
             <select className="items-center py-0.5 pl-1 w-fit" onChange={event => setValue(event.target.value)}>
                 <option value="">{value}</option>
                 {
-                    value === 'user' ?
-                    (
-                        <>
-                            <option value="admin">admin</option>
-                            <option value="superAdmin">superAdmin</option>
-                        </>
-                    ) : value === 'admin' ?
-                    (
-                        <>
-                            <option value="user">user</option>
-                            <option value="superAdmin">superAdmin</option>
-                        </>
-                    ) : (
-                        <>
-                            <option value="user">user</option>
-                            <option value="admin">admin</option>
-                        </>
-                    )
+                    generateUserValue.map(item => {
+                        return <option key={`userValueItem${item}`} value={`${item}`}>{item}</option>
+                    })
                 }
             </select>
         ) : column.id === 'rol' && localStorage.getItem('userRol') === 'admin' ? (
