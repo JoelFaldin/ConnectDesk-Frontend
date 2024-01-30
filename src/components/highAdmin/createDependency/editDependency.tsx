@@ -6,10 +6,12 @@ interface editDep {
     index: number,
     element: any,
     toggleEdit: () => void,
+    edit: boolean,
+    number: number | null,
     rerender: () => void
 }
 
-const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, rerender }) => {
+const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, number, rerender }) => {
     const [editNombre, setEditNombre] = useState<string | null>(null)
     const [editDireccion, setEditDireccion] = useState<string | null>(null)
     const initialValues = [element.nombre, element.direccion]
@@ -54,7 +56,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, rerende
                 />
             </span>
             <span>
-                <ActionButtons toggleEdit={toggleEdit} index={index} rerender={rerender} />
+                <ActionButtons toggleEdit={toggleEdit} edit={edit} index={index} number={number} rerender={rerender} />
                 <button
                     className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-200"
                     onClick={handleUpdate}

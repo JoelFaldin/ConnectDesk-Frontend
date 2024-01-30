@@ -78,7 +78,7 @@ const createDependency = () => {
     return (
         <div className="h-fit">
             <h1 className="text-center text-xl font-bold p-4 mt-32">Gestionar dependencias</h1>
-            <div className="max-w-6/12 mt-10 mx-auto flex justify-center gap-8">
+            <div className="max-w-6/12 mt-10 mx-auto flex justify-center">
                 <section className="pr-9 max-w-fit">
                     <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Dependencias existentes:</h2>
                     {
@@ -92,10 +92,10 @@ const createDependency = () => {
                                     <>
                                         <p key={`Dependencia${index}`}>{element.nombre}</p>
                                         <i key={`Direccion${index}`} className="block text-base pl-4">{element.direccion}</i>
-                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} index={index} rerender={rerender} />
+                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} index={index} number={editState} rerender={rerender} />
                                     </>
                                 ) : (
-                                    <EditDependency key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} rerender={rerender} />
+                                    <EditDependency key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} number={editState} rerender={rerender} />
                                 )}
                                 </li>
                             ))}
@@ -104,7 +104,7 @@ const createDependency = () => {
                     }
                 </section>
                 <section className="pl-9 max-w-fit">
-                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Crear dependencia:</h2>
+                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Crear nueva dependencia:</h2>
                     <form>
                         <label htmlFor="dependencyName" className="block text-sm font-medium leading-6 text-gray-900">Nombre de la dependencia:</label>
                         <input id="dependencyName"
