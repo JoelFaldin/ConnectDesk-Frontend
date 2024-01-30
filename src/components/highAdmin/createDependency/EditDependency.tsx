@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react"
-import ActionButtons from "./actionButtons"
+import ActionButtons from "../button/ActionButtons"
 import dataService from '../../../services/handleRequests'
 
 interface editDep {

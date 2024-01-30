@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import dataService from '../../../services/handleRequests'
 import EditDependency from './editDependency'
-import ActionButtons from './actionButtons'
+import ActionButtons from '../button/ActionButtons'
 
 interface dependencies {
     nombre: string,

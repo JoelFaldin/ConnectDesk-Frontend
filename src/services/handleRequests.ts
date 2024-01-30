@@ -31,7 +31,7 @@ const verify = async (rut: string, password: string): Promise<any> => {
     return res.data
 }
 
-const createUser = async (object: userModel, jwt: any) => {
+const createUser = async (object: userModel, jwt: string | null) => {
     const request = axios.post('/api/newUser', object, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
@@ -62,27 +62,41 @@ const getDependencies = async () => {
     return res.data
 }
 
-const createDependency = async (nombre: string, direccion: string, jwt: any) => {
+const createDependency = async (nombre: string, direccion: string, jwt: string | null) => {
     const request = axios.post('/api/newDependency', { nombre, direccion }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
-const deleteDependency = async (index: number, jwt: any) => {
+const deleteDependency = async (index: number, jwt: string | null) => {
     const request = axios.delete(`/api/deleteDependency/${index}`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
-const updateDependency = async (newName: string | null, newDirection: string | null, index: number, jwt: any) => {
+const updateDependency = async (newName: string | null, newDirection: string | null, index: number, jwt: string | null) => {
     const request = axios.put(`/api/updateDependency/${index}`, { newName, newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
-const uploadExcel = async (excel: string, total: number) => {
-    console.log(excel)
-    console.log(total)
+const downloadExcel = async (users: number | string, page: number, jwt: string | null) => {
+    const getExcel = axios.get('/api/download', {
+        params: {
+            users,
+            page,
+            jwt
+        },
+        headers: {
+            Authorization: `Bearer ${jwt}`
+        }
+    })
+    const res = await getExcel
+    return res.data
+}
+
+const uploadExcel = async () => {
+    console.log('it should upload an excel file now!')
 }
 
 export default {
@@ -96,5 +110,6 @@ export default {
     createDependency,
     deleteDependency,
     updateDependency,
+    downloadExcel,
     uploadExcel
 }

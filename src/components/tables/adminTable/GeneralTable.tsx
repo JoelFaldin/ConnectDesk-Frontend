@@ -1,5 +1,5 @@
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
-import CreateDependency from '../../highAdmin/createDependency/createDependency'
+import CreateDependency from '../../highAdmin/createDependency/CreateDependency'
 import handleFilterRequest from '../../../services/handleFilterRequest'
 import CreateUser from '../../highAdmin/createUser/createUser'
 import handleRequests from '../../../services/handleRequests'
@@ -20,7 +20,7 @@ import { BiSolidChevronLeft } from "react-icons/bi"
 import { RiFileExcel2Fill } from "react-icons/ri";
 import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi";
-import ExcelComponent from '../../highAdmin/createDependency/excelComponent'
+import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -315,24 +315,22 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         setSearchValue(event.target.value)
         setSearchColumn(column)
         
-        const timeout = setTimeout(() => {
-            handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
-                .then(res => {
-                    res.filteredData.length === 0 ? setShowMessage(true) : setShowMessage(false)
-                    setData(res.filteredData)
-                    setCancelChange(res.filteredData)
-                    setTotal(res.totalData)
-                })
+        const timeout = setTimeout(async () => {
+            const res = await handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
+            res.filteredData.length === 0 ? setShowMessage(true) : setShowMessage(false)
+
+            setData(res.filteredData)
+            setCancelChange(res.filteredData)
+            setTotal(res.totalData)
         }, 500)
         return () => clearTimeout(timeout)
     }
 
-    const handlePageSize = (event: ChangeEvent<HTMLSelectElement>) => {
-        handleRequests.getUsers(Number(event.target.value), page)
-            .then(res => {
-                setData(res.content)
-                setCancelChange(res.content)
-            })
+    const handlePageSize = async (event: ChangeEvent<HTMLSelectElement>) => {
+        const req = await handleRequests.getUsers(Number(event.target.value), page)
+        setData(req.content)
+        setCancelChange(req.content)
+
         table.setPageSize(Number(event.target.value))
         setPageSize(Number(event.target.value))
     }
