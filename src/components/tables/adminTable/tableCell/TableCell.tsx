@@ -45,7 +45,7 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
                     )
                 }
             </select>
-        ) : column.id === 'rol' ? (
+        ) : column.id === 'rol' && localStorage.getItem('userRol') === 'superAdmin' ? (
             <select className="items-center py-0.5 pl-1 w-fit" onChange={event => setValue(event.target.value)}>
                 <option value="">{value}</option>
                 {
@@ -69,6 +69,8 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
                     )
                 }
             </select>
+        ) : column.id === 'rol' && localStorage.getItem('userRol') === 'admin' ? (
+            <span>{value}</span>
         ) : (
             <input
                 value={value}
