@@ -1,4 +1,5 @@
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
+import CreateDependency from '../../highAdmin/createDependency/createDependency'
 import handleFilterRequest from '../../../services/handleFilterRequest'
 import CreateUser from '../../highAdmin/createUser/createUser'
 import handleRequests from '../../../services/handleRequests'
@@ -16,9 +17,10 @@ import { BiSolidChevronsRight } from "react-icons/bi"
 import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsLeft } from "react-icons/bi"
 import { BiSolidChevronLeft } from "react-icons/bi"
+import { RiFileExcel2Fill } from "react-icons/ri";
 import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi";
-import CreateDependency from '../../highAdmin/createDependency/createDependency'
+import ExcelComponent from '../../highAdmin/createDependency/excelComponent'
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -113,6 +115,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             })
         rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
     }, [])
+
+    useEffect(() => {
+        rerender()
+    }, [page])
     
     const columns = [
         columnhelper.group({
@@ -347,6 +353,14 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         rerender()
     }
 
+    const handleExcelFiles = () => {
+        document.getElementById('handleExcelContainer')?.classList.toggle('invisible')
+        document.getElementById('handleExcelBG')?.classList.toggle('opacity-0')
+        document.getElementById('handleExcelBG')?.classList.toggle('opacity-50')
+        document.getElementById('handleExcel')?.classList.toggle('translate-x-full')
+        rerender()
+    }
+
     return (
        <div className="p-2">
             <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md">
@@ -407,7 +421,16 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 <tfoot className='bg-gradient-to-t from-to-slate-300 to-white'>
                     {rol === 'superAdmin' ?
                         <tr>
-                            <td colSpan={9}>
+                            <td>
+                                <div className="flex justify-end pt-2">
+                                    <button className="flex mr-2 gap-1 rounded-md bg-lime-50 px-1 py-1 ring-1 ring-inset ring-lime-600/20 hover:bg-lime-200 hover:ring-lime-500" onClick={handleExcelFiles}>
+                                        <RiFileExcel2Fill className="text-lime-700" size={22} />
+                                        <span className="text-base text-lime-700 pr-1">Gestionar Excel</span>
+                                    </button>
+                                </div>
+                            </td>
+
+                            <td>
                                 <div className="flex justify-end pt-2">
                                     <button className="flex mr-2 gap-1 rounded-md bg-yellow-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-200 hover:ring-yellow-500" onClick={handleNewDependency}>
                                         <BiImageAdd className="text-yellow-700" size={24} />
@@ -415,7 +438,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     </button>
                                 </div>
                             </td>
-                            <td colSpan={2}>
+
+                            <td>
                                 <div className="flex justify-end pt-2">
                                     <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
                                         <BiSolidUserPlus className="text-green-700" size={24} />
@@ -484,7 +508,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     <button
                                         className={page + 1 > Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
                                         onClick={() => {
-                                            console.log(page)
                                             setPage(page + 1)
                                             
                                         }}
@@ -518,6 +541,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 <div id="newDependencyBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDependency}></div>
                 <div id="newDependency" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
                     <CreateDependency />
+                </div>
+            </div>
+            <div id="handleExcelContainer" className="fixed inset-0 w-full h-full invisible">
+                <div id="handleExcelBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleExcelFiles}></div>
+                <div id="handleExcel" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
+                    <ExcelComponent total={ Math.floor(total / pageSize) + 1 } />
                 </div>
             </div>
             { showMessage ? 

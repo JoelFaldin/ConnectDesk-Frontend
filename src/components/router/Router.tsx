@@ -6,6 +6,9 @@ import HighAdminPage from "../highAdmin/highAdminPage"
 import UserPage from "../user/UserPage"
 
 const RouterComponent = () => {
+    const test = () => {
+    }
+
     return (
         <div className="router">
             <Router>
@@ -14,7 +17,7 @@ const RouterComponent = () => {
                     <Route path="/data/superadmin" element={<HighAdminPage />} />
                     <Route path="/data/admin" element={<AdminPage />} />
                     <Route path="/data/user" element={<UserPage />} />
-                    <Route path="/createUser" element={<CreateUser />} />
+                    <Route path="/createUser" element={<CreateUser onFinish={test} />} />
                 </Routes>
             </Router>
         </div>

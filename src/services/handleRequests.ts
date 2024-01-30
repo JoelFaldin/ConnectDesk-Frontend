@@ -80,6 +80,11 @@ const updateDependency = async (newName: string | null, newDirection: string | n
     return res.data
 }
 
+const uploadExcel = async (excel: string, total: number) => {
+    console.log(excel)
+    console.log(total)
+}
+
 export default {
     getUsers,
     verify,
@@ -91,4 +96,5 @@ export default {
     createDependency,
     deleteDependency,
     updateDependency,
+    uploadExcel
 }
