@@ -9,10 +9,15 @@ const AdminEditCell: React.FC<editCell> = ({ row, table }) => {
     const meta = table.options.meta
 
     const setNewRows = (name: string) => {
+        if (name === 'guardar') {
+            meta?.uploadData()
+        }
+        
         meta?.setNewRows((old: []) => ({
             ...old,
             [row.id]: !old[row.id]
         }))
+
         if (name !== 'editar') {
             meta?.revertData(row.index, name === 'cancelar')
         }

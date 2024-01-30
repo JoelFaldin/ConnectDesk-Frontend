@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 interface tableCell {
     getValue: () => '',
@@ -11,14 +11,26 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
     const initialValue = getValue()
     const tableMeta = table.options.meta
     const [value, setValue] = useState('')
+    const [newValue, setNewValue] = useState<string | null>(null)
 
     useEffect(() => {
         setValue(initialValue)
     }, [initialValue])
 
-    const blur = () => {
-        // Acá se puede enviar la información a la tabla principal
-        table.options.meta?.updateData(row.index, column.id, value)
+    // const blur = () => {
+    //     // Acá se puede enviar la información a la tabla principal
+    //     table.options.meta?.updateData(row.index, column.id, value)
+    //     console.log('test', row.index, column.id, value)
+    // }
+
+    const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+        setNewValue(event.target.value)
+        table.options.meta?.updateData(row.index, column.id, event.target.value)
+    }
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setNewValue(event.target.value)
+        table.options.meta?.updateData(row.index, column.id, event.target.value)
     }
 
     const dependencies = ['Municipalidad norte', 'Municipalidad centro', 'Municipalidad sur']
@@ -30,7 +42,7 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
     if (tableMeta?.newRows[row.id]) {
         return column.id === 'dependencias' ? (
             // Renderizando dependencias generadas con generateDependencies():
-            <select className="items-center py-0.5 pl-1 max-w-fit" onChange={event => setValue(event.target.value)}>
+            <select className="items-center py-0.5 pl-1 max-w-fit" onChange={handleSelect}>
                 <option value="">{value}</option>
                 {
                     generateDependencies.map(item => {
@@ -39,8 +51,9 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
                 }
             </select>
         ) : column.id === 'rol' && localStorage.getItem('userRol') === 'superAdmin' ? (
-            <select className="items-center py-0.5 pl-1 w-fit" onChange={event => setValue(event.target.value)}>
-                <option value="">{value}</option>
+            // Renderizando valores de usuario generados con generateUserValue():
+            <select className="items-center py-0.5 pl-1 w-fit" onChange={handleSelect}>
+                <option value={value}>{value}</option>
                 {
                     generateUserValue.map(item => {
                         return <option key={`userValueItem${item}`} value={`${item}`}>{item}</option>
@@ -51,10 +64,9 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
             <span>{value}</span>
         ) : (
             <input
-                value={value}
-                onChange={event => setValue(event.target.value)}
-                // Este onBlur es la fuente de todos los males!!!!
-                onBlur={blur}
+                value={newValue ?? value}
+                onChange={handleChange}
+                // onBlur={blur}
                 type={column.columnDef.meta?.type || "text"}
                 className='items-center py-0.5 px-1 w-[96%] max-w-36'
             />

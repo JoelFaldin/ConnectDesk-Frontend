@@ -37,9 +37,9 @@ const createUser = async (object: userModel, jwt: any) => {
     return res.data
 }
 
-const updateUser = async (rut: string, column: string, value: unknown, jwt: any) => {
-    // console.log(rut, column, value, jwt)
-    const request = axios.put(`/api/update/${rut}`, { column, value }, { headers: { Authorization: `Bearer ${jwt}` } })
+const updateUser = async (values: object, pageSize: number, page: number, jwt: string | null) => {
+    console.log(values, pageSize, jwt)
+    const request = axios.put(`/api/update/`, { values, pageSize, page }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }

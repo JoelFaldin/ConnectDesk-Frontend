@@ -1,4 +1,4 @@
-import { ColumnDef, useReactTable, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, flexRender, RowData, createColumnHelper, getSortedRowModel, VisibilityState } from '@tanstack/react-table'
+import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
 import handleFilterRequest from '../../../services/handleFilterRequest'
 import CreateUser from '../../highAdmin/createUser/createUser'
 import handleRequests from '../../../services/handleRequests'
@@ -24,6 +24,7 @@ import CreateDependency from '../../highAdmin/createDependency/createDependency'
 declare module '@tanstack/react-table' {
     interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: unknown) => void,
+        uploadData: any,
         newRows: any,
         setNewRows: any,
         revertData: any,
@@ -66,6 +67,12 @@ interface adminTable {
     rol: string
 }
 
+interface arrayInterface {
+    rowIndex: number,
+    columnId: string,
+    value: unknown
+}
+
 // Componente principal:
 const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     // Info de la tabla:
@@ -85,6 +92,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [filterOrder, setFilterOrder] = useState('normal')
     const [showMessage, setShowMessage] = useState(false)
     
+    // Estado para guardar temporáneamente datos editados:
+    const [tempData, setTempData] = useState<arrayInterface[]>([])
+
     const rerender = () => {
         dataService.getUsers(pageSize, page)
             .then(data => {
@@ -197,9 +207,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             columnVisibility
         },
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         meta: {
             newRows,
@@ -218,11 +225,37 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 }
                 rerender()
             },
-            // Este update data se puede utilizar para resolver el onblur cuando se edita un dato!
-            updateData: async (rowIndex: number, columnId: string, value: unknown) => {
-                const jwtToken = localStorage.getItem('jwt')
-                const request = await dataService.updateUser(cancelChange[rowIndex].rut, columnId, value, jwtToken)
-                console.log(request)
+            updateData: (rowIndex: number, columnId: string, value: unknown) => {
+                const newData: arrayInterface = {
+                    rowIndex,
+                    columnId,
+                    value
+                }
+                
+                setTempData(prev => [
+                    ...prev,
+                    newData
+                ])
+            },
+            uploadData: async () => {
+                if (confirm('¿Quieres actualizar este usuario?')) {
+                    const jwtToken = localStorage.getItem('jwt')
+
+                    const filteredData = Object.values(
+                        tempData.reduce((acc: any, item: any) => {
+                          const key = `${item.rowIndex}_${item.columnId}`
+                          acc[key] = item
+                          return acc
+                        }, {})
+                      )
+                    try {
+                        await dataService.updateUser(filteredData, pageSize, page, jwtToken)
+                        console.log('Usuario actualizado!!!!')
+                        rerender()
+                    } catch(error) {
+                        console.log(error)
+                    }
+                }
             },
             removeRow: async (rowIndex: number) => {
                 const decision = window.confirm('¿Quieres eliminar este usuario?')
@@ -246,10 +279,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             }
         },  
     })
-
-    useEffect(() => {
-        rerender()
-    }, [page])
 
     const handleFilter = (column: string) => {
         if (filterOrder === 'asc') {
