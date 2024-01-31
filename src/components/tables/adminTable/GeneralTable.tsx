@@ -479,12 +479,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className="px-2 py-1 rounded w-8"
                                     />
                                 </span>
-                                <select value={pageSize} onChange={handlePageSize}
-                                    className="px-2 py-1 rounded w-32"
-                                    >
-                                    { [10, 20, 30, 40, 50].map(number => {
-                                        return <option key={number} value={number}>Mostrar {number}</option>
-                                    }) }
+                                <select onChange={handlePageSize} className="px-2 py-1 rounded w-32">
+                                    {[10, 20, 30, 40, 50].map((number) => (
+                                        <option key={number} value={number}>
+                                        Mostrar {number}
+                                        </option>
+                                    ))}
                                 </select>
                                 <span className="flex items-center gap-1">
                                     <button
