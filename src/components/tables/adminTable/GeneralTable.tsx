@@ -1,5 +1,6 @@
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
-import CreateDependency from '../../highAdmin/createDependency/CreateDependency'
+import CreateDependency from '../../highAdmin/createDependency/createDependency'
+import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
 import handleFilterRequest from '../../../services/handleFilterRequest'
 import CreateUser from '../../highAdmin/createUser/createUser'
 import handleRequests from '../../../services/handleRequests'
@@ -20,7 +21,6 @@ import { BiSolidChevronLeft } from "react-icons/bi"
 import { RiFileExcel2Fill } from "react-icons/ri";
 import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi";
-import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -352,6 +352,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     const handleExcelFiles = () => {
+        console.log('yo')
         document.getElementById('handleExcelContainer')?.classList.toggle('invisible')
         document.getElementById('handleExcelBG')?.classList.toggle('opacity-0')
         document.getElementById('handleExcelBG')?.classList.toggle('opacity-50')
@@ -544,7 +545,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="handleExcelContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="handleExcelBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleExcelFiles}></div>
                 <div id="handleExcel" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <ExcelComponent total={ Math.floor(total / pageSize) + 1 } />
+                    <ExcelComponent onFinish={handleExcelFiles} />
                 </div>
             </div>
             { showMessage ? 

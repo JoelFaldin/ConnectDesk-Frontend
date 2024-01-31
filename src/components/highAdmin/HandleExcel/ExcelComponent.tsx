@@ -2,13 +2,18 @@ import { ChangeEvent, useState } from "react"
 import dataService from '../../../services/handleRequests'
 import { RiFileExcel2Line } from "react-icons/ri";
 
-const ExcelComponent = (total: any) => {
-    const [excel, setExcel] = useState('')
+interface excelComp {
+    onFinish: () => void
+}
+
+const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
+    const [excel, setExcel] = useState<File | null>()
     const [userQuantity, setUserQuantity] = useState<number | string>('todo')
     const [selectPage, setSelectPage] = useState(1)
+    const [fileInput, setFileInput] = useState(0)
 
     const handleExcel = (event: ChangeEvent<HTMLInputElement>) => {
-        setExcel(event.target.value)
+        setExcel(event.target.files?.[0])
     }
 
     const handlePage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -16,9 +21,18 @@ const ExcelComponent = (total: any) => {
         setSelectPage(numberPage)
     }
 
-    const uploadExcel = () => {
-        if (excel !== '') {
-            dataService.uploadExcel()
+    const uploadExcel = async () => {
+        const jwtToken = localStorage.getItem('jwt')
+        try {
+            const req = await dataService.uploadExcel(excel, jwtToken)
+            alert(req.message)
+            setTimeout(() => {
+                setExcel(null)
+                setFileInput(prev => prev + 1)
+            }, 500)
+            onFinish()
+        } catch(error) {
+            console.log(error)
         }
     }
 
@@ -26,6 +40,7 @@ const ExcelComponent = (total: any) => {
         const jwtToken = localStorage.getItem('jwt')
         try {
             await dataService.downloadExcel(userQuantity, selectPage, jwtToken)
+            console.log('Archivo descargado!')
         } catch(error) {
             console.log(error)
         }
@@ -48,12 +63,13 @@ const ExcelComponent = (total: any) => {
                         onChange={handleExcel}
                     />
                     <button
-                        className={excel === '' ? "cursor-default w-fit inline-flex items-center rounded bg-gray-200 px-2 py-1 text-xs font-medium text-gray-500" : "w-fit inline-flex items-center rounded-md bg-green-200 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-400 hover:ring-green-900"}
-                        disabled={excel === '' ? true : false}
+                        className={!excel ? "cursor-default w-fit inline-flex items-center rounded bg-gray-200 px-2 py-1 text-xs font-medium text-gray-500" : "w-fit inline-flex items-center rounded-md bg-green-200 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-400 hover:ring-green-900"}
+                        disabled={!excel ? true : false}
                         onClick={uploadExcel}
                     >
                         <span className="text-base">Subir archivo</span>
                     </button>
+                    <p className="pt-4 text-xs">Nota: No puedes subir el mismo archivo múltiples veces.</p>
                 </section>
 
                 <section className="max-w-xl">

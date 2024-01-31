@@ -80,6 +80,21 @@ const updateDependency = async (newName: string | null, newDirection: string | n
     return res.data
 }
 
+const uploadExcel = async (excel: File | null | undefined, jwt: string | null) => {
+    const formData = new FormData()
+    formData.append('excelFile', excel as Blob)
+
+    const request = axios.post('/api/uploadExcel', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${jwt}`
+        }
+    })
+
+    const res = await request
+    return res.data
+}
+
 const downloadExcel = async (users: number | string, page: number, jwt: string | null) => {
     const getExcel = await axios.get('/api/download', {
         params: {
@@ -106,10 +121,6 @@ const downloadExcel = async (users: number | string, page: number, jwt: string |
     return res.data
 }
 
-const uploadExcel = async () => {
-    console.log('it should upload an excel file now!')
-}
-
 export default {
     getUsers,
     verify,
@@ -121,6 +132,6 @@ export default {
     createDependency,
     deleteDependency,
     updateDependency,
-    downloadExcel,
-    uploadExcel
+    uploadExcel,
+    downloadExcel
 }
