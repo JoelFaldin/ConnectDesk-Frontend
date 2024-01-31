@@ -91,23 +91,35 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     // Valores para los filtros:
     const [searchValue, setSearchValue] = useState('')
     const [searchColumn, setSearchColumn] = useState('')
+    const [filterColumn, setFilterColumn] = useState('')
     const [filterOrder, setFilterOrder] = useState('normal')
     const [showMessage, setShowMessage] = useState(false)
     
     // Estado para guardar temporáneamente datos editados:
     const [tempData, setTempData] = useState<arrayInterface[]>([])
 
-    const rerender = () => {
-        dataService.getUsers(pageSize, page)
-            .then(data => {
-                setData(data.content)
-                setCancelChange(data.content)
-                setTotal(data.totalData)
-            })
+    const rerender = async () => {
+        if (filterColumn !== '') {
+            const users = await dataService.getFilteredUsers(filterColumn, filterOrder, searchValue, searchColumn, pageSize, page)
+            // console.log(users)
+            setData(users.content)
+            setCancelChange(users.content)
+            setTotal(users.totalData)
+        } else {
+            console.log('filterCol no tiene un valor!')
+            try {
+                const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page)
+                setData(users.content)
+                setCancelChange(users.content)
+                setTotal(users.totalData)
+            } catch(error) {
+                console.log(error)
+            }
+        }
     }
 
     useEffect(() => {
-        dataService.getUsers(page, pageSize)
+        dataService.getUsers(searchValue, searchColumn, pageSize, page)
             .then(data => {
                 setData(data.content)
                 setCancelChange(data.content)
@@ -127,6 +139,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             columns: [
                 columnhelper.accessor('rut', {
                     header: 'Rut',
+                    id: 'rut',
                     cell: TableCell,
                     meta: {
                         type: "text"
@@ -161,6 +174,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             columns: [
                 columnhelper.accessor('rol', {
                     header: 'Rol',
+                    id: 'rol',
                     cell: TableCell,
                     meta: {
                         type: 'text'
@@ -287,25 +301,26 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     })
 
     const handleFilter = (column: string) => {
+        setFilterColumn(column)
         if (filterOrder === 'asc') {
             handleFilterRequest.toggleFilter(column, 'desc', searchValue, searchColumn, pageSize, page)
                 .then(res => {
-                    setData(res.filteredData)
-                    setCancelChange(res.filteredData)
+                    setData(res.content)
+                    setCancelChange(res.content)
                 })
             setFilterOrder('desc')
         } else if (filterOrder === 'desc') {
             handleFilterRequest.toggleFilter(column, 'normal', searchValue, searchColumn, pageSize, page)
                 .then(res => {
-                    setData(res.filteredData)
-                    setCancelChange(res.filteredData)
+                    setData(res.content)
+                    setCancelChange(res.content)
                 })
             setFilterOrder('normal')
         } else if (filterOrder === 'normal') {
             handleFilterRequest.toggleFilter(column, 'asc', searchValue, searchColumn, pageSize, page)
                 .then(res => {
-                    setData(res.filteredData)
-                    setCancelChange(res.filteredData)
+                    setData(res.content)
+                    setCancelChange(res.content)
                 })
             setFilterOrder('asc')
         }
@@ -317,17 +332,17 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         
         const timeout = setTimeout(async () => {
             const res = await handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
-            res.filteredData.length === 0 ? setShowMessage(true) : setShowMessage(false)
+            res.content.length === 0 ? setShowMessage(true) : setShowMessage(false)
 
-            setData(res.filteredData)
-            setCancelChange(res.filteredData)
+            setData(res.content)
+            setCancelChange(res.content)
             setTotal(res.totalData)
         }, 500)
         return () => clearTimeout(timeout)
     }
 
     const handlePageSize = async (event: ChangeEvent<HTMLSelectElement>) => {
-        const req = await handleRequests.getUsers(Number(event.target.value), page)
+        const req = await handleRequests.getUsers(searchValue, searchColumn, Number(event.target.value), page)
         setData(req.content)
         setCancelChange(req.content)
 
@@ -475,9 +490,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                             if (!Number.isNaN(fakeNumber)) {
                                                 setPage(Number(event.target.value))
                                                 rerender()
+                                            } if (fakeNumber > Math.floor(total / pageSize) + 1) {
+                                                setPage(Math.floor(total / pageSize) + 1)
+                                                rerender()
                                             }
                                         }}
-                                        className="px-2 py-1 rounded w-8"
+                                        className={ Number(page) < 10 ? "px-2 py-1 rounded w-8" : "px-1 py-1 rounded w-8" }
                                     />
                                 </span>
                                 <select onChange={handlePageSize} className="px-2 py-1 rounded w-32">
@@ -532,19 +550,19 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             {/* Slideovers: */}
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
-                <div id="newUserForm" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
+                <div id="newUserForm" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
                     <CreateUser onFinish={handleNewUser} />
                 </div>
             </div>
             <div id="newDependencyContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newDependencyBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDependency}></div>
-                <div id="newDependency" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
+                <div id="newDependency" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
                     <CreateDependency />
                 </div>
             </div>
             <div id="handleExcelContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="handleExcelBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleExcelFiles}></div>
-                <div id="handleExcel" className="w-2/5 h-full duration-300 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
+                <div id="handleExcel" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
                     <ExcelComponent onFinish={handleExcelFiles} />
                 </div>
             </div>

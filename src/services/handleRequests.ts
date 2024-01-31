@@ -14,15 +14,42 @@ interface userModel {
     anexoMunicipal: string
 }
 
-const getUsers = async (pageSize: number, page: number) => {
-        const request = axios.get(`${url}`, {
+const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number) => {
+    const request = axios.get(`${url}`, {
         params: {
-            page,
-            pageSize
+            searchValue,
+            searchColumn,
+            pageSize,
+            page
         }
     })
-    const employee = await request
-    return employee.data
+    const res = await request
+    return res.data
+}
+
+const getFilteredUsers = async (column: string, order: string, searchValue: string, searchColumn: string, pageSize: number, page: number) => {
+    console.log('test')
+    let sendOrder = ''
+    if (order === 'asc') {
+        sendOrder = 'desc'
+    } else if (order === 'desc') {
+        sendOrder = 'normal'
+    } else if (order === 'normal') {
+        sendOrder = 'asc'
+    }
+
+    const request = axios.get(`/api/filterUsers/`, {
+        params: {
+            column,
+            sendOrder,
+            searchValue,
+            searchColumn,
+            pageSize,
+            page
+        }
+    })
+    const res = await request
+    return res.data
 }
 
 const verify = async (rut: string, password: string): Promise<any> => {
@@ -123,6 +150,7 @@ const downloadExcel = async (users: number | string, page: number, jwt: string |
 
 export default {
     getUsers,
+    getFilteredUsers,
     verify,
     createUser,
     updateUser, 

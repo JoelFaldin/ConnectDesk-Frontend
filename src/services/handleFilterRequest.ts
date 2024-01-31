@@ -31,7 +31,6 @@ const searchFilter = async (column: string, value: string, pageSize: number, pag
     })
     const sorteredData = request
     return sorteredData.data
-
 }
 
 export default { toggleFilter, searchFilter }
