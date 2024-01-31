@@ -81,7 +81,7 @@ const updateDependency = async (newName: string | null, newDirection: string | n
 }
 
 const downloadExcel = async (users: number | string, page: number, jwt: string | null) => {
-    const getExcel = axios.get('/api/download', {
+    const getExcel = await axios.get('/api/download', {
         params: {
             users,
             page,
@@ -89,9 +89,20 @@ const downloadExcel = async (users: number | string, page: number, jwt: string |
         },
         headers: {
             Authorization: `Bearer ${jwt}`
-        }
+        },
+        responseType: 'blob'
     })
-    const res = await getExcel
+
+    const blob = new Blob([getExcel.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+    
+    const anchor = document.createElement('a')
+    anchor.href = window.URL.createObjectURL(blob)
+    anchor.download = 'userdata.xlsx'
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
+
+    const res = getExcel
     return res.data
 }
 

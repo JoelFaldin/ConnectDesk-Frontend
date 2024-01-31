@@ -25,21 +25,10 @@ const ExcelComponent = (total: any) => {
     const downloadExcel = async () => {
         const jwtToken = localStorage.getItem('jwt')
         try {
-            const excelFile = await dataService.downloadExcel(userQuantity, selectPage, jwtToken)
-            const blob = new Blob([excelFile], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-    
-            const link = document.createElement('a')
-            link.href = URL.createObjectURL(blob)
-            link.download = 'DataDeUsuarios.xlsx'
-    
-            document.body.appendChild(link)
-            link.click()
-            
-            document.body.removeChild(link)
+            await dataService.downloadExcel(userQuantity, selectPage, jwtToken)
         } catch(error) {
             console.log(error)
         }
-        
     }
 
     return (
