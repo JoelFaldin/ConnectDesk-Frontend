@@ -439,7 +439,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id} className="border-b border-solid border-gray-300 odd:bg-white even:bg-#f3f3f3" >
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
+                                <td key={cell.id} className={ (row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin') && rol !== 'user'
                                     ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 wax-w-1 max-h-2"
                                     : "text-left py-2 px-2.5 border-r border-solid border-gray-300 wax-w-1 max-h-2"}
                                 >
