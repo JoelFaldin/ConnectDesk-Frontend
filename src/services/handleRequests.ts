@@ -27,8 +27,13 @@ const getUsers = async (searchValue: string, searchColumn: string, pageSize: num
     return res.data
 }
 
+const getUserData = async (jwt: string | null) => {
+    const request = axios.get('/api/getUserInfo', { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
+    return res.data
+}
+
 const getFilteredUsers = async (column: string, order: string, searchValue: string, searchColumn: string, pageSize: number, page: number) => {
-    console.log('test')
     let sendOrder = ''
     if (order === 'asc') {
         sendOrder = 'desc'
@@ -167,6 +172,7 @@ const downloadTemplate = async () => {
 
 export default {
     getUsers,
+    getUserData,
     getFilteredUsers,
     verify,
     createUser,
