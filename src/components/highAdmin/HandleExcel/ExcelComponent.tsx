@@ -46,6 +46,15 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
         }
     }
 
+    const downloadTemplate = async () => {
+        try {
+            await dataService.downloadTemplate()
+            console.log('Plantilla descargada!')
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className="h-fit">
             <h1 className="text-center text-xl font-bold p-4 mt-32">Manejo de archivos Excel</h1>
@@ -54,7 +63,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
             </div>
             <span className="max-w-6/12 mt-10 mx-auto flex flex-col justify-center ml-20 gap-16">
                 <section className="max-w-xl flex flex-col">
-                    <h2 className="text-base font-bold underline decoration-solid underline-offset-2 py-4 font-medium">Sube archivos al sistema</h2>
+                    <h2 className="text-base font-bold underline decoration-solid underline-offset-2 py-4">Sube archivos al sistema</h2>
                     <p className="pb-4 font-medium">Estos datos serán (si la operación tiene éxito) añadidos a la base de datos!</p>
                     <input 
                         type="file"
@@ -69,11 +78,18 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                     >
                         <span className="text-base">Subir archivo</span>
                     </button>
-                    <p className="pt-4 text-xs">Nota: No puedes subir el mismo archivo múltiples veces.</p>
+                    <p className="pt-4 text-xs mb-4">Nota: No puedes subir el mismo archivo múltiples veces.</p>
+                    <button
+                        className="w-fit inline-flex items-center rounded-md bg-green-200 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-400 hover:ring-green-900"
+                        onClick={downloadTemplate}
+                    >
+                        <span className="text-base">Descargar plantilla</span>
+                    </button>
+                    <p className="pt-4 text-xs">Esta plantilla lleva los headers necesarios para ser leídos por el sistema.</p>
                 </section>
 
                 <section className="max-w-xl">
-                    <h3 className="text-base font-bold underline decoration-solid underline-offset-2 py-4 font-medium">Descarga los usuarios</h3>
+                    <h3 className="text-base underline decoration-solid underline-offset-2 py-4 font-medium">Descarga los usuarios</h3>
                     <label
                         htmlFor="userQuantity"
                         className="block text-sm font-medium leading-6 text-gray-900"

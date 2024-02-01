@@ -148,6 +148,23 @@ const downloadExcel = async (users: number | string, page: number, jwt: string |
     return res.data
 }
 
+const downloadTemplate = async () => {
+    const getTemplate = await axios.get('/api/template', {
+        responseType: 'blob'
+    })
+    const blob = new Blob([getTemplate.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+    
+    const anchor = document.createElement('a')
+    anchor.href = window.URL.createObjectURL(blob)
+    anchor.download = 'template.xlsx'
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
+
+    const res = getTemplate
+    return res.data
+}
+
 export default {
     getUsers,
     getFilteredUsers,
@@ -161,5 +178,6 @@ export default {
     deleteDependency,
     updateDependency,
     uploadExcel,
-    downloadExcel
+    downloadExcel,
+    downloadTemplate
 }

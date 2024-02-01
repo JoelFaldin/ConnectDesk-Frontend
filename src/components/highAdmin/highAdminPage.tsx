@@ -1,4 +1,4 @@
-import GeneralTable from "../tables/adminTable/GeneralTable"
+import GeneralTable from '../tables/adminTable/GeneralTable'
 
 const HighAdminPage = () => {
     
