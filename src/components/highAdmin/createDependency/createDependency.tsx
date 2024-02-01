@@ -23,7 +23,7 @@ const createDependency = () => {
             try{
                 const rerender = await dataService.getDependencies()
                 setDependencies(rerender.request)
-                console.log(rerender.message)
+                // console.log(rerender.message)
             } catch(error: any) {
                 console.log(error.response.data.error)
             }

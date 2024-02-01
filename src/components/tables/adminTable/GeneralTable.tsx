@@ -101,7 +101,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         if (filterColumn !== '') {
             try {
                 const users = await dataService.getFilteredUsers(filterColumn, filterOrder, searchValue, searchColumn, pageSize, page)
-                console.log(users.message)
+                // console.log(users.message)
                 setData(users.content)
                 setCancelChange(users.content)
                 setTotal(users.totalData)
@@ -112,7 +112,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             console.log('filterCol no tiene un valor!')
             try {
                 const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page)
-                console.log(users.message)
+                // console.log(users.message)
                 setData(users.content)
                 setCancelChange(users.content)
                 setTotal(users.totalData)
@@ -126,7 +126,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         const fetchData = async () => {
             try {
                 const data = await dataService.getUsers(searchValue, searchColumn, pageSize, page)
-                console.log(data.message)
+                // console.log(data.message)
                 setData(data.content)
                 setCancelChange(data.content)
                 setTotal(data.totalData)
