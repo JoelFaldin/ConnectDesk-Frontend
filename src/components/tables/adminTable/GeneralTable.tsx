@@ -3,7 +3,6 @@ import CreateDependency from '../../highAdmin/createDependency/createDependency'
 import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
 import handleFilterRequest from '../../../services/handleFilterRequest'
 import CreateUser from '../../highAdmin/createUser/createUser'
-import handleRequests from '../../../services/handleRequests'
 import dataService from '../../../services/handleRequests'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Message } from "../message/Message"
@@ -100,36 +99,43 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     const rerender = async () => {
         if (filterColumn !== '') {
-            const users = await dataService.getFilteredUsers(filterColumn, filterOrder, searchValue, searchColumn, pageSize, page)
-            // console.log(users)
-            setData(users.content)
-            setCancelChange(users.content)
-            setTotal(users.totalData)
-        } else {
-            console.log('filterCol no tiene un valor!')
             try {
-                const jwtToken = localStorage.getItem('jwt')
-
-                const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page, jwtToken)
+                const users = await dataService.getFilteredUsers(filterColumn, filterOrder, searchValue, searchColumn, pageSize, page)
+                console.log(users.message)
                 setData(users.content)
                 setCancelChange(users.content)
                 setTotal(users.totalData)
-            } catch(error) {
-                console.log(error)
+            } catch(error: any) {
+                console.log(error.response.data.error)
+            }
+        } else {
+            console.log('filterCol no tiene un valor!')
+            try {
+                const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page)
+                console.log(users.message)
+                setData(users.content)
+                setCancelChange(users.content)
+                setTotal(users.totalData)
+            } catch(error: any) {
+                console.log(error.response.data.error)
             }
         }
     }
 
     useEffect(() => {
-        const jwtToken = localStorage.getItem('jwt')
-
-        dataService.getUsers(searchValue, searchColumn, pageSize, page, jwtToken)
-            .then(data => {
+        const fetchData = async () => {
+            try {
+                const data = await dataService.getUsers(searchValue, searchColumn, pageSize, page)
+                console.log(data.message)
                 setData(data.content)
                 setCancelChange(data.content)
                 setTotal(data.totalData)
-            })
-        rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
+                rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
+            } catch(error: any) {
+                console.error(error.response.data.error)
+            }
+        }
+        fetchData()
     }, [])
 
     useEffect(() => {
@@ -273,19 +279,23 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         }, {})
                       )
                     try {
-                        await dataService.updateUser(filteredData, pageSize, page, jwtToken)
-                        console.log('Usuario actualizado!!!!')
+                        const update = await dataService.updateUser(filteredData, pageSize, page, jwtToken)
+                        console.log(update.message)
                         rerender()
-                    } catch(error) {
-                        console.log(error)
+                    } catch(error: any) {
+                        console.log(error.response.data.error)
                     }
                 }
             },
             removeRow: async (rowIndex: number) => {
                 const decision = window.confirm('¿Quieres eliminar este usuario?')
                 if (decision) {
-                    await dataService.deleteUser(cancelChange[rowIndex].rut)
-                    console.log('Usuario eliminado.')
+                    try {
+                        const deletion = await dataService.deleteUser(cancelChange[rowIndex].rut)
+                        console.log(deletion.message)
+                    } catch(error: any) {
+                        console.log(error.response.data.error)
+                    }
                 }
                 rerender()
             },
@@ -295,8 +305,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     try {
                         const request = await dataService.makeAdmin(cancelChange[rowIndex].rut)
                         console.log(request.message)
-                    } catch(error) {
-                        console.log(error)
+                    } catch(error: any) {
+                        console.log(error.response.data.error)
                     }
                     rerender()
                 }
@@ -346,14 +356,17 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     const handlePageSize = async (event: ChangeEvent<HTMLSelectElement>) => {
-        const jwtToken = localStorage.getItem('jwt')
-
-        const req = await handleRequests.getUsers(searchValue, searchColumn, Number(event.target.value), page, jwtToken)
-        setData(req.content)
-        setCancelChange(req.content)
-
-        table.setPageSize(Number(event.target.value))
-        setPageSize(Number(event.target.value))
+        try {
+            const req = await dataService.getUsers(searchValue, searchColumn, Number(event.target.value), page)
+            console.log(req.message)
+            setData(req.content)
+            setCancelChange(req.content)
+    
+            table.setPageSize(Number(event.target.value))
+            setPageSize(Number(event.target.value))
+        } catch(error: any) {
+            console.log(error.response.data.error)
+        }
     }
 
     const handleNewUser = () => {
@@ -439,7 +452,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         </tr>
                     ))}
                 </tbody>
-                <tfoot className='bg-gradient-to-t from-to-slate-300 to-white'>
+                <tfoot>
                     {rol === 'superAdmin' ?
                         <tr>
                             <td>

@@ -13,11 +13,6 @@ Normal user:
 13.111.111-1
 normaluserpass  
 
-Things to do:
-Generate a log for each operation done.
-Check going to the next page when sorting a column.
-
-
 
 # React + TypeScript + Vite
 

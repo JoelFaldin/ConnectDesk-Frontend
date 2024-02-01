@@ -11,10 +11,14 @@ interface actionButtons {
 const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, number, rerender }) => {
     const handleDelete = async () => {
         if (confirm('¿Quieres eliminar esta dependencia?')) {
-            const jwtToken = localStorage.getItem('jwt')
-            await dataService.deleteDependency(index, jwtToken)
-            // Rerendering the list:
-            rerender()
+            try {
+                const jwtToken = localStorage.getItem('jwt')
+                const deletion = await dataService.deleteDependency(index, jwtToken)
+                console.log(deletion.message)
+                rerender()
+            } catch(error: any) {
+                console.log(error.response.data.error)
+            }
         }
     }
         

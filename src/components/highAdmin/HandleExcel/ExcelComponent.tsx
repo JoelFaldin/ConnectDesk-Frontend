@@ -31,7 +31,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                 setFileInput(prev => prev + 1)
             }, 500)
             onFinish()
-            } catch(error: any) {
+        } catch(error: any) {
             alert(error.response.data.message)
             setExcel(null)
             setFileInput(prev => prev + 1)
@@ -43,18 +43,14 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
         try {
             await dataService.downloadExcel(userQuantity, selectPage, jwtToken)
             console.log('Archivo descargado!')
-        } catch(error) {
-            console.log(error)
+        } catch(error: any) {
+            console.log(error.response.data.error)
         }
     }
 
-    const downloadTemplate = async () => {
-        try {
-            await dataService.downloadTemplate()
+    const downloadTemplate = () => {
+            dataService.downloadTemplate()
             console.log('Plantilla descargada!')
-        } catch(error) {
-            console.log(error)
-        }
     }
 
     return (
@@ -65,7 +61,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
             </div>
             <span className="max-w-6/12 mt-10 mx-auto flex flex-col justify-center ml-20 gap-16">
                 <section className="max-w-xl flex flex-col">
-                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Sube archivos al sistema</h2>
+                    <h2 className="text-base font-bold underline decoration-solid underline-offset-2 py-4">Sube archivos al sistema</h2>
                     <p className="pb-4 font-medium">Estos datos serán (si la operación tiene éxito) añadidos a la base de datos!</p>
                     <input 
                         type="file"
@@ -91,7 +87,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                 </section>
 
                 <section className="max-w-xl">
-                    <h3 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Descarga los usuarios</h3>
+                    <h3 className="text-base underline decoration-solid underline-offset-2 py-4 font-medium">Descarga los usuarios</h3>
                     <label
                         htmlFor="userQuantity"
                         className="block text-sm font-medium leading-6 text-gray-900"
@@ -133,7 +129,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                         )
                     }
                     <button
-                        className="w-fit inline-flex items-center rounded-md bg-green-200 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-400 hover:ring-green-900"
+                        className="w-fit mt-4 inline-flex items-center rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-400 hover:ring-green-900"
                         onClick={downloadExcel}
                     >
                         <span className="text-base">Descargar archivo</span>

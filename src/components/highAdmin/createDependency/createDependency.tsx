@@ -19,15 +19,26 @@ const createDependency = () => {
     const [editState, setEditState] = useState<null | number>(null)
 
     useEffect(() => {
-        dataService.getDependencies()
-            .then(data => {
-                setDependencies(data)
-            })
+        const fetchDeps = async () => {
+            try{
+                const rerender = await dataService.getDependencies()
+                setDependencies(rerender.request)
+                console.log(rerender.message)
+            } catch(error: any) {
+                console.log(error.response.data.error)
+            }
+        }
+        fetchDeps()
     }, [])
 
     const rerender = async () => {
-        const rerender = await dataService.getDependencies()
-        setDependencies(rerender)
+        try{
+            const rerender = await dataService.getDependencies()
+            setDependencies(rerender.request)
+            console.log(rerender.message)
+        } catch(error: any) {
+            console.log(error.response.data.error)
+        }
     }
 
     const handleDependencyName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +70,8 @@ const createDependency = () => {
         } else {
             try {
                 const jwtToken = localStorage.getItem('jwt')
-                await dataService.createDependency(newDependencyName, newDireccion, jwtToken)
+                const newDependency = await dataService.createDependency(newDependencyName, newDireccion, jwtToken)
+                console.log(newDependency.message)
                 setNewDependencyName('')
                 setNewDireccion('')
                 // Rerendering the list:

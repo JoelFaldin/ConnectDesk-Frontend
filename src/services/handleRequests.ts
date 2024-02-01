@@ -1,5 +1,4 @@
 import axios from "axios"
-const url = '/api/data'
 
 interface userModel {
     rut: string,
@@ -14,24 +13,21 @@ interface userModel {
     anexoMunicipal: string
 }
 
-const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number, jwt: string | null) => {
-    const request = axios.get(`${url}`, {
+const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number) => {
+    const req = axios.get('/api/newData', {
         params: {
             searchValue,
             searchColumn,
             pageSize,
             page
-        },
-        headers: {
-            Authorization: `Bearer ${jwt}`
         }
     })
-    const res = await request
+    const res = await req
     return res.data
 }
 
 const getUserData = async (jwt: string | null) => {
-    const request = axios.get('/api/getUserInfo', { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.get('/api/getUserData', { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
@@ -73,7 +69,6 @@ const createUser = async (object: userModel, jwt: string | null) => {
 }
 
 const updateUser = async (values: object, pageSize: number, page: number, jwt: string | null) => {
-    console.log(values, pageSize, jwt)
     const request = axios.put(`/api/update/`, { values, pageSize, page }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
@@ -92,7 +87,7 @@ const makeAdmin = async (rut: string) => {
 }
 
 const getDependencies = async () => {
-    const request = axios.get('/api/dependencies')
+    const request = axios.get('/api/getDependencies')
     const res = await request
     return res.data
 }

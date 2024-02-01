@@ -52,8 +52,8 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                     setPassword('')
                     setRol('user')
                     onFinish()
-                } catch(error) {
-                    alert(`Hubo un error: ${error}`)
+                } catch(error: any) {
+                    alert(error.response.data.error)
                 }
             } else {
                 alert('Formato de correo incorrecto!')
@@ -98,7 +98,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
 
     const handleAnexo = (event: ChangeEvent<HTMLInputElement>) => {
         const filterAnexo = /[^0-9]/g
-        if (filterAnexo.test(event.target.value) || event.target.value.length + 1 === 10) {
+        if (filterAnexo.test(event.target.value) || event.target.value.length + 1 === 6) {
             return
         } else {
             setAnexo(event.target.value)
@@ -109,6 +109,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
         setPassword(event.target.value)
     }
 
+    // Las sections debiesen tener border color!
     return (
         <div className="h-fit">
             <div className="max-w-6/12 mt-32 mx-auto">
@@ -116,7 +117,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                     <form>
                     <div className="flex justify-center mt-7">
                         <section className="pr-9 max-w-fit">
-                            <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Información personal</h2>
+                            <h2 className="text-xl font-medium pb-2">Información personal</h2>
 
                             <label htmlFor="crearRut" className="block text-sm font-medium leading-6 text-gray-900">Rut:</label>
                             <div className="mb-2">
@@ -171,7 +172,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                         </section>
 
                         <section className="pl-9 max-w-fit">
-                            <h3 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Información de trabajo</h3>
+                            <h3 className="text-xl font-medium pb-2">Información de trabajo</h3>
 
                             <label htmlFor="rol" className="block text-sm font-medium leading-6 text-gray-900">Rol:</label>
                             <div className="mb-2">

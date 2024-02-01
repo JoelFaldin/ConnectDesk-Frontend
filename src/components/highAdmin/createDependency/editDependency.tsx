@@ -28,8 +28,13 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
         if ((editNombre ?? initialValues[0]) === initialValues[0] && (editDireccion ?? initialValues[1]) === initialValues[1]) {
             confirm('No has hecho cambios en ningún campo!')
         } else {
-            const jwtToken = localStorage.getItem('jwt')
-            await dataService.updateDependency(editNombre, editDireccion, index, jwtToken)
+            try {
+                const jwtToken = localStorage.getItem('jwt')
+                const update = await dataService.updateDependency(editNombre, editDireccion, index, jwtToken)
+                console.log(update.message)
+            } catch(error: any) {
+                console.log(error.response.data.error)
+            }
         }
     }
 

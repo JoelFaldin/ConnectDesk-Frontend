@@ -35,8 +35,9 @@ const Login = () => {
                 navigate('/data/user')
                 localStorage.setItem('userRol', 'user')
             }
+            console.log(res.message)
         } catch(error: any) {
-            alert(error.response.data.message)
+            console.log(error.response.data.message)
         }
     }
 
