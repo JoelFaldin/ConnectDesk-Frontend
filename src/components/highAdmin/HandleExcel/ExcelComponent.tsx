@@ -31,8 +31,10 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                 setFileInput(prev => prev + 1)
             }, 500)
             onFinish()
-        } catch(error) {
-            console.log(error)
+            } catch(error: any) {
+            alert(error.response.data.message)
+            setExcel(null)
+            setFileInput(prev => prev + 1)
         }
     }
 

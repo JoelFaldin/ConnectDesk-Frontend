@@ -86,7 +86,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     // Funcionamiento de la tabla:
     const [newRows, setNewRows] = useState({})
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false })
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false, 'rut': false, 'rol': false })
 
     // Valores para los filtros:
     const [searchValue, setSearchValue] = useState('')
@@ -382,7 +382,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     {table.getHeaderGroups().map(group => (
                         <tr key={group.id}>
                             {group.headers.map(header => (
-                                <th key={header.id} colSpan={header.colSpan} className="bg-zinc-200 border-2 border-solid border-gray-300 py-0.5 px-1 w-fit min-w-32">
+                                <th key={header.id} colSpan={header.colSpan} className="bg-zinc-200 border-2 border-solid border-gray-300 py-0.5 px-1">
                                     {header.isPlaceholder ? null : (
                                     <>
                                         <div className={header.id === 'edit' || header.id === '1_Muni info_rol' || header.id === '1_Persona_rut' ? '' : 'cursor-pointer select-none hover:underline hover:underline-offset-2'}
@@ -421,8 +421,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         <tr key={row.id} className="border-b border-solid border-gray-300 odd:bg-white even:bg-#f3f3f3" >
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id} className={ row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin'
-                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 w-fit max-h-2"
-                                    : "text-left py-2 px-2.5 border-r border-solid border-gray-300 w-fit max-h-2"}>
+                                    ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 wax-w-1 max-h-2"
+                                    : "text-left py-2 px-2.5 border-r border-solid border-gray-300 wax-w-1 max-h-2"}
+                                >
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
@@ -464,14 +465,14 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         </tr>
                     : ''}
                     <tr>
-                        <td colSpan={5}>
+                        <td colSpan={rol === 'user' ? 2 : 5}>
                             <div className="flex justify-start p-2">
                                 <p className="font-medium">
                                     Mostrando <span className="underline decoration-1 underline-offset-2">{data.length}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
                                 </p>
                             </div>
                         </td>
-                        <td colSpan={5}>
+                        <td colSpan={rol === 'user' ? 4 : 5}>
                             <div className="flex justify-end p-2 gap-6">
                                 <span className="flex items-center gap-2">
                                     <p>Página actual:</p>
