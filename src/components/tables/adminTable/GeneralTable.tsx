@@ -108,7 +108,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         } else {
             console.log('filterCol no tiene un valor!')
             try {
-                const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page)
+                const jwtToken = localStorage.getItem('jwt')
+
+                const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page, jwtToken)
                 setData(users.content)
                 setCancelChange(users.content)
                 setTotal(users.totalData)
@@ -119,7 +121,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     useEffect(() => {
-        dataService.getUsers(searchValue, searchColumn, pageSize, page)
+        const jwtToken = localStorage.getItem('jwt')
+
+        dataService.getUsers(searchValue, searchColumn, pageSize, page, jwtToken)
             .then(data => {
                 setData(data.content)
                 setCancelChange(data.content)
@@ -342,7 +346,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     const handlePageSize = async (event: ChangeEvent<HTMLSelectElement>) => {
-        const req = await handleRequests.getUsers(searchValue, searchColumn, Number(event.target.value), page)
+        const jwtToken = localStorage.getItem('jwt')
+
+        const req = await handleRequests.getUsers(searchValue, searchColumn, Number(event.target.value), page, jwtToken)
         setData(req.content)
         setCancelChange(req.content)
 

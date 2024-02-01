@@ -29,8 +29,18 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        console.log(column.id)
         setNewValue(event.target.value)
         table.options.meta?.updateData(row.index, column.id, event.target.value)
+    }
+
+    const handleAnexo = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value.length + 1 === 11) {
+            return
+        } else {
+            setNewValue(event.target.value)
+            table.options.meta?.updateData(row.index, column.id, event.target.value)
+        }
     }
 
     const dependencies = ['Municipalidad norte', 'Municipalidad centro', 'Municipalidad sur']
@@ -62,6 +72,15 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
             </select>
         ) : column.id === 'rol' && localStorage.getItem('userRol') === 'admin' ? (
             <span>{value}</span>
+        ) : column.id === 'anexoMunicipal' ? (
+            <>
+                <input
+                value={newValue ?? value}
+                onChange={handleAnexo}
+                type={column.columnDef.meta?.type}
+                className='items-center py-0.5 px-1 w-[96%] max-w-36'
+            />
+            </>
         ) : (
             <input
                 value={newValue ?? value}

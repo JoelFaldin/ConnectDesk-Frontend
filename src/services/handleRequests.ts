@@ -14,13 +14,16 @@ interface userModel {
     anexoMunicipal: string
 }
 
-const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number) => {
+const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number, jwt: string | null) => {
     const request = axios.get(`${url}`, {
         params: {
             searchValue,
             searchColumn,
             pageSize,
             page
+        },
+        headers: {
+            Authorization: `Bearer ${jwt}`
         }
     })
     const res = await request
