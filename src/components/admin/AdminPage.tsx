@@ -31,12 +31,21 @@ const AdminPage = () => {
         getData()
     }, [])
 
+    // Revisando si hay un usuario loggeado:
+    useEffect(() => {
+        const loggedUser = window.localStorage.getItem('loggedUser')
+        if (loggedUser) {
+            const user = JSON.parse(loggedUser)
+            setUserName(user.nombres)
+        }
+    }, [])
+
     // Función para manejar el logout:
     const handleLogout = async () => {
         try {
             await dataService.logout(token)
             // console.log(logout.message)
-            localStorage.removeItem('jwt')
+            localStorage.clear()
             navigate('/login')
         } catch(error: any) {
             console.log(error.response.data.error)

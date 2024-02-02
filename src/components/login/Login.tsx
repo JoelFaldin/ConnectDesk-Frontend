@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import handleRequest from '../../services/handleRequests'
 import rutFormater from '../../services/rutFormater'
@@ -11,7 +11,7 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState('')
 
     const navigate = useNavigate()
-
+    
     const handleRut = (event: ChangeEvent<HTMLInputElement>) => {        
         if (rutFormater(event.target.value)) {
             setRut(event.target.value)
@@ -43,6 +43,7 @@ const Login = () => {
                 navigate('/data/user')
                 localStorage.setItem('userRol', 'user')
             }
+            window.localStorage.setItem('loggedUser', JSON.stringify(res))
             console.log(res.message)
         } catch(error: any) {
             if (error.response.data.rut) {

@@ -25,6 +25,15 @@ const HighAdminPage = () => {
         getData()
     }, [])
 
+    // Revisando si hay un usuario loggeado:
+    useEffect(() => {
+        const loggedUser = window.localStorage.getItem('loggedUser')
+        if (loggedUser) {
+            const user = JSON.parse(loggedUser)
+            setUserName(user.nombres)
+        }
+    }, [])
+
     // Función para manejar el logout:
     const handleLogout = async () => {
         try {
