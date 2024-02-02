@@ -502,7 +502,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                 </p>
                             </div>
                         </td>
-                        <td colSpan={rol === 'user' ? 4 : 5}>
+                        <td colSpan={rol === 'user' ? 6 : 5}>
                             <div className="flex justify-end p-2 gap-6">
                                 <span className="flex items-center gap-2">
                                     <p>Página actual:</p>
