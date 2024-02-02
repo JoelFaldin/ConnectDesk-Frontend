@@ -1,3 +1,4 @@
+// Importando componentes y módulos:
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
 import CreateDependency from '../../highAdmin/createDependency/createDependency'
 import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
@@ -21,7 +22,7 @@ import { RiFileExcel2Fill } from "react-icons/ri";
 import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi"
 
-// Revisar esta declaración de módulo:
+// Declaración de módulo para la tabla:
 declare module '@tanstack/react-table' {
     interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: unknown) => void,
@@ -64,6 +65,7 @@ const defaultColumn: Partial<ColumnDef<Employee>> = {
 
 const columnhelper = createColumnHelper<Employee>()
 
+// Interfaces (definen los tipos de un elemento):
 interface adminTable {
     rol: string
 }
@@ -97,12 +99,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     // Estado para guardar temporáneamente datos editados:
     const [tempData, setTempData] = useState<arrayInterface[]>([])
 
+    // Función para rerenderizar la tabla. Se usa al cambiar de página:
     const rerender = async () => {
-        if (filterColumn !== '') {
-                const token = localStorage.getItem('jwt')
-                try {
+        const token = localStorage.getItem('jwt')
+        if (filterColumn !== '') {   
+            try {
                 const users = await dataService.getFilteredUsers(filterColumn, filterOrder, pageSize, page, token)
-                // console.log(users.message)
                 setData(users.content)
                 setCancelChange(users.content)
                 setTotal(users.totalData)
@@ -111,9 +113,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             }
         } else {
             try {
-                const token = localStorage.getItem('jwt')
                 const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page, token)
-                // console.log(users.message)
                 setData(users.content)
                 setCancelChange(users.content)
                 setTotal(users.totalData)
@@ -123,12 +123,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
+    // Función inicial que trae datos desde el servidor a la tabla:
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem('jwt')
                 const data = await dataService.getUsers(searchValue, searchColumn, pageSize, page, token)
-                // console.log(data.message)
                 setData(data.content)
                 setCancelChange(data.content)
                 setTotal(data.totalData)
@@ -140,10 +140,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         fetchData()
     }, [])
 
+    // Rerenderizando la tabla cada vez que cambia {page}:
     useEffect(() => {
         rerender()
     }, [page])
     
+    // Definición de las columnas:
     const columns = [
         columnhelper.group({
             id: 'Persona',
@@ -231,6 +233,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }),
     ]
 
+    // Definición de la tabla:
     const table = useReactTable({
         data,
         columns,
@@ -315,9 +318,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     rerender()
                 }
             }
-        },  
+        }
     })
 
+    // Actualizando el orden de una columna de la tabla:
     const handleFilter = (column: string) => {
         setFilterColumn(column)
         const token = localStorage.getItem('jwt')
@@ -345,6 +349,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
+    // Cambiando el valor de filtrado de una columna de la tabla:
     const handleSearchFilter = (event: ChangeEvent<HTMLInputElement>, column: any) => {
         setSearchValue(event.target.value)
         setSearchColumn(column)
@@ -361,6 +366,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         return () => clearTimeout(timeout)
     }
 
+    // Cambiando el tamaño de la página:
     const handlePageSize = async (event: ChangeEvent<HTMLSelectElement>) => {
         try {
             const token = localStorage.getItem('jwt')
@@ -376,6 +382,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
+    // Funciones para mostrar/ocultar las secciones de excel, dependencias y creación de usuario:
     const handleNewUser = () => {
         document.getElementById('newUserContainer')?.classList.toggle('invisible')
         document.getElementById('newUserFormBG')?.classList.toggle('opacity-0')
@@ -401,6 +408,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         rerender()
     }
 
+    // Tabla principal:
     return (
        <div className="p-2">
             <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md">
@@ -419,10 +427,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                             header.column.columnDef.header,
                                             header.getContext()
                                         )}
-                                        {{
-                                            asc: ' 🔼',
-                                            desc: ' 🔽',
-                                        }[header.column.getIsSorted() as string] ?? null}
                                         </div>
                                         {header.column.getCanFilter() ? (
                                         <div>
@@ -576,7 +580,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     </tr>
                 </tfoot>
             </table>
-            {/* Slideovers: */}
+            {/* Secciones: */}
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
                 <div id="newUserForm" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">

@@ -30,6 +30,9 @@ const searchFilter = async (column: string, value: string, pageSize: number, pag
             value,
             pageSize,
             page
+        },
+        headers: {
+            Authorization: `Bearer ${jwt}`
         }
     })
     const sorteredData = request

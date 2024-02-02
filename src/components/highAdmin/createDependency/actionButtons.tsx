@@ -1,5 +1,6 @@
 import dataService from '../../../services/handleRequests'
 
+// Interfaz para el componente:
 interface actionButtons {
     toggleEdit: () => void,
     edit: boolean,
@@ -9,6 +10,7 @@ interface actionButtons {
 }
 
 const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, number, rerender }) => {
+    // Función para eliminar una dependencia:
     const handleDelete = async () => {
         if (confirm('¿Quieres eliminar esta dependencia?')) {
             try {

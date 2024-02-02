@@ -1,5 +1,6 @@
 import { BiErrorCircle } from "react-icons/bi";
 
+// Renderizando una advertencia dependiendo de si la búsqueda tuvo resultados o no (generalTable.tsx, 604):
 export const Message = () => {
     return (
         <div className="flex flex-col bg-amber-100 w-fit py-4 px-4 rounded-lg items-center border-2 border-orange-300 my-4">

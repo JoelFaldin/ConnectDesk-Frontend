@@ -8,6 +8,7 @@ interface UserName {
 }
 
 const UserPage = () => {
+    // Estados para manejar el comportamiento del componente:
     const [userName, setUserName] = useState<UserName>()
     const navigate = useNavigate()
     const token = localStorage.getItem('jwt')
@@ -28,11 +29,11 @@ const UserPage = () => {
         getData()
     }, [])
 
+    // Función para manejar el logout:
     const handleLogout = async () => {
         try {
-            const token = localStorage.getItem('jwt')
-            const logout = await dataService.logout(token)
-            console.log(logout.message)
+            await dataService.logout(token)
+            // console.log(logout.message)
             localStorage.removeItem('jwt')
             navigate('/login')
         } catch(error: any) {

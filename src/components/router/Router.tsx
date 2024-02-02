@@ -6,6 +6,7 @@ import HighAdminPage from "../highAdmin/highAdminPage"
 import UserPage from "../user/UserPage"
 import RecoverPassword from "../login/RecoverPassword"
 
+// Definición de las rutas:
 const RouterComponent = () => {
     const test = () => {
     }

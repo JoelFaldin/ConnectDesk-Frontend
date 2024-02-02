@@ -1,14 +1,16 @@
-import { ChangeEvent, useState } from "react"
 import handleRequests from "../../../services/handleRequests"
 import objectService from "../../../services/checkObject"
 import rutFormater from "../../../services/rutFormater"
+import { ChangeEvent, useState } from "react"
 import { BiArrowBack } from "react-icons/bi"
 
+// Interfaz para el componente:
 interface newUser {
     onFinish: () => void
 }
 
 const CreateUser: React.FC<newUser> = ({ onFinish }) => {
+    // Estados para guardar la información del nuevo usuario:
     const [newRut, setNewRut] = useState('')
     const [nombres, setNombres] = useState('')
     const [apellidos, setApellidos] = useState('')
@@ -20,6 +22,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
     const [password, setPassword] = useState('')
     const [rol, setRol] = useState('user')
 
+    // Mandando los datos del nuevo usuario al servidor:
     const handleNewUser = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         const newUser = {
@@ -34,6 +37,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
             numMunicipal: numMuni,
             anexoMunicipal: anexo
         }
+
         // Revisando que el objeto no tenga campos vacíos:
         if (objectService.checkObject(newUser)) {
             const filterEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
@@ -42,6 +46,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                     const jwtToken = localStorage.getItem('jwt')
                     const userCrated = await handleRequests.createUser(newUser, jwtToken)
                     alert(userCrated.message)
+                    // Limpiando los datos una vez la petición se compelta:
                     setNewRut('')
                     setNombres('')
                     setApellidos('')
@@ -65,6 +70,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
         
     }
 
+    // Set de funciones que cambian el valor de cada elemento:
     const handleRut = (event: ChangeEvent<HTMLInputElement>) => {
         const rut = event.target.value
         if (rutFormater(rut)) {
@@ -110,7 +116,6 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
         setPassword(event.target.value)
     }
 
-    // Las sections debiesen tener border color!
     return (
         <div className="h-fit">
             <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>

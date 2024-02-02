@@ -1,7 +1,8 @@
+import dataService from '../../../services/handleRequests'
 import { ChangeEvent, useState } from "react"
 import ActionButtons from "./actionButtons"
-import dataService from '../../../services/handleRequests'
 
+// Interfaz para el componente:
 interface editDep {
     index: number,
     element: any,
@@ -16,6 +17,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
     const [editDireccion, setEditDireccion] = useState<string | null>(null)
     const initialValues = [element.nombre, element.direccion]
 
+    // Editando valores de la dependencia:
     const handleEditDependency = (event: ChangeEvent<HTMLInputElement>) => {
         setEditNombre(event.target.value)
     }
@@ -24,6 +26,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
         setEditDireccion(event.target.value)
     }
 
+    // Función para mandarlos nuevos datos de la dependencia al servidor:
     const handleUpdate = async () => {
         if ((editNombre ?? initialValues[0]) === initialValues[0] && (editDireccion ?? initialValues[1]) === initialValues[1]) {
             confirm('No has hecho cambios en ningún campo!')

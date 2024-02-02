@@ -4,6 +4,7 @@ import handleRequest from '../../services/handleRequests'
 import rutFormater from '../../services/rutFormater'
 
 const Login = () => {
+    // Estados para manejar el comportamiento del componente:
     const [rut, setRut] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [rutError, setRutError] = useState('')
@@ -20,11 +21,13 @@ const Login = () => {
         }
     }
     
+    // Cambiando el valor de la password cuando se ingresa un valor al input:
     const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value)
         setPasswordError('')
     }
 
+    // Verificando las credenciales del login y navegando a otro componente:
     const handleAuth = async (rut: string, password: string) => {
         try {
             const res = await handleRequest.verify(rut, password)
@@ -52,6 +55,7 @@ const Login = () => {
         }
     }
 
+    // Esto llevaría a un componente para cambiar la contraseña:
     // const recoverPassword = () => {
     //     navigate('/recoverPassword')
     // }

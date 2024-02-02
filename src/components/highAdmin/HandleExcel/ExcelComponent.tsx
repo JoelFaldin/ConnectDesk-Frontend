@@ -3,6 +3,7 @@ import dataService from '../../../services/handleRequests'
 import { RiFileExcel2Line } from "react-icons/ri"
 import { BiArrowBack } from "react-icons/bi"
 
+// Interfaz para el componente:
 interface excelComp {
     onFinish: () => void
 }
@@ -12,16 +13,19 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
     const [userQuantity, setUserQuantity] = useState<number | string>('todo')
     const [selectPage, setSelectPage] = useState(1)
     const [fileInput, setFileInput] = useState(0)
-
-    const handleExcel = (event: ChangeEvent<HTMLInputElement>) => {
-        setExcel(event.target.files?.[0])
-    }
-
+    
+    // Cambiando la página de datos que se quieren mostrar en el excel descargado:
     const handlePage = (event: ChangeEvent<HTMLInputElement>) => {
         const numberPage = Number(event.target.value)
         setSelectPage(numberPage)
     }
 
+    // Guardando el archivo excel seleccionado:
+    const handleExcel = (event: ChangeEvent<HTMLInputElement>) => {
+        setExcel(event.target.files?.[0])
+    }
+
+    // Mandando el archivo al servidor:
     const uploadExcel = async () => {
         const jwtToken = localStorage.getItem('jwt')
         try {
@@ -39,6 +43,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
         }
     }
 
+    // Descargando archivo excel con los datos:
     const downloadExcel = async () => {
         const jwtToken = localStorage.getItem('jwt')
         try {
@@ -49,6 +54,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
         }
     }
 
+    // Descargar plantilla:
     const downloadTemplate = () => {
             const token = localStorage.getItem('jwt')
             dataService.downloadTemplate(token)

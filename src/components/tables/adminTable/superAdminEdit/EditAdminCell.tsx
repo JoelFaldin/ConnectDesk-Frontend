@@ -1,11 +1,13 @@
 import { BiX, BiSolidSave, BiEdit, BiXCircle,BiSolidUserPlus   } from "react-icons/bi";
 
+// Interfaz para la tabla:
 interface editCell {
     row: any,
     table: any,
 }
 
 const AdminEditCell: React.FC<editCell> = ({ row, table }) => {
+    // Esta definición permite acceder a las funciones de la definición de la tabla (en generalTable.tsx):
     const meta = table.options.meta
 
     const setNewRows = (name: string) => {
@@ -31,6 +33,7 @@ const AdminEditCell: React.FC<editCell> = ({ row, table }) => {
         meta?.makeAdmin(row.index)
     }
 
+    // Renderizando distintos botones de acción dependiendo de si se está editando o visualizando (como superAdmin):
     return meta?.newRows[row.id] ? (
         <div className="flex">
             <a className="cursor-pointer py-0 px-2" onClick={() => setNewRows('cancelar')} title="Cancelar">

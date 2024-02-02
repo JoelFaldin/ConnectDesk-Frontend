@@ -4,6 +4,7 @@ import dataService from '../../services/handleRequests'
 import { useNavigate } from 'react-router-dom'
 
 const HighAdminPage = () => {
+    // Estados para manejar el comportamiento del componente:
     const [userName, setUserName] = useState('')
     const navigate = useNavigate()
     const token = localStorage.getItem('jwt')
@@ -24,11 +25,11 @@ const HighAdminPage = () => {
         getData()
     }, [])
 
+    // Función para manejar el logout:
     const handleLogout = async () => {
         try {
-            const token = localStorage.getItem('jwt')
-            const logout = await dataService.logout(token)
-            console.log(logout.message)
+            await dataService.logout(token)
+            // console.log(logout.message)
             localStorage.removeItem('jwt')
             navigate('/login')
         } catch(error: any) {

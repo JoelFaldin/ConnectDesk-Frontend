@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react"
 
+// Interfaz para el componente:
 interface tableCell {
     getValue: () => '',
     row: any,
@@ -17,12 +18,6 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         setValue(initialValue)
     }, [initialValue])
 
-    // const blur = () => {
-    //     // Acá se puede enviar la información a la tabla principal
-    //     table.options.meta?.updateData(row.index, column.id, value)
-    //     console.log('test', row.index, column.id, value)
-    // }
-
     const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
         setNewValue(event.target.value)
         table.options.meta?.updateData(row.index, column.id, event.target.value)
@@ -33,12 +28,14 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         table.options.meta?.updateData(row.index, column.id, event.target.value)
     }
 
+    // Generando un saludo aleatorio para mostrar:
     const dependencies = ['Municipalidad norte', 'Municipalidad centro', 'Municipalidad sur']
     const generateDependencies = dependencies.filter(item => item !== value)
 
     const userValue = ['user', 'admin', 'superAdmin']
     const generateUserValue = userValue.filter(item => item !== value)
 
+    // Renderizando distintos inputs dependiendo de la columna y del rol del usuario:
     if (tableMeta?.newRows[row.id]) {
         return column.id === 'dependencias' ? (
             // Renderizando dependencias generadas con generateDependencies():
@@ -66,7 +63,6 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
             <input
                 value={newValue ?? value}
                 onChange={handleChange}
-                // onBlur={blur}
                 type={column.columnDef.meta?.type || "text"}
                 className='items-center py-0.5 px-1 w-[96%] max-w-36'
             />

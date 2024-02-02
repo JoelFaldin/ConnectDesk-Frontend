@@ -4,6 +4,7 @@ import EditDependency from "./editDependency"
 import ActionButtons from "./actionButtons"
 import { BiArrowBack } from "react-icons/bi"
 
+// Interfaces para el componente:
 interface dependencies {
     nombre: string,
     direccion: string,
@@ -23,13 +24,14 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
     // Estados para editar:
     const [editState, setEditState] = useState<null | number>(null)
 
+    // Función inicial para obtener las dependencias:
     useEffect(() => {
         const fetchDeps = async () => {
             try{
                 const token = localStorage.getItem('jwt')
                 const rerender = await dataService.getDependencies(token)
                 setDependencies(rerender.request)
-                // console.log(rerender.message)
+                console.log(rerender.message)
             } catch(error: any) {
                 console.log(error.response.data.error)
             }
@@ -81,7 +83,6 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
                 console.log(newDependency.message)
                 setNewDependencyName('')
                 setNewDireccion('')
-                // Rerendering the list:
                 rerender()
                 alert('Dependencia creada!')
             } catch(error: any) {
@@ -90,6 +91,7 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
         }
     }
 
+    // Función para cambiar de modo entre edición y normal:
     const toggleEdit = (index: number) => {
         setEditState(prev => prev === index ? null : index)
     }
