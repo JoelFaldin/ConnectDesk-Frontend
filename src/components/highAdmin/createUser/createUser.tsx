@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react"
 import handleRequests from "../../../services/handleRequests"
 import objectService from "../../../services/checkObject"
 import rutFormater from "../../../services/rutFormater"
+import { BiArrowBack } from "react-icons/bi"
 
 interface newUser {
     onFinish: () => void
@@ -112,6 +113,9 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
     // Las sections debiesen tener border color!
     return (
         <div className="h-fit">
+            <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>
+                <BiArrowBack size={24} />
+            </button>
             <div className="max-w-6/12 mt-32 mx-auto">
                 <h1 className="text-center text-xl font-bold p-4">Añadir un nuevo usuario</h1>
                     <form>

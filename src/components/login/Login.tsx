@@ -6,11 +6,15 @@ import rutFormater from '../../services/rutFormater'
 const Login = () => {
     const [rut, setRut] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [rutError, setRutError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+
     const navigate = useNavigate()
 
     const handleRut = (event: ChangeEvent<HTMLInputElement>) => {        
         if (rutFormater(event.target.value)) {
             setRut(event.target.value)
+            setRutError('')
         } else {
             return
         }
@@ -18,6 +22,7 @@ const Login = () => {
     
     const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value)
+        setPasswordError('')
     }
 
     const handleAuth = async (rut: string, password: string) => {
@@ -37,13 +42,19 @@ const Login = () => {
             }
             console.log(res.message)
         } catch(error: any) {
-            alert(error.response.data.error)
+            if (error.response.data.rut) {
+                setRutError(error.response.data.rut)
+            } else if (error.response.data.password) {
+                setPasswordError(error.response.data.password)
+            } else {
+                console.log(error.response.data)
+            }
         }
     }
 
-    const recoverPassword = () => {
-        navigate('/recoverPassword')
-    }
+    // const recoverPassword = () => {
+    //     navigate('/recoverPassword')
+    // }
 
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
@@ -54,11 +65,6 @@ const Login = () => {
         <div className="flex">
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    {/* <img
-                        className="mx-auto h-10 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                        alt="Your Company"
-                    /> */}
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Ingresar al sistema
                     </h2>
@@ -77,12 +83,17 @@ const Login = () => {
                                 type="rut"
                                 autoComplete="rut"
                                 required
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-3"
+                                className="block w-full rounded-md border-0 mb-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-3"
                                 placeholder="Ingrese su rut..."
                                 value={rut}
                                 onChange={handleRut}
                                 />
                             </div>
+                            {
+                                rutError !== '' ? (
+                                    <p className="text-rose-600 text-sm font-medium">{rutError}</p>
+                                ) : ''
+                            }
                         </div>
 
                         <div>
@@ -90,11 +101,11 @@ const Login = () => {
                                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                                     Contraseña:
                                 </label>
-                                <div className="text-sm">
+                                {/* <div className="text-sm">
                                     <button onClick={recoverPassword} className="font-semibold text-cyan-600 hover:text-cyan-500 cursor-pointer">
                                         ¿Olvidaste tu contraseña?
                                     </button>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="mt-2">
                                     <input
@@ -103,11 +114,16 @@ const Login = () => {
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 mb-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     placeholder="Ingrese su contraseña..."
                                     onChange={handlePassword}
                                     />
                             </div>
+                            {
+                                passwordError !== '' ? (
+                                    <p className="text-rose-600 text-sm font-medium">{passwordError}</p>
+                                ) : ''
+                            }
                         </div>
 
                         <button

@@ -2,13 +2,18 @@ import { ChangeEvent, useEffect, useState } from "react"
 import dataService from '../../../services/handleRequests'
 import EditDependency from "./editDependency"
 import ActionButtons from "./actionButtons"
+import { BiArrowBack } from "react-icons/bi"
 
 interface dependencies {
     nombre: string,
-    direccion: string
+    direccion: string,
 }
 
-const createDependency = () => {
+interface dependencyComponent {
+    onFinish: () => void
+}
+
+const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
     const [dependencies, setDependencies] = useState<any>([])
     const [newDependencyName, setNewDependencyName] = useState('')
     const [newDireccion, setNewDireccion] = useState('')
@@ -91,6 +96,9 @@ const createDependency = () => {
 
     return (
         <div className="h-fit">
+            <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>
+                <BiArrowBack size={24} />
+            </button>
             <h1 className="text-center text-xl font-bold p-4 mt-32">Gestionar dependencias</h1>
             <div className="max-w-6/12 mt-10 mx-auto flex justify-center">
                 <section className="pr-9 max-w-fit">

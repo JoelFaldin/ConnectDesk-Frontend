@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react"
 import dataService from '../../../services/handleRequests'
-import { RiFileExcel2Line } from "react-icons/ri";
+import { RiFileExcel2Line } from "react-icons/ri"
+import { BiArrowBack } from "react-icons/bi"
 
 interface excelComp {
     onFinish: () => void
@@ -56,7 +57,10 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
 
     return (
         <div className="h-fit">
-            <h1 className="text-center text-xl font-bold p-4 mt-32">Manejo de archivos Excel</h1>
+            <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>
+                <BiArrowBack size={24} />
+            </button>
+            <h1 className="text-center text-xl font-bold p-4 mt-12">Manejo de archivos Excel</h1>
             <div className="flex justify-center">
                 <RiFileExcel2Line size={42} />
             </div>

@@ -62,7 +62,7 @@ const getFilteredUsers = async (column: string, order: string, pageSize: number,
 
 const verify = async (rut: string, password: string): Promise<any> => {
     const request = axios.post('/api/verifyLogin', { rut, password })
-    const res = await request  
+    const res = await request
     return res.data
 }
 
