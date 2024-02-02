@@ -14,12 +14,13 @@ interface userModel {
 }
 
 const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number) => {
+    const pageN = page === 0 ? 1 : page
     const req = axios.get('/api/newData', {
         params: {
             searchValue,
             searchColumn,
             pageSize,
-            page
+            pageN
         }
     })
     const res = await req
@@ -32,22 +33,20 @@ const getUserData = async (jwt: string | null) => {
     return res.data
 }
 
-const getFilteredUsers = async (column: string, order: string, searchValue: string, searchColumn: string, pageSize: number, page: number) => {
-    let sendOrder = ''
+const getFilteredUsers = async (column: string, order: string, pageSize: number, page: number) => {
+    let sendOrder = 0
     if (order === 'asc') {
-        sendOrder = 'desc'
+        sendOrder = 1
     } else if (order === 'desc') {
-        sendOrder = 'normal'
+        sendOrder = -1
     } else if (order === 'normal') {
-        sendOrder = 'asc'
+        sendOrder = 0
     }
 
     const request = axios.get(`/api/filterUsers/`, {
         params: {
             column,
             sendOrder,
-            searchValue,
-            searchColumn,
             pageSize,
             page
         }

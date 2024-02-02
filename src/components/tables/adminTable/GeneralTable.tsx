@@ -19,7 +19,7 @@ import { BiSolidChevronsLeft } from "react-icons/bi"
 import { BiSolidChevronLeft } from "react-icons/bi"
 import { RiFileExcel2Fill } from "react-icons/ri";
 import { BiSolidUserPlus } from "react-icons/bi"
-import { BiImageAdd } from "react-icons/bi";
+import { BiImageAdd } from "react-icons/bi"
 
 // Revisar esta declaración de módulo:
 declare module '@tanstack/react-table' {
@@ -100,7 +100,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const rerender = async () => {
         if (filterColumn !== '') {
             try {
-                const users = await dataService.getFilteredUsers(filterColumn, filterOrder, searchValue, searchColumn, pageSize, page)
+                const users = await dataService.getFilteredUsers(filterColumn, filterOrder, pageSize, page)
                 // console.log(users.message)
                 setData(users.content)
                 setCancelChange(users.content)
@@ -506,15 +506,17 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         type="text"
                                         value={page}
                                         onChange={event => {
-                                            const fakeNumber = Number(event.target.value)
-                                            if (!Number.isNaN(fakeNumber)) {
-                                                setPage(Number(event.target.value))
-                                                rerender()
-                                            } if (fakeNumber > Math.floor(total / pageSize) + 1) {
-                                                setPage(Math.floor(total / pageSize) + 1)
-                                                rerender()
+                                            const inputValue = event.target.value
+                                            const newPage = Number(inputValue)
+                                          
+                                            if (!Number.isNaN(newPage) && newPage > -1) {
+                                              const totalPages = Math.ceil(total / pageSize)
+                                              const validPage = Math.min(newPage, totalPages)
+                                          
+                                              setPage(validPage)
+                                              rerender()
                                             }
-                                        }}
+                                          }}
                                         className={ Number(page) < 10 ? "px-2 py-1 rounded w-8" : "px-1 py-1 rounded w-8" }
                                     />
                                 </span>
