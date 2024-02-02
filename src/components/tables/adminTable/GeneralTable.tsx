@@ -99,8 +99,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     const rerender = async () => {
         if (filterColumn !== '') {
-            try {
-                const users = await dataService.getFilteredUsers(filterColumn, filterOrder, pageSize, page)
+                const token = localStorage.getItem('jwt')
+                try {
+                const users = await dataService.getFilteredUsers(filterColumn, filterOrder, pageSize, page, token)
                 // console.log(users.message)
                 setData(users.content)
                 setCancelChange(users.content)
@@ -109,9 +110,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 console.log(error.response.data.error)
             }
         } else {
-            console.log('filterCol no tiene un valor!')
             try {
-                const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page)
+                const token = localStorage.getItem('jwt')
+                const users = await dataService.getUsers(searchValue, searchColumn, pageSize, page, token)
                 // console.log(users.message)
                 setData(users.content)
                 setCancelChange(users.content)
@@ -125,7 +126,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await dataService.getUsers(searchValue, searchColumn, pageSize, page)
+                const token = localStorage.getItem('jwt')
+                const data = await dataService.getUsers(searchValue, searchColumn, pageSize, page, token)
                 // console.log(data.message)
                 setData(data.content)
                 setCancelChange(data.content)
@@ -291,7 +293,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 const decision = window.confirm('¿Quieres eliminar este usuario?')
                 if (decision) {
                     try {
-                        const deletion = await dataService.deleteUser(cancelChange[rowIndex].rut)
+                        const token = localStorage.getItem('jwt')
+                        const deletion = await dataService.deleteUser(cancelChange[rowIndex].rut, token)
                         console.log(deletion.message)
                     } catch(error: any) {
                         console.log(error.response.data.error)
@@ -303,7 +306,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 const decision = window.confirm(cancelChange[rowIndex].rol === 'user' ? `¿Quieres que este usuario se convierta en admin?` : `¿Quieres que este usuario deje de ser admin?`)
                 if (decision) {
                     try {
-                        const request = await dataService.makeAdmin(cancelChange[rowIndex].rut)
+                        const token = localStorage.getItem('jwt')
+                        const request = await dataService.makeAdmin(cancelChange[rowIndex].rut, token)
                         console.log(request.message)
                     } catch(error: any) {
                         console.log(error.response.data.error)
@@ -316,22 +320,23 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     const handleFilter = (column: string) => {
         setFilterColumn(column)
+        const token = localStorage.getItem('jwt')
         if (filterOrder === 'asc') {
-            handleFilterRequest.toggleFilter(column, 'desc', searchValue, searchColumn, pageSize, page)
+            handleFilterRequest.toggleFilter(column, 'desc', searchValue, searchColumn, pageSize, page, token)
                 .then(res => {
                     setData(res.content)
                     setCancelChange(res.content)
                 })
             setFilterOrder('desc')
         } else if (filterOrder === 'desc') {
-            handleFilterRequest.toggleFilter(column, 'normal', searchValue, searchColumn, pageSize, page)
+            handleFilterRequest.toggleFilter(column, 'normal', searchValue, searchColumn, pageSize, page, token)
                 .then(res => {
                     setData(res.content)
                     setCancelChange(res.content)
                 })
             setFilterOrder('normal')
         } else if (filterOrder === 'normal') {
-            handleFilterRequest.toggleFilter(column, 'asc', searchValue, searchColumn, pageSize, page)
+            handleFilterRequest.toggleFilter(column, 'asc', searchValue, searchColumn, pageSize, page, token)
                 .then(res => {
                     setData(res.content)
                     setCancelChange(res.content)
@@ -345,7 +350,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         setSearchColumn(column)
         
         const timeout = setTimeout(async () => {
-            const res = await handleFilterRequest.searchFilter(column, event.target.value, pageSize, page)
+            const token = localStorage.getItem('jwt')
+            const res = await handleFilterRequest.searchFilter(column, event.target.value, pageSize, page, token)
             res.content.length === 0 ? setShowMessage(true) : setShowMessage(false)
 
             setData(res.content)
@@ -357,7 +363,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     const handlePageSize = async (event: ChangeEvent<HTMLSelectElement>) => {
         try {
-            const req = await dataService.getUsers(searchValue, searchColumn, Number(event.target.value), page)
+            const token = localStorage.getItem('jwt')
+            const req = await dataService.getUsers(searchValue, searchColumn, Number(event.target.value), page, token)
             console.log(req.message)
             setData(req.content)
             setCancelChange(req.content)
@@ -496,7 +503,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                 <span className="flex items-center gap-2">
                                     <p>Página actual:</p>
                                     <strong>
-                                        { page } de {' '}
+                                        { page === 0 ? 1 : page } de {' '}
                                         { Math.floor(total / pageSize) + 1 }
                                     </strong>
                                 </span>
@@ -517,7 +524,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                               rerender()
                                             }
                                           }}
-                                        className={ Number(page) < 10 ? "px-2 py-1 rounded w-8" : "px-1 py-1 rounded w-8" }
+                                        className={ Number(page) < 10 ? "px-2 py-1 rounded w-10" : "px-1 py-1 rounded w-10" }
                                     />
                                 </span>
                                 <select onChange={handlePageSize} className="px-2 py-1 rounded w-32">

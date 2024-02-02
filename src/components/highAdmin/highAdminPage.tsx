@@ -24,9 +24,16 @@ const HighAdminPage = () => {
         getData()
     }, [])
 
-    const handleLogout = () => {
-        localStorage.removeItem('jwt')
-        navigate('/login')
+    const handleLogout = async () => {
+        try {
+            const token = localStorage.getItem('jwt')
+            const logout = await dataService.logout(token)
+            console.log(logout.message)
+            localStorage.removeItem('jwt')
+            navigate('/login')
+        } catch(error: any) {
+            console.log(error.response.data.error)
+        }
     }
     
     return (

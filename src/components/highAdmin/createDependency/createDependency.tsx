@@ -21,7 +21,8 @@ const createDependency = () => {
     useEffect(() => {
         const fetchDeps = async () => {
             try{
-                const rerender = await dataService.getDependencies()
+                const token = localStorage.getItem('jwt')
+                const rerender = await dataService.getDependencies(token)
                 setDependencies(rerender.request)
                 // console.log(rerender.message)
             } catch(error: any) {
@@ -33,7 +34,8 @@ const createDependency = () => {
 
     const rerender = async () => {
         try{
-            const rerender = await dataService.getDependencies()
+            const token = localStorage.getItem('jwt')
+            const rerender = await dataService.getDependencies(token)
             setDependencies(rerender.request)
             console.log(rerender.message)
         } catch(error: any) {

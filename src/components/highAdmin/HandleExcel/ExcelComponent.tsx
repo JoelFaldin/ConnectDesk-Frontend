@@ -49,7 +49,8 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
     }
 
     const downloadTemplate = () => {
-            dataService.downloadTemplate()
+            const token = localStorage.getItem('jwt')
+            dataService.downloadTemplate(token)
             console.log('Plantilla descargada!')
     }
 

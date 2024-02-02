@@ -13,14 +13,16 @@ interface userModel {
     anexoMunicipal: string
 }
 
-const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number) => {
-    const pageN = page === 0 ? 1 : page
+const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number, jwt: string | null) => {
     const req = axios.get('/api/newData', {
         params: {
             searchValue,
             searchColumn,
             pageSize,
-            pageN
+            page
+        },
+        headers: {
+            Authorization: `Bearer ${jwt}`
         }
     })
     const res = await req
@@ -33,7 +35,7 @@ const getUserData = async (jwt: string | null) => {
     return res.data
 }
 
-const getFilteredUsers = async (column: string, order: string, pageSize: number, page: number) => {
+const getFilteredUsers = async (column: string, order: string, pageSize: number, page: number, jwt: string | null) => {
     let sendOrder = 0
     if (order === 'asc') {
         sendOrder = 1
@@ -49,6 +51,9 @@ const getFilteredUsers = async (column: string, order: string, pageSize: number,
             sendOrder,
             pageSize,
             page
+        },
+        headers: {
+            Authorization: `Bearer ${jwt}`
         }
     })
     const res = await request
@@ -58,6 +63,12 @@ const getFilteredUsers = async (column: string, order: string, pageSize: number,
 const verify = async (rut: string, password: string): Promise<any> => {
     const request = axios.post('/api/verifyLogin', { rut, password })
     const res = await request  
+    return res.data
+}
+
+const logout = async (jwt: string | null) => {
+    const request = axios.post('/api/logout', null, { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
     return res.data
 }
 
@@ -73,20 +84,20 @@ const updateUser = async (values: object, pageSize: number, page: number, jwt: s
     return res.data
 }
 
-const deleteUser = async (rut: string) => {
-    const request = axios.delete(`/api/delete/${rut}`)
+const deleteUser = async (rut: string, jwt: string | null) => {
+    const request = axios.delete(`/api/delete/${rut}`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
-const makeAdmin = async (rut: string) => {
-    const request = axios.put(`/api/newAdmin/${rut}`)
+const makeAdmin = async (rut: string, jwt: string | null) => {
+    const request = axios.put(`/api/newAdmin/${rut}`, null, { headers: { Authorization: `Bearer ${jwt}` } } )
     const res = await request
     return res.data
 }
 
-const getDependencies = async () => {
-    const request = axios.get('/api/getDependencies')
+const getDependencies = async (jwt: string | null) => {
+    const request = axios.get('/api/getDependencies', { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
@@ -150,9 +161,12 @@ const downloadExcel = async (users: number | string, page: number, jwt: string |
     return res.data
 }
 
-const downloadTemplate = async () => {
+const downloadTemplate = async (jwt: string | null) => {
     const getTemplate = await axios.get('/api/template', {
-        responseType: 'blob'
+        responseType: 'blob',
+        headers: {
+            Authorization: `Bearer ${jwt}`
+        }
     })
     const blob = new Blob([getTemplate.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
     
@@ -167,11 +181,21 @@ const downloadTemplate = async () => {
     return res.data
 }
 
+const recoverPassword = async (rut: string, email: string) => {
+    await axios.post('/getPassword', {
+        rut,
+        email
+    })
+    // const res = await request
+    // return res.data
+}
+
 export default {
     getUsers,
     getUserData,
     getFilteredUsers,
     verify,
+    logout,
     createUser,
     updateUser, 
     deleteUser,
@@ -182,5 +206,6 @@ export default {
     updateDependency,
     uploadExcel,
     downloadExcel,
-    downloadTemplate
+    downloadTemplate,
+    recoverPassword
 }

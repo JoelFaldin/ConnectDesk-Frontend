@@ -4,6 +4,7 @@ import AdminPage from "../admin/AdminPage"
 import CreateUser from "../highAdmin/createUser/createUser"
 import HighAdminPage from "../highAdmin/highAdminPage"
 import UserPage from "../user/UserPage"
+import RecoverPassword from "../login/RecoverPassword"
 
 const RouterComponent = () => {
     const test = () => {
@@ -14,6 +15,7 @@ const RouterComponent = () => {
             <Router>
                 <Routes>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/recoverPassword" element={<RecoverPassword />} />
                     <Route path="/data/superadmin" element={<HighAdminPage />} />
                     <Route path="/data/admin" element={<AdminPage />} />
                     <Route path="/data/user" element={<UserPage />} />
