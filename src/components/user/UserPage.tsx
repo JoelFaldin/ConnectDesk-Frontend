@@ -3,13 +3,9 @@ import dataService from '../../services/handleRequests'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 
-interface UserName {
-    nombres: String
-}
-
 const UserPage = () => {
     // Estados para manejar el comportamiento del componente:
-    const [userName, setUserName] = useState<UserName>()
+    const [userName, setUserName] = useState('')
     const navigate = useNavigate()
     const token = localStorage.getItem('jwt')
 
@@ -53,7 +49,7 @@ const UserPage = () => {
     return (
         <div className="bg-gradient-to-b from-white to-slate-200 h-fit min-h-screen">
             <h2 className="text-3xl font-bold text-gray-900 underline underline-offset-4 ml-24 mb-2">Conectado como usuario</h2>
-            <h3 className="text-xl font-bold text-gray-900 ml-24">{greeting}, <i className="not-italic text-indigo-700">{userName?.nombres}</i></h3>
+            <h3 className="text-xl font-bold text-gray-900 ml-24">{greeting}, <i className="not-italic text-indigo-700">{userName}</i></h3>
             <button
                 className="block w-fit ml-24 mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
                 onClick={handleLogout}
