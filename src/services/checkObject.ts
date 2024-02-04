@@ -1,5 +1,3 @@
-// This service will check that the inputed object (a new user) has all fields with info:
-
 interface obj {
     rut: string,
     nombres: string,
