@@ -62,18 +62,18 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
     }
 
     return (
-        <div className="h-fit">
+        <div className="h-fit max-h-full overflow-y-scroll">
             <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>
                 <BiArrowBack size={24} />
             </button>
-            <h1 className="text-center text-xl font-bold p-4 mt-12">Manejo de archivos Excel</h1>
+            <h1 className="text-center text-xl font-bold p-4">Manejo de archivos Excel</h1>
             <div className="flex justify-center">
                 <RiFileExcel2Line size={42} />
             </div>
-            <span className="max-w-6/12 mt-10 mx-auto flex flex-col justify-center ml-20 gap-16">
+            <span className="max-w-6/12 mt-10 mx-auto flex flex-col justify-center ml-10 gap-16">
                 <section className="max-w-xl flex flex-col">
-                    <h2 className="text-base font-bold underline decoration-solid underline-offset-2 py-4">Sube archivos al sistema</h2>
-                    <p className="pb-4 font-medium">Estos datos serán (si la operación tiene éxito) añadidos a la base de datos!</p>
+                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Sube archivos al sistema</h2>
+                    <p className="pb-4 font-medium mr-2">Estos datos serán (si la operación tiene éxito) añadidos a la base de datos!</p>
                     <input 
                         type="file"
                         accept=".xls, .xlsx"
@@ -140,7 +140,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                         )
                     }
                     <button
-                        className="w-fit mt-4 inline-flex items-center rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-400 hover:ring-green-900"
+                        className="w-fit mb-4 mt-4 inline-flex items-center rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-400 hover:ring-green-900"
                         onClick={downloadExcel}
                     >
                         <span className="text-base">Descargar archivo</span>

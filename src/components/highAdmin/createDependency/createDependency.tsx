@@ -97,14 +97,14 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
     }
 
     return (
-        <div className="h-fit">
+        <div className="h-fit max-h-full overflow-y-scroll">
             <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>
                 <BiArrowBack size={24} />
             </button>
-            <h1 className="text-center text-xl font-bold p-4 mt-32">Gestionar dependencias</h1>
+            <h1 className="text-center text-xl font-bold p-4">Gestionar dependencias</h1>
             <div className="max-w-6/12 mt-10 mx-auto flex justify-center">
                 <section className="pr-9 max-w-fit">
-                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Dependencias existentes:</h2>
+                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Existentes:</h2>
                     {
                         dependencies.length === 0 ? (
                             <p>No hay dependencias creadas.</p>
@@ -128,7 +128,7 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
                     }
                 </section>
                 <section className="pl-9 max-w-fit">
-                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Crear nueva dependencia:</h2>
+                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Crear nueva:</h2>
                     <form>
                         <label htmlFor="dependencyName" className="block text-sm font-medium leading-6 text-gray-900">Nombre de la dependencia:</label>
                         <input id="dependencyName"

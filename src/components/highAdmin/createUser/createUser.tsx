@@ -117,16 +117,16 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
     }
 
     return (
-        <div className="h-fit">
+        <div className="h-fit max-h-full overflow-y-scroll">
             <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>
                 <BiArrowBack size={24} />
             </button>
-            <div className="max-w-6/12 mt-32 mx-auto">
+            <div className="max-w-6/12 mx-auto">
                 <h1 className="text-center text-xl font-bold p-4">Añadir un nuevo usuario</h1>
                     <form>
                     <div className="flex justify-center mt-7">
                         <section className="pr-9 max-w-fit">
-                            <h2 className="text-xl font-medium pb-2">Información personal</h2>
+                            <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Información personal</h2>
 
                             <label htmlFor="crearRut" className="block text-sm font-medium leading-6 text-gray-900">Rut:</label>
                             <div className="mb-2">
@@ -181,7 +181,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                         </section>
 
                         <section className="pl-9 max-w-fit">
-                            <h3 className="text-xl font-medium pb-2">Información de trabajo</h3>
+                            <h3 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Información de trabajo</h3>
 
                             <label htmlFor="rol" className="block text-sm font-medium leading-6 text-gray-900">Rol:</label>
                             <div className="mb-2">
@@ -271,7 +271,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                             <input id="submit"
                                 name="submit"
                                 type="submit"
-                                className="block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
+                                className="block w-full mb-4 mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
                                 onClick={handleNewUser}
                                 value="Registrar Usuario" />
                         </div>

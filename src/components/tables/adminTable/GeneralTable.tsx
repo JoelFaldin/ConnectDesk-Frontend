@@ -464,36 +464,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     ))}
                 </tbody>
                 <tfoot>
-                    {rol === 'superAdmin' ?
-                        <tr>
-                            <td>
-                                <div className="flex justify-end pt-2">
-                                    <button className="flex mr-2 gap-1 rounded-md bg-lime-50 px-1 py-1 ring-1 ring-inset ring-lime-600/20 hover:bg-lime-200 hover:ring-lime-500" onClick={handleExcelFiles}>
-                                        <RiFileExcel2Fill className="text-lime-700" size={22} />
-                                        <span className="text-base text-lime-700 pr-1">Gestionar Excel</span>
-                                    </button>
-                                </div>
-                            </td>
-
-                            <td>
-                                <div className="flex justify-end pt-2">
-                                    <button className="flex mr-2 gap-1 rounded-md bg-yellow-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-200 hover:ring-yellow-500" onClick={handleNewDependency}>
-                                        <BiImageAdd className="text-yellow-700" size={24} />
-                                        <span className="text-base text-yellow-700 pr-1">Crear dependencias</span>
-                                    </button>
-                                </div>
-                            </td>
-
-                            <td>
-                                <div className="flex justify-end pt-2">
-                                    <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
-                                        <BiSolidUserPlus className="text-green-700" size={24} />
-                                        <span className="text-base text-green-700 pr-1">Crear usuario</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    : ''}
                     <tr>
                         <td colSpan={rol === 'user' ? 2 : 5}>
                             <div className="flex justify-start p-2">
@@ -580,6 +550,30 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     </tr>
                 </tfoot>
             </table>
+            {rol === 'superAdmin' ?
+                <span className="flex flex-row justify-center">
+                    <div className="flex justify-start pt-2 min-w-fit">
+                        <button className="flex mr-2 gap-1 rounded-md bg-lime-50 px-1 py-1 ring-1 ring-inset ring-lime-600/20 hover:bg-lime-200 hover:ring-lime-500" onClick={handleExcelFiles}>
+                            <RiFileExcel2Fill className="text-lime-700" size={22} />
+                            <span className="text-base text-lime-700 pr-1">Gestionar Excel</span>
+                        </button>
+                    </div>
+
+                    <div className="flex justify-start pt-2 min-w-fit">
+                        <button className="flex mr-2 gap-1 rounded-md bg-yellow-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-200 hover:ring-yellow-500" onClick={handleNewDependency}>
+                            <BiImageAdd className="text-yellow-700" size={24} />
+                            <span className="text-base text-yellow-700 pr-1">Gestionar Dependencias</span>
+                        </button>
+                    </div>
+
+                    <div className="flex justify-start pt-2 min-w-fit">
+                        <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
+                            <BiSolidUserPlus className="text-green-700" size={24} />
+                            <span className="text-base text-green-700 pr-1">Crear Usuario</span>
+                        </button>
+                    </div>
+                </span>
+            : ''}
             {/* Secciones: */}
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
