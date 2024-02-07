@@ -5,6 +5,7 @@ import CreateUser from "../highAdmin/createUser/createUser"
 import HighAdminPage from "../highAdmin/highAdminPage"
 import UserPage from "../user/UserPage"
 import RecoverPassword from "../login/RecoverPassword"
+import NewPassword from "../login/NewPassword"
 
 // Definición de las rutas:
 const RouterComponent = () => {
@@ -17,6 +18,7 @@ const RouterComponent = () => {
                 <Routes>
                     <Route path="/" element={<Navigate to="/login" />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/newPassword" element={<NewPassword />} />
                     <Route path="/recoverPassword" element={<RecoverPassword />} />
                     <Route path="/data/superadmin" element={<HighAdminPage />} />
                     <Route path="/data/admin" element={<AdminPage />} />

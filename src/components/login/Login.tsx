@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import handleRequest from '../../services/handleRequests'
 import rutFormater from '../../services/rutFormater'
@@ -56,10 +56,10 @@ const Login = () => {
         }
     }
 
-    // Esto llevaría a un componente para cambiar la contraseña:
-    // const recoverPassword = () => {
-    //     navigate('/recoverPassword')
-    // }
+    // Componente para cambiar la contraseña:
+    const recoverPassword = () => {
+        navigate('/recoverPassword')
+    }
 
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
@@ -70,7 +70,7 @@ const Login = () => {
         <div className="flex">
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                    <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 underline underline-offset-2">
                         Ingresar al sistema
                     </h2>
                 </div>
@@ -106,11 +106,11 @@ const Login = () => {
                                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                                     Contraseña:
                                 </label>
-                                {/* <div className="text-sm">
+                                <div className="text-sm">
                                     <button onClick={recoverPassword} className="font-semibold text-cyan-600 hover:text-cyan-500 cursor-pointer">
                                         ¿Olvidaste tu contraseña?
                                     </button>
-                                </div> */}
+                                </div>
                             </div>
                             <div className="mt-2">
                                     <input

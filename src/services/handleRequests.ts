@@ -66,6 +66,24 @@ const verify = async (rut: string, password: string): Promise<any> => {
     return res.data
 }
 
+const recoverPassword = async (rut: string, email: string) => {
+    const request = axios.post('/api/getPassword', { rut, email })
+    const res = await request
+    return res.data
+}
+
+const validateToken = async (token: string | null) => {
+    const request = axios.post('/api/verifyToken', { token })
+    const res = await request
+    return res.data
+}
+
+const restorePasword = async (newPassword: string, token: string | null) => {
+    const request = axios.patch('/api/restorePassword', { newPassword, token })
+    const res = await request
+    return res.data
+}
+
 const logout = async (jwt: string | null) => {
     const request = axios.post('/api/logout', null, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
@@ -181,20 +199,14 @@ const downloadTemplate = async (jwt: string | null) => {
     return res.data
 }
 
-const recoverPassword = async (rut: string, email: string) => {
-    await axios.post('/getPassword', {
-        rut,
-        email
-    })
-    // const res = await request
-    // return res.data
-}
-
 export default {
     getUsers,
     getUserData,
     getFilteredUsers,
     verify,
+    recoverPassword,
+    validateToken,
+    restorePasword,
     logout,
     createUser,
     updateUser, 
@@ -207,5 +219,4 @@ export default {
     uploadExcel,
     downloadExcel,
     downloadTemplate,
-    recoverPassword
 }
