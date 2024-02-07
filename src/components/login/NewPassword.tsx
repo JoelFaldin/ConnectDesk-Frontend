@@ -30,7 +30,7 @@ const newPassword = () => {
         }
 
         validateToken()
-    })
+    }, [])
 
     const handleNewPassword = (event: ChangeEvent<HTMLInputElement>) => {
         setNewPassword(event.target.value)
