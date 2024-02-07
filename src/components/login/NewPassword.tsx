@@ -1,7 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import dataService from '../../services/handleRequests'
-import { BiCheck } from "react-icons/bi";
+import { BiCheck } from "react-icons/bi"
+import { BiLeftArrowAlt } from "react-icons/bi"
 
 const newPassword = () => {
     const [newPassword, setNewPassword] = useState('')
@@ -70,8 +71,11 @@ const newPassword = () => {
             setErrorMessage('Ingrese una contraseña válida.')
         } else {
             setErrorMessage('Debe ingresar una contraseña!')
-        }
-        
+        } 
+    }
+
+    const goBack = () => {
+        navigate('/login')
     }
 
     return (
@@ -121,10 +125,19 @@ const newPassword = () => {
                             Reestablecer contraseña
                         </button>
                     </form>
+                    <div>
+                    <button
+                        className="flex flex-row mt-5 cursor-pointer hover:text-amber-700 hover:underline hover:underline-offset-2"
+                        onClick={goBack}
+                    >
+                        <BiLeftArrowAlt size={24} />
+                        <span>Volver al Inicio de Sesión</span>
+                    </button>
+                </div>
                 </div>
                 <div className="flex items-center justify-center mt-10">
-                    <ul className="flex flex-col text-sm mt-2 font-medium leading-6 text-gray-900">
-                        <p>La contraseña debe contener:</p>
+                    <ul className="flex flex-col list-disc text-sm mt-2 font-medium leading-6 text-gray-900">
+                        <p className="text-base mb-2">La contraseña debe contener:</p>
                         <li>Mínimo 8 letras o números.</li>
                         <li>Al menos 1 mayúscula.</li>
                         <li>Al menos 1 minúscula.</li>
@@ -132,6 +145,7 @@ const newPassword = () => {
                         <li>Puede contener símbolos.</li>
                     </ul>
                 </div>
+                
                 {
                     successMessage !== ''
                     ? (
