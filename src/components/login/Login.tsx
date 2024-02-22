@@ -9,6 +9,7 @@ const Login = () => {
     const [password, setPassword] = useState<string>('')
     const [rutError, setRutError] = useState('')
     const [passwordError, setPasswordError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
     
@@ -44,7 +45,6 @@ const Login = () => {
                 localStorage.setItem('userRol', 'user')
             }
             window.localStorage.setItem('loggedUser', JSON.stringify(res))
-            console.log(res.message)
         } catch(error: any) {
             if (error.response.data.rut) {
                 setRutError(error.response.data.rut)
@@ -63,7 +63,9 @@ const Login = () => {
 
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
+        setLoading(true)
         await handleAuth(rut, password)
+        setLoading(false)
     }
 
     return (
@@ -133,12 +135,16 @@ const Login = () => {
 
                         <button
                         type="submit"
-                        className="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className={!loading ? "flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline" : "flex w-full justify-center rounded-md bg-gray-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"}
                         onClick={handleSubmit}
+                        disabled={loading}
                         >
                             Ingresar
                         </button>
                     </form>
+                    {
+                        loading ? <p>Cargando...</p> : ''
+                    }
                 </div>
             </div>
         </div>

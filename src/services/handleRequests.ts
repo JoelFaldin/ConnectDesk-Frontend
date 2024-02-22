@@ -13,8 +13,10 @@ interface userModel {
     anexoMunicipal: string
 }
 
+const baseUrl = 'https://server-sort-muni-crud-backend.vercel.app'
+
 const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number, jwt: string | null) => {
-    const req = axios.get('/api/newData', {
+    const req = axios.get(`${baseUrl}/api/newData`, {
         params: {
             searchValue,
             searchColumn,
@@ -30,7 +32,7 @@ const getUsers = async (searchValue: string, searchColumn: string, pageSize: num
 }
 
 const getUserData = async (jwt: string | null) => {
-    const request = axios.get('/api/getUserData', { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.get(`${baseUrl}/api/getUserData`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
@@ -45,7 +47,7 @@ const getFilteredUsers = async (column: string, order: string, pageSize: number,
         sendOrder = 0
     }
 
-    const request = axios.get(`/api/filterUsers/`, {
+    const request = axios.get(`${baseUrl}/api/filterUsers/`, {
         params: {
             column,
             sendOrder,
@@ -61,79 +63,79 @@ const getFilteredUsers = async (column: string, order: string, pageSize: number,
 }
 
 const verify = async (rut: string, password: string): Promise<any> => {
-    const request = axios.post('/api/verifyLogin', { rut, password })
+    const request = axios.post(`${baseUrl}/api/verifyLogin`, { rut, password })
     const res = await request
     return res.data
 }
 
 const recoverPassword = async (rut: string, email: string) => {
-    const request = axios.post('/api/getPassword', { rut, email })
+    const request = axios.post(`${baseUrl}/api/getPassword`, { rut, email })
     const res = await request
     return res.data
 }
 
 const validateToken = async (token: string | null) => {
-    const request = axios.post('/api/verifyToken', { token })
+    const request = axios.post(`${baseUrl}/api/verifyToken`, { token })
     const res = await request
     return res.data
 }
 
 const restorePasword = async (newPassword: string, token: string | null) => {
-    const request = axios.patch('/api/restorePassword', { newPassword, token })
+    const request = axios.patch(`${baseUrl}/api/restorePassword`, { newPassword, token })
     const res = await request
     return res.data
 }
 
 const logout = async (jwt: string | null) => {
-    const request = axios.post('/api/logout', null, { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.post(`${baseUrl}/api/logout`, null, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
 const createUser = async (object: userModel, jwt: string | null) => {
-    const request = axios.post('/api/newUser', object, { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.post(`${baseUrl}/api/newUser`, object, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
 const updateUser = async (values: object, pageSize: number, page: number, jwt: string | null) => {
-    const request = axios.put(`/api/update/`, { values, pageSize, page }, { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.put(`${baseUrl}/api/update/`, { values, pageSize, page }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
 const deleteUser = async (rut: string, jwt: string | null) => {
-    const request = axios.delete(`/api/delete/${rut}`, { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.delete(`${baseUrl}/api/delete/${rut}`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
 const makeAdmin = async (rut: string, jwt: string | null) => {
-    const request = axios.put(`/api/newAdmin/${rut}`, null, { headers: { Authorization: `Bearer ${jwt}` } } )
+    const request = axios.put(`${baseUrl}/api/newAdmin/${rut}`, null, { headers: { Authorization: `Bearer ${jwt}` } } )
     const res = await request
     return res.data
 }
 
 const getDependencies = async (jwt: string | null) => {
-    const request = axios.get('/api/getDependencies', { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.get(`${baseUrl}/api/getDependencies`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
 const createDependency = async (nombre: string, direccion: string, jwt: string | null) => {
-    const request = axios.post('/api/newDependency', { nombre, direccion }, { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.post(`${baseUrl}/api/newDependency`, { nombre, direccion }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
 const deleteDependency = async (index: number, jwt: string | null) => {
-    const request = axios.delete(`/api/deleteDependency/${index}`, { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.delete(`${baseUrl}/api/deleteDependency/${index}`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
 const updateDependency = async (newName: string | null, newDirection: string | null, index: number, jwt: string | null) => {
-    const request = axios.put(`/api/updateDependency/${index}`, { newName, newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.put(`${baseUrl}/api/updateDependency/${index}`, { newName, newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
@@ -142,7 +144,7 @@ const uploadExcel = async (excel: File | null | undefined, jwt: string | null) =
     const formData = new FormData()
     formData.append('excelFile', excel as Blob)
 
-    const request = axios.post('/api/uploadExcel', formData, {
+    const request = axios.post(`${baseUrl}/api/uploadExcel`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${jwt}`
@@ -154,7 +156,7 @@ const uploadExcel = async (excel: File | null | undefined, jwt: string | null) =
 }
 
 const downloadExcel = async (users: number | string, page: number, jwt: string | null) => {
-    const getExcel = await axios.get('/api/download', {
+    const getExcel = await axios.get(`${baseUrl}/api/download`, {
         params: {
             users,
             page,
@@ -180,7 +182,7 @@ const downloadExcel = async (users: number | string, page: number, jwt: string |
 }
 
 const downloadTemplate = async (jwt: string | null) => {
-    const getTemplate = await axios.get('/api/template', {
+    const getTemplate = await axios.get(`${baseUrl}/api/template`, {
         responseType: 'blob',
         headers: {
             Authorization: `Bearer ${jwt}`

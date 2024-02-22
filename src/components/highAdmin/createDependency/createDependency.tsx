@@ -31,7 +31,6 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
                 const token = localStorage.getItem('jwt')
                 const rerender = await dataService.getDependencies(token)
                 setDependencies(rerender.request)
-                console.log(rerender.message)
             } catch(error: any) {
                 console.log(error.response.data.error)
             }
@@ -44,7 +43,6 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
             const token = localStorage.getItem('jwt')
             const rerender = await dataService.getDependencies(token)
             setDependencies(rerender.request)
-            console.log(rerender.message)
         } catch(error: any) {
             console.log(error.response.data.error)
         }

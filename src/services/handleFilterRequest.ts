@@ -1,8 +1,8 @@
 import axios from "axios"
-const url = '/api/filter/'
+const baseUrl = 'https://server-sort-muni-crud-backend.vercel.app'
 
 const toggleFilter = async (column: string, order: string, searchValue: string, searchColumn: string, pageSize: number, page: number, jwt: string | null) => {
-    const request = await axios.get(`${url}`, {
+    const request = await axios.get(`${baseUrl}`, {
         params: {
             column,
             order,
@@ -24,7 +24,7 @@ const searchFilter = async (column: string, value: string, pageSize: number, pag
         return toggleFilter(column, 'normal', '', '',  pageSize, page, jwt)
     }
     
-    const request = await axios.get(`${url}/search/`, {
+    const request = await axios.get(`${baseUrl}/search/`, {
         params: {
             column,
             value,

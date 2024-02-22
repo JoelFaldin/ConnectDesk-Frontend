@@ -12,7 +12,6 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
     const [excel, setExcel] = useState<File | null>()
     const [userQuantity, setUserQuantity] = useState<number | string>('todo')
     const [selectPage, setSelectPage] = useState(1)
-    // const [fileInput, setFileInput] = useState(0)
     
     // Cambiando la página de datos que se quieren mostrar en el excel descargado:
     const handlePage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,13 +32,11 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
             alert(req.message)
             setTimeout(() => {
                 setExcel(null)
-                // setFileInput(prev => prev + 1)
             }, 500)
             onFinish()
         } catch(error: any) {
             alert(error.response.data.message)
             setExcel(null)
-            // setFileInput(prev => prev + 1)
         }
     }
 
