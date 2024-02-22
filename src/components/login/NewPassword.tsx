@@ -41,7 +41,7 @@ const newPassword = () => {
         const enteredValue = event.target.value;
         setReEnterPassword(enteredValue);
 
-        if (enteredValue.length > newPassword.length || (enteredValue.length === newPassword.length && newPassword !== enteredValue)) {
+        if (reEnterPassword.length > newPassword.length || (reEnterPassword.length === newPassword.length && newPassword !== reEnterPassword)) {
             setUnmatching('Las contraseñas no coinciden.')
         } else {
             setUnmatching('')
