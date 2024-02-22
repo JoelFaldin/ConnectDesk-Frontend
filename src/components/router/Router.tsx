@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Login from "../login/Login"
 import AdminPage from "../admin/AdminPage"
 import CreateUser from "../highAdmin/createUser/createUser"
@@ -16,8 +16,7 @@ const RouterComponent = () => {
         <div className="router">
             <Router>
                 <Routes>
-                    <Route path="/" element={<Navigate to="/login" />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/" element={<Login />} />
                     <Route path="/newPassword" element={<NewPassword />} />
                     <Route path="/recoverPassword" element={<RecoverPassword />} />
                     <Route path="/data/superadmin" element={<HighAdminPage />} />
