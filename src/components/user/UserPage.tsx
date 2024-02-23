@@ -41,7 +41,7 @@ const UserPage = () => {
             await dataService.logout(token)
             // console.log(logout.message)
             localStorage.removeItem('jwt')
-            navigate('/login')
+            navigate('/')
         } catch(error: any) {
             console.log(error.response.data.error)
         }

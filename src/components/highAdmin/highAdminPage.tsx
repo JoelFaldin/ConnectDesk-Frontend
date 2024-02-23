@@ -40,7 +40,7 @@ const HighAdminPage = () => {
         try {
             await dataService.logout(token)
             localStorage.removeItem('jwt')
-            navigate('/login')
+            navigate('/')
         } catch(error: any) {
             console.log(error.response.data.error)
         }
