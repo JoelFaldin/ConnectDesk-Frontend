@@ -284,8 +284,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         }, {})
                       )
                     try {
-                        const update = await dataService.updateUser(filteredData, pageSize, page, jwtToken)
-                        console.log(update.message)
+                        await dataService.updateUser(filteredData, pageSize, page, jwtToken)
                         rerender()
                     } catch(error: any) {
                         console.log(error.response.data.error)
@@ -297,8 +296,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 if (decision) {
                     try {
                         const token = localStorage.getItem('jwt')
-                        const deletion = await dataService.deleteUser(cancelChange[rowIndex].rut, token)
-                        console.log(deletion.message)
+                        await dataService.deleteUser(cancelChange[rowIndex].rut, token)
                     } catch(error: any) {
                         console.log(error.response.data.error)
                     }
@@ -310,8 +308,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 if (decision) {
                     try {
                         const token = localStorage.getItem('jwt')
-                        const request = await dataService.makeAdmin(cancelChange[rowIndex].rut, token)
-                        console.log(request.message)
+                        await dataService.makeAdmin(cancelChange[rowIndex].rut, token)
                     } catch(error: any) {
                         console.log(error.response.data.error)
                     }
@@ -371,7 +368,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         try {
             const token = localStorage.getItem('jwt')
             const req = await dataService.getUsers(searchValue, searchColumn, Number(event.target.value), page, token)
-            console.log(req.message)
             setData(req.content)
             setCancelChange(req.content)
     
@@ -400,7 +396,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     }
 
     const handleExcelFiles = () => {
-        console.log('yo')
         document.getElementById('handleExcelContainer')?.classList.toggle('invisible')
         document.getElementById('handleExcelBG')?.classList.toggle('opacity-0')
         document.getElementById('handleExcelBG')?.classList.toggle('opacity-50')
