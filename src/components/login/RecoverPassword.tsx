@@ -33,14 +33,13 @@ const recoverPassword = () => {
             setTimeout(() => {
                 setMessage('')
             }, 10000)
-            // setMessage(request)
         } catch(error: any) {
             console.error(error.response.data.error)
         }
     }
 
     const goBack = () => {
-        navigate('/login')
+        navigate('/')
     }
 
     return (

@@ -23,10 +23,10 @@ const newPassword = () => {
                 if (isValid.valid) {
                     console.log('Valid token! ')
                 } else {
-                    navigate('/login')
+                    navigate('/')
                 }
             } catch (error) {
-                navigate('/login')
+                navigate('/')
             }
         }
 
@@ -75,7 +75,7 @@ const newPassword = () => {
     }
 
     const goBack = () => {
-        navigate('/login')
+        navigate('/')
     }
 
     return (
