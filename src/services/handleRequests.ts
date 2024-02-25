@@ -13,7 +13,7 @@ interface userModel {
     anexoMunicipal: string
 }
 
-const baseUrl = 'https://server-sort-muni-crud-backend.vercel.app'
+const baseUrl = ''
 
 const getUsers = async (searchValue: string, searchColumn: string, pageSize: number, page: number, jwt: string | null) => {
     const req = axios.get(`${baseUrl}/api/newData`, {
