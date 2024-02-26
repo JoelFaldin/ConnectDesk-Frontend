@@ -85,17 +85,19 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                         <span className="text-base">Subir archivo</span>
                     </button>
                     <p className="pt-4 text-xs mb-4">Nota: No puedes subir el mismo archivo múltiples veces.</p>
+
+                    <h3 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Plantilla</h3>
                     <button
                         className="w-fit inline-flex items-center rounded-md bg-sky-200 px-2 py-1 text-xs font-medium text-sky-700 ring-1 ring-inset ring-sky-700/10 hover:bg-sky-400 hover:ring-sky-900"
                         onClick={downloadTemplate}
                     >
                         <span className="text-base">Descargar plantilla</span>
                     </button>
-                    <p className="pt-4 text-xs">Esta plantilla lleva los headers necesarios para ser leídos por el sistema.</p>
+                    <p className="pt-4 text-xs">Esta plantilla lleva los headers (cabeceras) necesarios para ser leídos por el sistema.</p>
                 </section>
 
                 <section className="max-w-xl">
-                    <h3 className="text-base underline decoration-solid underline-offset-2 py-4 font-medium">Descarga los usuarios</h3>
+                    <h4 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Descarga los usuarios</h4>
                     <label
                         htmlFor="userQuantity"
                         className="block text-sm font-medium leading-6 text-gray-900"

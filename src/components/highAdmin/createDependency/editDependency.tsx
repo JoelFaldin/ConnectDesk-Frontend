@@ -9,7 +9,7 @@ interface editDep {
     toggleEdit: () => void,
     edit: boolean,
     number: number | null,
-    rerender: () => void
+    rerender: () => void,
 }
 
 const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, number, rerender }) => {
@@ -26,17 +26,18 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
         setEditDireccion(event.target.value)
     }
 
-    // Función para mandarlos nuevos datos de la dependencia al servidor:
+    // Función para mandar los nuevos datos de la dependencia al servidor:
     const handleUpdate = async () => {
         if ((editNombre ?? initialValues[0]) === initialValues[0] && (editDireccion ?? initialValues[1]) === initialValues[1]) {
-            confirm('No has hecho cambios en ningún campo!')
+            alert('No has hecho cambios en ningún campo!')
         } else {
             try {
                 const jwtToken = localStorage.getItem('jwt')
                 const update = await dataService.updateDependency(editNombre, editDireccion, index, jwtToken)
-                console.log(update.message)
+                rerender()
+                alert(update.message)
             } catch(error: any) {
-                console.log(error.response.data.error)
+                alert('No se pudo actualizar los datos de la dependencia.')
             }
         }
     }
@@ -63,7 +64,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                 />
             </span>
             <span>
-                <ActionButtons toggleEdit={toggleEdit} edit={edit} index={index} number={number} rerender={rerender} />
+                <ActionButtons toggleEdit={() => toggleEdit()} edit={edit} index={index} number={number} rerender={rerender} />
                 <button
                     className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-200"
                     onClick={handleUpdate}

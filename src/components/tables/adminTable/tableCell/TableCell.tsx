@@ -13,7 +13,7 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
     const tableMeta = table.options.meta
     const [value, setValue] = useState('')
     const [newValue, setNewValue] = useState<string | null>(null)
-
+    
     useEffect(() => {
         setValue(initialValue)
     }, [initialValue])
@@ -28,7 +28,6 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         table.options.meta?.updateData(row.index, column.id, event.target.value)
     }
 
-    // Generando un saludo aleatorio para mostrar:
     const dependencies = ['Municipalidad norte', 'Municipalidad centro', 'Municipalidad sur']
     const generateDependencies = dependencies.filter(item => item !== value)
 
@@ -69,7 +68,6 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         )
     }
     return <span>{value}</span>
-    
 }
 
 export default TableCell

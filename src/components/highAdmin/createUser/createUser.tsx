@@ -1,5 +1,4 @@
 import handleRequests from "../../../services/handleRequests"
-import objectService from "../../../services/checkObject"
 import rutFormater from "../../../services/rutFormater"
 import { ChangeEvent, useState } from "react"
 import { BiArrowBack } from "react-icons/bi"
@@ -12,14 +11,21 @@ interface newUser {
 const CreateUser: React.FC<newUser> = ({ onFinish }) => {
     // Estados para guardar la información del nuevo usuario:
     const [newRut, setNewRut] = useState('')
+    const [rutWarning, setRutWarning] = useState(false)
     const [nombres, setNombres] = useState('')
+    const [nombreWarning, setNombreWarning] = useState(false)
     const [apellidos, setApellidos] = useState('')
+    const [apellidoWarning, setApellidoWarning] = useState(false)
     const [email, setEmail] = useState('')
+    const [emailWarning, setEmailWarning] = useState(false)
     const [dependencias, setDependencias] = useState('Municipalidad norte')
     const [direccion, setDireccion] = useState('')
+    const [direccionWarning, setDireccionWarning] = useState(false)
     const [numMuni, setNumMuni] = useState('')
     const [anexo, setAnexo] = useState('')
+    const [anexoWarning, setAnexoWarning] = useState(false)
     const [password, setPassword] = useState('')
+    const [passWarning, setPassWarning] = useState(false)
     const [rol, setRol] = useState('user')
 
     // Mandando los datos del nuevo usuario al servidor:
@@ -37,44 +43,94 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
             numMunicipal: numMuni,
             anexoMunicipal: anexo
         }
+        if (newRut === '') {
+            setRutWarning(true)
+            return
+        } else if (nombres === '') {
+            setNombreWarning(true)
+            return
+        } else if (apellidos === '') {
+            setApellidoWarning(true)
+            return
+        } else if (email === '') {
+            setEmailWarning(true)
+            return
+        } else if (direccion === '') {
+            setDireccionWarning(true)
+            return
+        } else if (anexo === '') {
+            setAnexoWarning(true)
+            return
+        } else if (password === '') {
+            setPassWarning(true)
+            return
+        }
 
         // Revisando que el objeto no tenga campos vacíos:
-        if (objectService.checkObject(newUser)) {
-            const filterEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-            if (filterEmail.test(email)) {
-                try {
-                    const jwtToken = localStorage.getItem('jwt')
-                    const userCrated = await handleRequests.createUser(newUser, jwtToken)
-                    alert(userCrated.message)
-                    // Limpiando los datos una vez la petición se compelta:
-                    setNewRut('')
-                    setNombres('')
-                    setApellidos('')
-                    setEmail('')
-                    setDependencias('Municipalidad norte')
-                    setDireccion('')
-                    setNumMuni('')
-                    setAnexo('')
-                    setPassword('')
-                    setRol('user')
-                    onFinish()
-                } catch(error: any) {
-                    alert(error.response.data.error)
-                }
-            } else {
-                alert('Formato de correo incorrecto!')
+        const filterEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+        if (filterEmail.test(email)) {
+            try {
+                const jwtToken = localStorage.getItem('jwt')
+                const userCrated = await handleRequests.createUser(newUser, jwtToken)
+                // Limpiando los datos una vez la petición se compelta:
+                setNewRut('')
+                setNombres('')
+                setApellidos('')
+                setEmail('')
+                setDependencias('Municipalidad norte')
+                setDireccion('')
+                setNumMuni('')
+                setAnexo('')
+                setPassword('')
+                setRol('user')
+                alert(userCrated.message)
+                onFinish()
+            } catch(error: any) {
+                alert(error.response.data.error)
             }
         } else {
-            alert('Faltan datos por ingresar!')
+            alert('Formato de correo incorrecto!')
         }
-        
     }
 
     // Set de funciones que cambian el valor de cada elemento:
     const handleRut = (event: ChangeEvent<HTMLInputElement>) => {
         const rut = event.target.value
-        if (rutFormater(rut)) {
+        if (event.target.value === '') {
+            setRutWarning(true)
+        } else if (rutFormater(rut)) {
             setNewRut(rut)
+            setRutWarning(false)
+        }
+    }
+
+    const handleNombre = (event: ChangeEvent<HTMLInputElement>) => {
+        const nombre = event.target.value
+        if (event.target.value === '') {
+            setNombreWarning(true)
+        } else {
+            setNombres(nombre)
+            setNombreWarning(false)
+        }
+    }
+
+    const handleApellido = (event: ChangeEvent<HTMLInputElement>) => {
+        const apellido = event.target.value
+        if (event.target.value === '') {
+            setApellidoWarning(true)
+        } else {
+            setApellidos(apellido)
+            setApellidoWarning(false)
+        }
+    }
+
+    const handleEmail = (event: ChangeEvent<HTMLInputElement>) => {
+        const email = event.target.value
+        if (event.target.value === '') {
+            setEmailWarning(true)
+        } else {
+            setEmail(email)
+            setEmailWarning(false)
         }
     }
 
@@ -94,6 +150,16 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
         }
     }
 
+    const handleDireccion = (event: ChangeEvent<HTMLInputElement>) => {
+        const direccion = event.target.value
+        if (event.target.value === '') {
+            setDireccionWarning(true)
+        } else {
+            setDireccion(direccion)
+            setDireccionWarning(false)
+        }
+    }
+
     const handleNumMuni = (event: ChangeEvent<HTMLInputElement>) => {
         const filterNumber = /[^0-9\s+]/g
         if (filterNumber.test(event.target.value) || event.target.value.length + 1 === 17) {
@@ -107,13 +173,21 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
         const filterAnexo = /[^0-9]/g
         if (filterAnexo.test(event.target.value) || event.target.value.length + 1 === 11) {
             return
+        } else if (event.target.value === '') {
+            setAnexoWarning(true)
         } else {
             setAnexo(event.target.value)
         }
     }
  
     const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value)
+        const pass = event.target.value
+        if (event.target.value === '') {
+            setPassWarning(true)
+        } else {
+            setPassword(pass)
+            setPassWarning(false)
+        }
     }
 
     return (
@@ -134,7 +208,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     name="rut"
                                     type="text"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className={!rutWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleRut}
                                     value={newRut}
                                     placeholder="12.345.678-9" 
@@ -147,8 +221,9 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     name="nombres"
                                     type="text"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={event => setNombres(event.target.value)}
+                                    className={!nombreWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
+                                    onChange={handleNombre}
+                                    value={nombres}
                                     placeholder="Nombre(s)..."
                                 />
                             </div>
@@ -160,8 +235,9 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     name="apellidos"
                                     type="text"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={e => setApellidos(e.target.value)}
+                                    className={!apellidoWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
+                                    onChange={handleApellido}
+                                    value={apellidos}
                                     placeholder="Apellido(s)..."
                                 />
                             </div>
@@ -173,8 +249,9 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     name="email"
                                     type="email"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={event => setEmail(event.target.value)}
+                                    className={!emailWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
+                                    onChange={handleEmail}
+                                    value={email}
                                     placeholder="ejemplo@correo.com"
                                     />
                             </div>
@@ -224,8 +301,9 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     name="dirección"
                                     type="text"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring.inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={e => setDireccion(e.target.value)}
+                                    className={!direccionWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
+                                    onChange={handleDireccion}
+                                    value={direccion}
                                     placeholder="Iquique"
                                 />
                             </div>
@@ -236,7 +314,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     id="num-muni"
                                     name="numeroMunicipal"
                                     type="text"
-                                    required
+                                    required={false}
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={handleNumMuni} placeholder="9 1111 1111" value={numMuni}
                                 />
@@ -249,7 +327,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     name="anexoMunicipal"
                                     type="text"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm-text-sm sm:leading-6"
+                                    className={!anexoWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleAnexo}
                                     placeholder="9999"
                                     value={anexo} />
@@ -265,8 +343,9 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                 name="contraseña"
                                 type="password"
                                 required
-                                className="block w-full rounded border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className={!passWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                 onChange={handlePassword}
+                                value={password}
                             />
                             <input id="submit"
                                 name="submit"
