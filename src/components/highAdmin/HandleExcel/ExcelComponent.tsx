@@ -71,7 +71,8 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                 <section className="max-w-xl flex flex-col">
                     <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Sube archivos al sistema</h2>
                     <p className="pb-4 font-medium mr-2">Estos datos serán (si la operación tiene éxito) añadidos a la base de datos!</p>
-                    <p className="pb-4 font-medium mr-2 text-cyan-600">NOTA: Todos (excepto los números municipales) deben tener un valor!</p>
+                    <p className="pb-4 font-medium mr-2 text-cyan-600">NOTA: Todas las celdas (excepto los números municipales) deben tener un valor!</p>
+                    <p className="pb-4 font-medium mr-2 text-cyan-600">NOTA: El rol de un usuario solo puede ser 'user'!</p>
                     <input 
                         type="file"
                         accept=".xls, .xlsx"
@@ -85,9 +86,9 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                     >
                         <span className="text-base">Subir archivo</span>
                     </button>
-                    <p className="pt-4 text-xs mb-4">Nota: No puedes subir el mismo archivo múltiples veces.</p>
+                    <p className="pt-2 text-xs mb-4">Nota: No puedes subir el mismo archivo múltiples veces.</p>
 
-                    <h3 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Plantilla</h3>
+                    <h3 className="text-xl mt-8 font-medium pb-2 underline decoration-solid underline-offset-2">Plantilla</h3>
                     <button
                         className="w-fit inline-flex items-center rounded-md bg-sky-200 px-2 py-1 text-xs font-medium text-sky-700 ring-1 ring-inset ring-sky-700/10 hover:bg-sky-400 hover:ring-sky-900"
                         onClick={downloadTemplate}
@@ -95,10 +96,8 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                         <span className="text-base">Descargar plantilla</span>
                     </button>
                     <p className="pt-4 text-xs">Esta plantilla lleva los headers (cabeceras) necesarios para ser leídos por el sistema.</p>
-                </section>
 
-                <section className="max-w-xl">
-                    <h4 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Descarga los usuarios</h4>
+                    <h4 className="text-xl mt-8 font-medium pb-2 underline decoration-solid underline-offset-2">Descarga los usuarios</h4>
                     <label
                         htmlFor="userQuantity"
                         className="block text-sm font-medium leading-6 text-gray-900"

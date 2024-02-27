@@ -28,7 +28,7 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         table.options.meta?.updateData(row.index, column.id, event.target.value)
     }
 
-    const dependencies = ['Municipalidad norte', 'Municipalidad centro', 'Municipalidad sur']
+    const dependencies = ['Municipalidad Norte', 'Municipalidad Centro', 'Municipalidad Sur']
     const generateDependencies = dependencies.filter(item => item !== value)
 
     const userValue = ['user', 'admin', 'superAdmin']
