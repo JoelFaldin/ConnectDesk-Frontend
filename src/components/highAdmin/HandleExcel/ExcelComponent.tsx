@@ -71,6 +71,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
                 <section className="max-w-xl flex flex-col">
                     <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Sube archivos al sistema</h2>
                     <p className="pb-4 font-medium mr-2">Estos datos serán (si la operación tiene éxito) añadidos a la base de datos!</p>
+                    <p className="pb-4 font-medium mr-2 text-cyan-600">NOTA: Todos (excepto los números municipales) deben tener un valor!</p>
                     <input 
                         type="file"
                         accept=".xls, .xlsx"
