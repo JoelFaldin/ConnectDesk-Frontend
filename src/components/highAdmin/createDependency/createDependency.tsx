@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import dataService from '../../../services/handleRequests'
 import EditDependency from "./editDependency"
 import ActionButtons from "./actionButtons"
@@ -11,11 +11,12 @@ interface dependencies {
 }
 
 interface dependencyComponent {
-    onFinish: () => void
+    onFinish: () => void,
+    initialDependencies: Array<any>,
+    rerenderDependency: () => void
 }
 
-const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
-    const [dependencies, setDependencies] = useState<any>([])
+const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDependencies, rerenderDependency }) => {
     const [newDependencyName, setNewDependencyName] = useState('')
     const [newDireccion, setNewDireccion] = useState('')
     const [nameWarning, setNameWarning] = useState(false)
@@ -23,30 +24,6 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
     
     // Estados para editar:
     const [editState, setEditState] = useState<null | number>(null)
-
-    // Función inicial para obtener las dependencias:
-    useEffect(() => {
-        const fetchDeps = async () => {
-            try{
-                const token = localStorage.getItem('jwt')
-                const rerender = await dataService.getDependencies(token)
-                setDependencies(rerender.request)
-            } catch(error: any) {
-                console.log(error.response.data.error)
-            }
-        }
-        fetchDeps()
-    }, [])
-
-    const rerender = async () => {
-        try{
-            const token = localStorage.getItem('jwt')
-            const rerender = await dataService.getDependencies(token)
-            setDependencies(rerender.request)
-        } catch(error: any) {
-            console.log(error.response.data.error)
-        }
-    }
 
     const handleDependencyName = (event: ChangeEvent<HTMLInputElement>) => {
         setNewDependencyName(event.target.value)
@@ -81,12 +58,12 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
                 console.log(newDependency.message)
                 setNewDependencyName('')
                 setNewDireccion('')
-                rerender()
                 alert('Dependencia creada!')
             } catch(error: any) {
                 alert(error.response.data.error)
             }
         }
+        rerenderDependency()
     }
 
     // Función para cambiar de modo entre edición y normal:
@@ -104,20 +81,20 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish }) => {
                 <section className="pr-9 max-w-fit">
                     <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Existentes:</h2>
                     {
-                        dependencies.length === 0 ? (
+                        initialDependencies.length === 0 ? (
                             <p>No hay dependencias creadas.</p>
                         ) : (
                             <ul>
-                            {dependencies.map((element: dependencies, index: number) => (
+                            {initialDependencies.map((element: dependencies, index: number) => (
                                 <li key={`Grupo${index}`} className="pb-2 mb-8">
                                 {editState !== index ? (
                                     <>
                                         <p key={`Dependencia${index}`}>{element.nombre}</p>
                                         <i key={`Direccion${index}`} className="block text-base pl-4">{element.direccion}</i>
-                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} index={index} number={editState} rerender={rerender} />
+                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} index={index} number={editState} rerender={rerenderDependency} />
                                     </>
                                 ) : (
-                                    <EditDependency key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} number={editState} rerender={rerender} />
+                                    <EditDependency key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} number={editState} rerender={rerenderDependency} />
                                 )}
                                 </li>
                             ))}

@@ -40,6 +40,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                 alert('No se pudo actualizar los datos de la dependencia.')
             }
         }
+        toggleEdit()
     }
 
     return (

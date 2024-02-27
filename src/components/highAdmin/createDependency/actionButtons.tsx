@@ -15,12 +15,11 @@ const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, numbe
         if (confirm('¿Quieres eliminar esta dependencia?')) {
             try {
                 const jwtToken = localStorage.getItem('jwt')
-                const deletion = await dataService.deleteDependency(index, jwtToken)
-                console.log(deletion.message)
-                rerender()
+                await dataService.deleteDependency(index, jwtToken)
             } catch(error: any) {
                 console.log(error.response.data.error)
             }
+            rerender()
         }
     }
         

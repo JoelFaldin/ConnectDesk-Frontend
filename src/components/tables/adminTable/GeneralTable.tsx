@@ -81,9 +81,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     // Info de la tabla:
     const [data, setData] = useState<Employee[]>([])
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
-    const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [total, setTotal] = useState(0)
+    const [page, setPage] = useState(1)
+    const [dependencies, setDependencies] = useState([])
 
     // Funcionamiento de la tabla:
     const [newRows, setNewRows] = useState({})
@@ -123,7 +124,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
-    // Función inicial que trae datos desde el servidor a la tabla:
+    // Función inicial que trae datos desde el servidor a la tabla y trae las dependencias existentes:
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -138,6 +139,14 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             }
         }
         fetchData()
+
+        const fetchDeps = async () => {
+            const token = localStorage.getItem('jwt')
+            const deps = await dataService.getDependencies(token)
+            console.log(deps.request)
+            setDependencies(deps.request)
+        }
+        fetchDeps()
     }, [])
 
     // Rerenderizando la tabla cada vez que cambia {page}:
@@ -317,6 +326,17 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             }
         }
     })
+
+    // Función para re-renderizar las dependencias:
+    const rerenderDependency = async () => {
+        try{
+            const token = localStorage.getItem('jwt')
+            const rerender = await dataService.getDependencies(token)
+            setDependencies(rerender.request)
+        } catch(error: any) {
+            console.log(error.response.data.error)
+        }
+    }
 
     // Actualizando el orden de una columna de la tabla:
     const handleFilter = (column: string) => {
@@ -573,13 +593,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
                 <div id="newUserForm" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateUser onFinish={handleNewUser} />
+                    <CreateUser onFinish={handleNewUser} initialDependencies={dependencies} rerenderDependency={rerenderDependency} />
                 </div>
             </div>
             <div id="newDependencyContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newDependencyBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDependency}></div>
                 <div id="newDependency" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateDependency onFinish={handleNewDependency} />
+                    <CreateDependency onFinish={handleNewDependency} initialDependencies={dependencies} rerenderDependency={rerenderDependency} />
                 </div>
             </div>
             <div id="handleExcelContainer" className="fixed inset-0 w-full h-full invisible">

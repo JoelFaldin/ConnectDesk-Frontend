@@ -5,10 +5,12 @@ import { BiArrowBack } from "react-icons/bi"
 
 // Interfaz para el componente:
 interface newUser {
-    onFinish: () => void
+    onFinish: () => void,
+    initialDependencies: Array<any>,
+    rerenderDependency: () => void
 }
 
-const CreateUser: React.FC<newUser> = ({ onFinish }) => {
+const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerenderDependency }) => {
     // Estados para guardar la información del nuevo usuario:
     const [newRut, setNewRut] = useState('')
     const [rutWarning, setRutWarning] = useState(false)
@@ -91,6 +93,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
         } else {
             alert('Formato de correo incorrecto!')
         }
+        rerenderDependency()
     }
 
     // Set de funciones que cambian el valor de cada elemento:
@@ -287,9 +290,11 @@ const CreateUser: React.FC<newUser> = ({ onFinish }) => {
                                     value={dependencias}
                                 >
                                         <optgroup label="-- Selecciona una opción">
-                                            <option>Municipalidad norte</option>
-                                            <option>Municipalidad centro</option>
-                                            <option>Municipalidad sur</option>
+                                            {
+                                                initialDependencies.map((item, index) => {
+                                                    return <option key={`dependency${index}`}>{item.nombre}</option>
+                                                })
+                                            }
                                         </optgroup>
                                 </select>
                             </div>
