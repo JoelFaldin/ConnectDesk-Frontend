@@ -2,6 +2,8 @@ import { ChangeEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import handleRequest from '../../services/handleRequests'
 import rutFormater from '../../services/rutFormater'
+import { BiShowAlt } from "react-icons/bi"
+import { BiHide } from "react-icons/bi"
 
 const Login = () => {
     // Estados para manejar el comportamiento del componente:
@@ -10,6 +12,7 @@ const Login = () => {
     const [rutError, setRutError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [reveal, setReveal] = useState(false)
 
     const navigate = useNavigate()
     
@@ -61,7 +64,14 @@ const Login = () => {
         navigate('/recoverPassword')
     }
 
-    const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    // Revelar/esconder la password:
+    const handleReveal = () => {
+        setReveal(prev => {
+            return !prev
+        })
+    }
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setLoading(true)
         await handleAuth(rut, password)
@@ -78,7 +88,7 @@ const Login = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="rut" className="block text-sm font-medium leading-6 text-gray-900">
                                 Rut
@@ -104,27 +114,27 @@ const Login = () => {
                         </div>
 
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Contraseña:
-                                </label>
-                                <div className="text-sm">
-                                    <button onClick={recoverPassword} className="font-semibold text-cyan-600 hover:text-cyan-500 cursor-pointer">
-                                        ¿Olvidaste tu contraseña?
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="mt-2">
+                            <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                                Contraseña:
+                            </label>
+                            <div className="mt-2 flex items-center">
                                     <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    className="block w-full rounded-md border-0 mb-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="Ingrese su contraseña..."
-                                    onChange={handlePassword}
+                                        id="password"
+                                        name="password"
+                                        type={!reveal ? "password" : "text"}
+                                        autoComplete="current-password"
+                                        required
+                                        className="w-full rounded-md border-0 mb-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        placeholder="Ingrese su contraseña..."
+                                        onChange={handlePassword}
                                     />
+                                    <button
+                                        className="ml-2"
+                                        onClick={handleReveal}
+                                        type="button"
+                                    >
+                                        {!reveal ? <BiShowAlt size={24} /> : <BiHide size={24} />}
+                                    </button>
                             </div>
                             {
                                 passwordError !== '' ? (
@@ -136,12 +146,16 @@ const Login = () => {
                         <button
                         type="submit"
                         className={!loading ? "flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline" : "flex w-full justify-center rounded-md bg-gray-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"}
-                        onClick={handleSubmit}
                         disabled={loading}
                         >
                             Ingresar
                         </button>
                     </form>
+                    <div className="text-sm">
+                        <button onClick={recoverPassword} className="font-semibold text-cyan-600 hover:text-cyan-500 cursor-pointer">
+                            ¿Olvidaste tu contraseña?
+                        </button>
+                    </div>
                     {
                         loading ? <p>Cargando...</p> : ''
                     }

@@ -1,8 +1,10 @@
-import { ChangeEvent, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
+import { ChangeEvent, useEffect, useState } from "react"
 import dataService from '../../services/handleRequests'
-import { BiCheck } from "react-icons/bi"
 import { BiLeftArrowAlt } from "react-icons/bi"
+import { BiShowAlt } from "react-icons/bi"
+import { BiCheck } from "react-icons/bi"
+import { BiHide } from "react-icons/bi"
 
 const newPassword = () => {
     const [newPassword, setNewPassword] = useState('')
@@ -10,6 +12,8 @@ const newPassword = () => {
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [unmatching, setUnmatching] = useState('')
+    const [revealFirstPass, setRevealFirstPass] = useState(false)
+    const [revealSecond, setRevealSecond] = useState(false)
     const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm
 
     const navigate = useNavigate()
@@ -74,6 +78,18 @@ const newPassword = () => {
         } 
     }
 
+    const handleFirstReveal = () => {
+        setRevealFirstPass(prev => {
+            return !prev
+        })
+    }
+
+    const handleSecondReveal = () => {
+        setRevealSecond(prev => {
+            return !prev
+        })
+    }
+
     const goBack = () => {
         navigate('/')
     }
@@ -92,25 +108,45 @@ const newPassword = () => {
                         <label htmlFor="newPassword" className="block text-sm font-medium leading-6 text-gray-900">
                             Ingrese una nueva contraseña:
                         </label>
-                        <input
-                            type="password"
-                            name="newPassword"
-                            id="newPassword"
-                            required={true}
-                            onChange={handleNewPassword}
-                            className="mb-10 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 px-3"
-                        />
-                        <label htmlFor="reEnterPassword" className="block text-sm font-medium leading-6 text-gray-900">
+                        <div className="mt-2 flex items-center">
+                            <input
+                                type={!revealFirstPass ? "password" : "text"}
+                                name="newPassword"
+                                id="newPassword"
+                                required={true}
+                                onChange={handleNewPassword}
+                                className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 px-3"
+                            />
+                            <button
+                                className="ml-2"
+                                onClick={handleFirstReveal}
+                                type="button"
+                            >
+                                {!revealFirstPass ? <BiShowAlt size={24} /> : <BiHide size={24} />}
+                            </button>
+                        </div>
+                        
+                        <label htmlFor="reEnterPassword" className="block mt-10 text-sm font-medium leading-6 text-gray-900">
                             Re-ingrese la contraseña:
                         </label>
-                        <input
-                            type="password"
-                            name="reEnterPassword"
-                            id="reEnterPassword"
-                            required={true}
-                            onChange={handleReEnterPassword}
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 px-3"
-                        />
+
+                        <div className="mt-2 flex items-center">
+                            <input
+                                type={!revealSecond ? "password" : "text"}
+                                name="reEnterPassword"
+                                id="reEnterPassword"
+                                required={true}
+                                onChange={handleReEnterPassword}
+                                className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 px-3"
+                            />
+                            <button
+                                className="ml-2"
+                                onClick={handleSecondReveal}
+                                type="button"
+                            >
+                                {!revealFirstPass ? <BiShowAlt size={24} /> : <BiHide size={24} />}
+                            </button>
+                        </div>
                         {
                             unmatching !== ''
                             ? (
