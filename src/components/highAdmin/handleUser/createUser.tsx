@@ -7,10 +7,11 @@ import { BiArrowBack } from "react-icons/bi"
 interface newUser {
     onFinish: () => void,
     initialDependencies: Array<any>,
-    rerenderDependency: () => void
+    rerenderDependency: () => void,
+    initialDirections: Array<any>
 }
 
-const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerenderDependency }) => {
+const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerenderDependency, initialDirections }) => {
     // Estados para guardar la información del nuevo usuario:
     const [newRut, setNewRut] = useState('')
     const [rutWarning, setRutWarning] = useState(false)
@@ -22,7 +23,6 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
     const [emailWarning, setEmailWarning] = useState(false)
     const [dependencias, setDependencias] = useState('Municipalidad norte')
     const [direccion, setDireccion] = useState('')
-    const [direccionWarning, setDireccionWarning] = useState(false)
     const [numMuni, setNumMuni] = useState('')
     const [anexo, setAnexo] = useState('')
     const [anexoWarning, setAnexoWarning] = useState(false)
@@ -56,9 +56,6 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
             return
         } else if (email === '') {
             setEmailWarning(true)
-            return
-        } else if (direccion === '') {
-            setDireccionWarning(true)
             return
         } else if (anexo === '') {
             setAnexoWarning(true)
@@ -150,16 +147,6 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                 break
             default:
                 setRol('user')
-        }
-    }
-
-    const handleDireccion = (event: ChangeEvent<HTMLInputElement>) => {
-        const direccion = event.target.value
-        if (event.target.value === '') {
-            setDireccionWarning(true)
-        } else {
-            setDireccion(direccion)
-            setDireccionWarning(false)
         }
     }
 
@@ -289,28 +276,33 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     onChange={event => setDependencias(event.target.value)}
                                     value={dependencias}
                                 >
-                                        <optgroup label="-- Selecciona una opción">
-                                            {
-                                                initialDependencies.map((item, index) => {
-                                                    return <option key={`dependency${index}`}>{item.nombre}</option>
-                                                })
-                                            }
-                                        </optgroup>
+                                    <optgroup label="-- Selecciona una opción">
+                                        {
+                                            initialDependencies.map((item, index) => {
+                                                return <option key={`dependency${index}`}>{item.nombre}</option>
+                                            })
+                                        }
+                                    </optgroup>
                                 </select>
                             </div>
                             
                             <label htmlFor="direcciones" className="block text-sm font-medium leading-6 text-gray-900">Direcciones:</label>
                             <div className="mb-2">
-                                <input
+                                <select
                                     id="direcciones"
-                                    name="dirección"
-                                    type="text"
                                     required
-                                    className={!direccionWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
-                                    onChange={handleDireccion}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={event => setDireccion(event.target.value)}
                                     value={direccion}
-                                    placeholder="Iquique"
-                                />
+                                >
+                                    <optgroup label="-- Selecciona una opción">
+                                        {
+                                            initialDirections.map((item, index) => {
+                                                return <option key={`dependency${index}`}>{item.direccion}</option>
+                                            })
+                                        }
+                                    </optgroup>
+                                </select>
                             </div>
 
                             <label htmlFor="num-muni" className="block text-sm font-medium leading-6 text-gray-900">Número municipal:</label>

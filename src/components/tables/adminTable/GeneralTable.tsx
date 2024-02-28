@@ -627,7 +627,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
                 <div id="newUserForm" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateUser onFinish={handleNewUser} initialDependencies={dependencies} rerenderDependency={rerenderDependency} />
+                    <CreateUser onFinish={handleNewUser} initialDependencies={dependencies} initialDirections={directions} rerenderDependency={rerenderDependency} />
                 </div>
             </div>
             <div id="newDependencyContainer" className="fixed inset-0 w-full h-full invisible">
