@@ -110,7 +110,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 setCancelChange(users.content)
                 setTotal(users.totalData)
             } catch(error: any) {
-                console.log(error.response.data.error)
+                alert(error.response.data.error)
             }
         } else {
             try {
@@ -119,7 +119,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 setCancelChange(users.content)
                 setTotal(users.totalData)
             } catch(error: any) {
-                console.log(error.response.data.error)
+                alert(error.response.data.error)
             }
         }
     }
@@ -143,7 +143,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         const fetchDeps = async () => {
             const token = localStorage.getItem('jwt')
             const deps = await dataService.getDependencies(token)
-            console.log(deps.request)
             setDependencies(deps.request)
         }
         fetchDeps()
@@ -296,7 +295,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         await dataService.updateUser(filteredData, pageSize, page, jwtToken)
                         rerender()
                     } catch(error: any) {
-                        console.log(error.response.data.error)
+                        alert(error.response.data.error)
                     }
                 }
             },
@@ -307,7 +306,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         const token = localStorage.getItem('jwt')
                         await dataService.deleteUser(cancelChange[rowIndex].rut, token)
                     } catch(error: any) {
-                        console.log(error.response.data.error)
+                        alert(error.response.data.error)
                     }
                 }
                 rerender()
@@ -319,7 +318,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         const token = localStorage.getItem('jwt')
                         await dataService.makeAdmin(cancelChange[rowIndex].rut, token)
                     } catch(error: any) {
-                        console.log(error.response.data.error)
+                        alert(error.response.data.error)
                     }
                     rerender()
                 }
@@ -334,7 +333,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             const rerender = await dataService.getDependencies(token)
             setDependencies(rerender.request)
         } catch(error: any) {
-            console.log(error.response.data.error)
+            alert(error.response.data.error)
         }
     }
 
@@ -394,7 +393,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             table.setPageSize(Number(event.target.value))
             setPageSize(Number(event.target.value))
         } catch(error: any) {
-            console.log(error.response.data.error)
+            alert(error.response.data.error)
         }
     }
 

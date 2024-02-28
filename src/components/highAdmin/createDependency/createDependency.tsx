@@ -54,8 +54,7 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
         } else {
             try {
                 const jwtToken = localStorage.getItem('jwt')
-                const newDependency = await dataService.createDependency(newDependencyName, newDireccion, jwtToken)
-                console.log(newDependency.message)
+                await dataService.createDependency(newDependencyName, newDireccion, jwtToken)
                 setNewDependencyName('')
                 setNewDireccion('')
                 alert('Dependencia creada!')

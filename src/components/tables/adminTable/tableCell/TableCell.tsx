@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react"
+import dataService from '../../../../services/handleRequests'
 
 // Interfaz para el componente:
 interface tableCell {
@@ -8,11 +9,17 @@ interface tableCell {
     table: any
 }
 
+interface dependencyInterface {
+    nombre: string,
+    direccion: string
+}
+
 const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
     const initialValue = getValue()
     const tableMeta = table.options.meta
     const [value, setValue] = useState('')
     const [newValue, setNewValue] = useState<string | null>(null)
+    const [dependencies, setDependencies] = useState([])
     
     useEffect(() => {
         setValue(initialValue)
@@ -28,14 +35,22 @@ const TableCell: React.FC<tableCell> = ({ getValue, row, column, table }) => {
         table.options.meta?.updateData(row.index, column.id, event.target.value)
     }
 
-    const dependencies = ['Municipalidad Norte', 'Municipalidad Centro', 'Municipalidad Sur']
-    const generateDependencies = dependencies.filter(item => item !== value)
+    const getDependencies = async () => {
+        const token = localStorage.getItem('jwt')
+        const deps = await dataService.getDependencies(token)
+        const depsValues = deps.request.map((item: dependencyInterface) => {
+            return item.nombre
+        })
+        setDependencies(depsValues)
+    }
 
     const userValue = ['user', 'admin', 'superAdmin']
     const generateUserValue = userValue.filter(item => item !== value)
 
     // Renderizando distintos inputs dependiendo de la columna y del rol del usuario:
     if (tableMeta?.newRows[row.id]) {
+        getDependencies()
+        const generateDependencies = dependencies.filter(item => item !== value)
         return column.id === 'dependencias' ? (
             // Renderizando dependencias generadas con generateDependencies():
             <select className="items-center py-0.5 pl-1 max-w-fit" onChange={handleSelect}>
