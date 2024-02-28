@@ -1,9 +1,9 @@
 // Importando componentes y módulos:
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
-import CreateDependency from '../../highAdmin/createDependency/createDependency'
+import CreateDependency from '../../highAdmin/handleDependency/createDependency'
 import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
 import handleFilterRequest from '../../../services/handleFilterRequest'
-import CreateUser from '../../highAdmin/createUser/createUser'
+import CreateUser from '../../highAdmin/handleUser/createUser'
 import dataService from '../../../services/handleRequests'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Message } from "../message/Message"
@@ -21,6 +21,7 @@ import { BiSolidChevronLeft } from "react-icons/bi"
 import { RiFileExcel2Fill } from "react-icons/ri";
 import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi"
+import CreateDirection from '../../highAdmin/createDirection/createDirection'
 
 // Declaración de módulo para la tabla:
 declare module '@tanstack/react-table' {
@@ -85,6 +86,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [total, setTotal] = useState(0)
     const [page, setPage] = useState(1)
     const [dependencies, setDependencies] = useState([])
+    const [directions, setDirections] = useState([])
 
     // Funcionamiento de la tabla:
     const [newRows, setNewRows] = useState({})
@@ -328,10 +330,21 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
     // Función para re-renderizar las dependencias:
     const rerenderDependency = async () => {
-        try{
+        try {
             const token = localStorage.getItem('jwt')
             const rerender = await dataService.getDependencies(token)
             setDependencies(rerender.request)
+        } catch(error: any) {
+            alert(error.response.data.error)
+        }
+    }
+
+    // Función para re-renderizar las direcciones:
+    const rerenderDirection = async () => {
+        try {
+            const token = localStorage.getItem('jwt')
+            const rerender = await dataService.getDirections(token)
+            setDirections(rerender.request)
         } catch(error: any) {
             alert(error.response.data.error)
         }
@@ -411,6 +424,14 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         document.getElementById('newDependencyBG')?.classList.toggle('opacity-0')
         document.getElementById('newDependencyBG')?.classList.toggle('opacity-50')
         document.getElementById('newDependency')?.classList.toggle('translate-x-full')
+        rerender()
+    }
+
+    const handleNewDirection = () => {
+        document.getElementById('newDirectionContainer')?.classList.toggle('invisible')
+        document.getElementById('newDirectionBG')?.classList.toggle('opacity-0')
+        document.getElementById('newDirectionBG')?.classList.toggle('opacity-50')
+        document.getElementById('newDirection')?.classList.toggle('translate-x-full')
         rerender()
     }
 
@@ -581,6 +602,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     </div>
 
                     <div className="flex justify-start pt-2 min-w-fit">
+                        <button className="flex mr-2 gap-1 rounded-md bg-teal-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-teal-200 hover:ring-teal-500" onClick={handleNewDirection}>
+                            <BiImageAdd className="text-teal-700" size={24} />
+                            <span className="text-base text-teal-700 pr-1">Gestionar Direcciones</span>
+                        </button>
+                    </div>
+
+                    <div className="flex justify-start pt-2 min-w-fit">
                         <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
                             <BiSolidUserPlus className="text-green-700" size={24} />
                             <span className="text-base text-green-700 pr-1">Crear Usuario</span>
@@ -599,6 +627,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 <div id="newDependencyBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDependency}></div>
                 <div id="newDependency" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
                     <CreateDependency onFinish={handleNewDependency} initialDependencies={dependencies} rerenderDependency={rerenderDependency} />
+                </div>
+            </div>
+            <div id="newDirectionContainer" className="fixed inset-0 w-full h-full invisible">
+                <div id="newDirectionBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDirection}></div>
+                <div id="newDirection" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
+                    <CreateDirection onFinish={handleNewDirection} initialDirections={directions} rerenderDirections={rerenderDirection} />
                 </div>
             </div>
             <div id="handleExcelContainer" className="fixed inset-0 w-full h-full invisible">

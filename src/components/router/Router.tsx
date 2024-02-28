@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Login from "../login/Login"
 import AdminPage from "../admin/AdminPage"
-import CreateUser from "../highAdmin/createUser/createUser"
+import CreateUser from "../highAdmin/handleUser/createUser"
 import HighAdminPage from "../highAdmin/highAdminPage"
 import UserPage from "../user/UserPage"
 import RecoverPassword from "../login/RecoverPassword"
@@ -22,7 +22,7 @@ const RouterComponent = () => {
                     <Route path="/data/superadmin" element={<HighAdminPage />} />
                     <Route path="/data/admin" element={<AdminPage />} />
                     <Route path="/data/user" element={<UserPage />} />
-                    <Route path="/createUser" element={<CreateUser onFinish={test} />} />
+                    <Route path="/createUser" element={<CreateUser onFinish={test} initialDependencies={[]} rerenderDependency={test} />} />
                 </Routes>
             </Router>
         </div>

@@ -140,6 +140,30 @@ const updateDependency = async (newName: string | null, newDirection: string | n
     return res.data
 }
 
+const getDirections = async (jwt: string | null) => {
+    const request = axios.get(`${baseUrl}/api/getDirections`, { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
+    return res.data
+}
+
+const createDirection = async (newDirection: string, jwt: string | null) => {
+    const request = axios.post(`${baseUrl}/api/newDirection`, { newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
+    return res.data
+}
+
+const deleteDirection = async (index: number, jwt: string | null) => {
+    const request = axios.delete(`${baseUrl}/api/deleteDirection/${index}`, { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
+    return res.data
+}
+
+const updateDirection = async (editDirection: string | null, index: number, jwt: string | null) => {
+    const request = axios.put(`${baseUrl}/api/updateDirection/${index}`, { editDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
+    const res = await request
+    return res.data
+}
+
 const uploadExcel = async (excel: File | null | undefined, jwt: string | null) => {
     const formData = new FormData()
     formData.append('excelFile', excel as Blob)
@@ -218,6 +242,10 @@ export default {
     createDependency,
     deleteDependency,
     updateDependency,
+    getDirections,
+    createDirection,
+    deleteDirection,
+    updateDirection,
     uploadExcel,
     downloadExcel,
     downloadTemplate,
