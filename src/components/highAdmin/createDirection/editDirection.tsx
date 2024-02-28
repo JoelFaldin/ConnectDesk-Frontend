@@ -20,18 +20,18 @@ const EditDirection: React.FC<editDir> = ({ index, element, toggleEdit, edit, nu
     }
 
     const handleUpdateDirection = async () => {
-        if (editDirection ?? initialValues === initialValues) {
+        if (editDirection === initialValues) {
             alert('No has hecho ningún cambio!')
         } else {
             try {
                 const token = localStorage.getItem('jwt')
                 const update = await dataService.updateDirection(editDirection, index, token)
-                rerender()
                 alert(update.message)
             } catch(error: any) {
                 alert(error.response.data.error)
             }
         }
+        rerender()
         toggleEdit()
     }
 

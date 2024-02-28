@@ -148,6 +148,13 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             setDependencies(deps.request)
         }
         fetchDeps()
+
+        const fetchDirs = async () => {
+            const token = localStorage.getItem('jwt')
+            const dirs = await dataService.getDirections(token)
+            setDirections(dirs.directions)
+        }
+        fetchDirs()
     }, [])
 
     // Rerenderizando la tabla cada vez que cambia {page}:
@@ -344,7 +351,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         try {
             const token = localStorage.getItem('jwt')
             const rerender = await dataService.getDirections(token)
-            setDirections(rerender.request)
+            setDirections(rerender.directions)
         } catch(error: any) {
             alert(error.response.data.error)
         }

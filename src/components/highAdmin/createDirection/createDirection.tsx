@@ -38,11 +38,14 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
         } else {
             try {
                 const token = localStorage.getItem('jwt')
-                await dataService.createDirection(newDirection, token)
-            } catch (error) {
-                
+                const dir = await dataService.createDirection(newDirection, token)
+                alert(dir.message)
+                setNewDirection('')
+            } catch (error: any) {
+                alert(error.response.data.error)
             }
         }
+        rerenderDirections()
     }
 
     const toggleEdit = (index: number) => {
@@ -68,8 +71,7 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
                                 <li key={`Grupo${index}`} className="pb-2 mb-8">
                                 {editDirection !== index ? (
                                     <>
-                                        <p key={`Dependencia${index}`}>{element.direccion}</p>
-                                        <i key={`Direccion${index}`} className="block text-base pl-4">{element.direccion}</i>
+                                        <p key={`Dependencia${index}`} className="mb-1">{element.direccion}</p>
                                         <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editDirection === null ? false : true} index={index} number={editDirection} rerender={rerenderDirections} />
                                     </>
                                 ) : (
