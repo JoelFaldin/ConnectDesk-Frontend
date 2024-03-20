@@ -1,5 +1,6 @@
 import dataService from '../../../services/handleRequests'
 
+// Component's interface:
 interface actionButtons {
     toggleEdit: () => void,
     edit: boolean,
@@ -9,9 +10,9 @@ interface actionButtons {
 }
 
 const actionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, number, rerender }) => {
-    // Función para eliminar una dirección:
+    // Function to delete a dependency:
     const handleDeleteDirection = async () => {
-        if (confirm('¿Quieres eliminar esta dirección?')) {
+        if (confirm('Do you really want to remove this direction?')) {
             try {
                 const token = localStorage.getItem('jwt')
                 await dataService.deleteDirection(index, token)
@@ -29,15 +30,15 @@ const actionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, numbe
                 onClick={toggleEdit}
             >
                 {edit && index === number
-                    ? 'Cancelar'
-                    : 'Editar'
+                    ? 'Cancel'
+                    : 'Edit'
                 }
             </button>
             <button
                 className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 mr-1 hover:bg-red-200"
                 onClick={handleDeleteDirection}
             >
-                Eliminar Dirección
+                Remove Direction
             </button>
         </>
     )

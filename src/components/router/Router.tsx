@@ -7,7 +7,7 @@ import UserPage from "../user/UserPage"
 import RecoverPassword from "../login/RecoverPassword"
 import NewPassword from "../login/NewPassword"
 
-// Definición de las rutas:
+// Route definition:
 const RouterComponent = () => {
     const test = () => {
     }
@@ -22,7 +22,7 @@ const RouterComponent = () => {
                     <Route path="/data/superadmin" element={<HighAdminPage />} />
                     <Route path="/data/admin" element={<AdminPage />} />
                     <Route path="/data/user" element={<UserPage />} />
-                    <Route path="/createUser" element={<CreateUser onFinish={test} initialDependencies={[]} rerenderDependency={test} />} />
+                    <Route path="/createUser" element={<CreateUser onFinish={test} initialDependencies={[]} rerenderDependency={test} initialDirections={[]} />} />
                 </Routes>
             </Router>
         </div>

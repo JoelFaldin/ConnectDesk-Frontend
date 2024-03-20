@@ -47,16 +47,16 @@ const recoverPassword = () => {
             <div className="flex min-h-full flex-1 flex-col px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 underline underline-offset-">
-                        Recobrar contraseña
+                        Recover Password
                     </h2>
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <p className="text-sm">Se enviará un mensaje a su correo con indicaciones para recuperar su contraseña.</p>
+                    <p className="text-sm">A message will be sent to your email with instructions to recover your password.</p>
                     <form className="space-y-6 mt-4">
                         <div>
                             <label htmlFor="rut" className="block text-sm font-medium leading-6 text-gray-900">
-                                Rut
+                            Identifier
                             </label>
                             <div className="mt-2">
                                 <input
@@ -66,7 +66,7 @@ const recoverPassword = () => {
                                 autoComplete="rut"
                                 required
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6 px-3"
-                                placeholder="Ingrese su rut..."
+                                placeholder="1.111.111-1..."
                                 value={rut}
                                 onChange={handleRut}
                                 />
@@ -76,7 +76,7 @@ const recoverPassword = () => {
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Correo:
+                                    Email:
                                 </label>
                             </div>
                             <div className="mt-2">
@@ -87,7 +87,7 @@ const recoverPassword = () => {
                                 autoComplete="current-email"
                                 required
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
-                                placeholder="Ingrese su correo electrónico..."
+                                placeholder="Enter your email..."
                                 onChange={handleEmail}
                                 />
                             </div>
@@ -98,7 +98,7 @@ const recoverPassword = () => {
                             className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             onClick={handleSubmit}
                             >
-                            Enviar
+                            Send
                         </button>
                     </form>
                     <div>
@@ -107,7 +107,7 @@ const recoverPassword = () => {
                             onClick={goBack}
                         >
                             <BiLeftArrowAlt size={24} />
-                            <span>Volver</span>
+                            <span>Go back</span>
                         </button>
                     </div>
                 </div>

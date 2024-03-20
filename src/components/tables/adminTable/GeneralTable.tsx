@@ -8,12 +8,12 @@ import dataService from '../../../services/handleRequests'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Message } from "../message/Message"
 
-// Celdas editables:
+// Editable cells:
 import EditAdminCell from './superAdminEdit/EditAdminCell'
 import TableCell from './tableCell/TableCell'
 import EditCell from './adminEdit/EditCell'
 
-// Iconos:
+// Icons:
 import { BiSolidChevronsRight } from "react-icons/bi"
 import { BiSolidChevronRight } from "react-icons/bi"
 import { BiSolidChevronsLeft } from "react-icons/bi"
@@ -23,7 +23,7 @@ import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi"
 import CreateDirection from '../../highAdmin/createDirection/createDirection'
 
-// Declaración de módulo para la tabla:
+// Module declaration for the
 declare module '@tanstack/react-table' {
     interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: unknown) => void,
@@ -36,7 +36,7 @@ declare module '@tanstack/react-table' {
     }
 }
 
-// Forma de la fila:
+// File's shape:
 type Employee = {
     rut: string,
     nombres: string,
@@ -49,7 +49,7 @@ type Employee = {
     anexoMunicipal: number
 }
 
-// Editar info en una celda:
+// Editing info in a
 const defaultColumn: Partial<ColumnDef<Employee>> = {
     cell: ({ getValue }) => {
         const initialValue = getValue()
@@ -66,7 +66,7 @@ const defaultColumn: Partial<ColumnDef<Employee>> = {
 
 const columnhelper = createColumnHelper<Employee>()
 
-// Interfaces (definen los tipos de un elemento):
+// Interfaces:
 interface adminTable {
     rol: string
 }
@@ -77,9 +77,9 @@ interface arrayInterface {
     value: unknown
 }
 
-// Componente principal:
+// Principal Component:
 const GeneralTable: React.FC<adminTable> = ({ rol }) => {
-    // Info de la tabla:
+    // Table info:
     const [data, setData] = useState<Employee[]>([])
     const [cancelChange, setCancelChange] = useState<Employee[]>([])
     const [pageSize, setPageSize] = useState(10)
@@ -88,21 +88,21 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [dependencies, setDependencies] = useState([])
     const [directions, setDirections] = useState([])
 
-    // Funcionamiento de la tabla:
+    // Table's functionality:
     const [newRows, setNewRows] = useState({})
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ 'edit': false, 'rut': false, 'rol': false })
 
-    // Valores para los filtros:
+    // Values for the filters:
     const [searchValue, setSearchValue] = useState('')
     const [searchColumn, setSearchColumn] = useState('')
     const [filterColumn, setFilterColumn] = useState('')
     const [filterOrder, setFilterOrder] = useState('normal')
     const [showMessage, setShowMessage] = useState(false)
     
-    // Estado para guardar temporáneamente datos editados:
+    // State to temporarily store edited data:
     const [tempData, setTempData] = useState<arrayInterface[]>([])
 
-    // Función para rerenderizar la tabla. Se usa al cambiar de página:
+    // Function to rerender the table. It is used when the page is changed:
     const rerender = async () => {
         const token = localStorage.getItem('jwt')
         if (filterColumn !== '') {   
@@ -126,7 +126,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
-    // Función inicial que trae datos desde el servidor a la tabla y trae las dependencias existentes:
+    // Initial function that brings data from the server to the table and brings existing dependencies and directions:
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -157,19 +157,19 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         fetchDirs()
     }, [])
 
-    // Rerenderizando la tabla cada vez que cambia {page}:
+    // Rerendering the table when {page} changes:
     useEffect(() => {
         rerender()
     }, [page])
-    
-    // Definición de las columnas:
+
+    // Column definition:
     const columns = [
         columnhelper.group({
-            id: 'Persona',
-            header: () => <span>Persona</span>,
+            id: 'Person',
+            header: () => <span>Person</span>,
             columns: [
                 columnhelper.accessor('rut', {
-                    header: 'Rut',
+                    header: 'Identifier',
                     id: 'rut',
                     cell: TableCell,
                     meta: {
@@ -177,21 +177,21 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     }
                 }),
                 columnhelper.accessor('nombres', {
-                    header: 'Nombres',
+                    header: 'Names',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
                 columnhelper.accessor('apellidos', {
-                    header: 'Apellidos',
+                    header: 'Lastnames',
                     cell: TableCell,
                     meta: {
                         type: "text"
                     }
                 }),
                 columnhelper.accessor('email', {
-                    header: 'Correo',
+                    header: 'Email',
                     cell: TableCell,
                     meta: {
                         type: 'text'
@@ -200,11 +200,11 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             ]
         }),
         columnhelper.group({
-            id: 'Muni info',
-            header: () => <span>Muni info</span>,
+            id: "Company's information",
+            header: () => <span>Company's Information</span>,
             columns: [
                 columnhelper.accessor('rol', {
-                    header: 'Rol',
+                    header: 'Role',
                     id: 'rol',
                     cell: TableCell,
                     meta: {
@@ -212,28 +212,28 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     }
                 }),
                 columnhelper.accessor('dependencias', {
-                    header: 'Dependencias',
+                    header: 'Dependencies',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
                 columnhelper.accessor('direcciones',{
-                    header: 'Dirección',
+                    header: 'Direction',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
                 columnhelper.accessor('numMunicipal',{
-                    header: 'N° Municipal',
+                    header: 'Job Number',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
                 columnhelper.accessor('anexoMunicipal',{
-                    header: 'Anexo Municipal',
+                    header: 'Contact Number',
                     cell: TableCell,
                     meta: {
                         type: 'number'
@@ -242,7 +242,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             ]
         }),
         columnhelper.display({
-            header: 'Acciones',
+            header: 'Actions',
             id: "edit",
             cell: rol === 'superAdmin'
                 ? EditAdminCell
@@ -250,7 +250,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }),
     ]
 
-    // Definición de la tabla:
+    // Table definition:
     const table = useReactTable({
         data,
         columns,
@@ -290,7 +290,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 ])
             },
             uploadData: async () => {
-                if (confirm('¿Quieres actualizar este usuario?')) {
+                if (confirm('Do you want to update this user?')) {
                     const jwtToken = localStorage.getItem('jwt')
 
                     const filteredData = Object.values(
@@ -300,6 +300,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                           return acc
                         }, {})
                       )
+                      setTempData([])
                     try {
                         await dataService.updateUser(filteredData, pageSize, page, jwtToken)
                         rerender()
@@ -309,7 +310,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 }
             },
             removeRow: async (rowIndex: number) => {
-                const decision = window.confirm('¿Quieres eliminar este usuario?')
+                const decision = window.confirm('Do you want to remove this user?')
                 if (decision) {
                     try {
                         const token = localStorage.getItem('jwt')
@@ -321,7 +322,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 rerender()
             },
             makeAdmin: async (rowIndex: number) => {
-                const decision = window.confirm(cancelChange[rowIndex].rol === 'user' ? `¿Quieres que este usuario se convierta en admin?` : `¿Quieres que este usuario deje de ser admin?`)
+                const decision = window.confirm(cancelChange[rowIndex].rol === 'user' ? `Do you want this user to become an admin?` : `Do you want this user to stop being an admin?`)
                 if (decision) {
                     try {
                         const token = localStorage.getItem('jwt')
@@ -335,7 +336,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     })
 
-    // Función para re-renderizar las dependencias:
+    // Function to rerender dependencies:
     const rerenderDependency = async () => {
         try {
             const token = localStorage.getItem('jwt')
@@ -346,7 +347,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
-    // Función para re-renderizar las direcciones:
+    // Function to rerender directions:
     const rerenderDirection = async () => {
         try {
             const token = localStorage.getItem('jwt')
@@ -357,7 +358,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
-    // Actualizando el orden de una columna de la tabla:
+    // Updating a column's order in a table:
     const handleFilter = (column: string) => {
         setFilterColumn(column)
         const token = localStorage.getItem('jwt')
@@ -385,7 +386,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
-    // Cambiando el valor de filtrado de una columna de la tabla:
+    // Changing the filtered value of a column:
     const handleSearchFilter = (event: ChangeEvent<HTMLInputElement>, column: any) => {
         setSearchValue(event.target.value)
         setSearchColumn(column)
@@ -402,7 +403,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         return () => clearTimeout(timeout)
     }
 
-    // Cambiando el tamaño de la página:
+    // Changing the page size:
     const handlePageSize = async (event: ChangeEvent<HTMLSelectElement>) => {
         try {
             const token = localStorage.getItem('jwt')
@@ -417,7 +418,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
-    // Funciones para mostrar/ocultar las secciones de excel, dependencias y creación de usuario:
+    // Functions to show/hide excel, dependencies and user creation sections:
     const handleNewUser = () => {
         document.getElementById('newUserContainer')?.classList.toggle('invisible')
         document.getElementById('newUserFormBG')?.classList.toggle('opacity-0')
@@ -450,7 +451,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         rerender()
     }
 
-    // Tabla principal:
+    // Main table:
     return (
        <div className="p-2">
             <table className="border-solid border-1 border-gray-100 block w-fit border-collapse my-6 mx-auto text-base shadow-md">
@@ -463,7 +464,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     <>
                                         <div className={header.id === 'edit' || header.id === '1_Muni info_rol' || header.id === '1_Persona_rut' ? '' : 'cursor-pointer select-none hover:underline hover:underline-offset-2'}
                                         onClick={() => header.id === 'edit' || header.id === '1_Muni info_rol' || header.id === '1_Persona_rut' ? '' : handleFilter(header.id)}
-                                        title={header.id === 'edit' || header.id === '1_Muni info_rol' || header.id === '1_Persona_rut' ? '' :  `Filtrar por ${header.id}`}
+                                        title={header.id === 'edit' || header.id === '1_Muni info_rol' || header.id === '1_Persona_rut' ? '' :  `Filter by ${header.id}`}
                                         >
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -476,7 +477,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                             <input
                                                 type="text"
                                                 onChange={event => handleSearchFilter(event, header.column.id)}
-                                                placeholder='Buscar...'
+                                                placeholder='Search...'
                                                 className="w-28 p-1 rounded my-2"
                                             />
                                         </div>
@@ -510,21 +511,21 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         <td colSpan={rol === 'user' ? 2 : 5}>
                             <div className="flex justify-start p-2">
                                 <p className="font-medium">
-                                    Mostrando <span className="underline decoration-1 underline-offset-2">{data.length}</span> de <span className="underline decoration-1 underline-offset-2">{total}</span> registros
+                                    Showing <span className="underline decoration-1 underline-offset-2">{data.length}</span> of <span className="underline decoration-1 underline-offset-2">{total}</span> rows
                                 </p>
                             </div>
                         </td>
                         <td colSpan={rol === 'user' ? 6 : 5}>
                             <div className="flex justify-end p-2 gap-6">
                                 <span className="flex items-center gap-2">
-                                    <p>Página actual:</p>
+                                    <p>Current page:</p>
                                     <strong>
                                         { page === 0 ? 1 : page } de {' '}
                                         { Math.floor(total / pageSize) + 1 }
                                     </strong>
                                 </span>
                                 <span className="flex items-center gap-2">
-                                    Ir a la página:
+                                    Go to the page:
                                     <input
                                         type="text"
                                         value={page}
@@ -546,7 +547,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                 <select onChange={handlePageSize} className="px-2 py-1 rounded w-32">
                                     {[10, 20, 30, 40, 50].map((number) => (
                                         <option key={number} value={number}>
-                                        Mostrar {number}
+                                        Show {number}
                                         </option>
                                     ))}
                                 </select>
@@ -555,7 +556,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className={page - 1 <= 0 ? "cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded" : "cursor-pointer py-1 px-1 border border-slate-300 bg-white hover:bg-gray-100 rounded"}
                                         onClick={() => setPage(1)}
                                         disabled={page - 1 <= 0 ? true : false}
-                                        title={page - 1 <= 0 ? '' : "Ir al principio"}
+                                        title={page - 1 <= 0 ? '' : "Go to the start"}
                                     >
                                         <BiSolidChevronsLeft size={24} />
                                     </button>
@@ -563,7 +564,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className={page - 1 <= 0 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
                                         onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}
                                         disabled={page - 1 <= 0 ? true : false}
-                                        title={page - 1 <= 0 ? '' : "Ir a la anterior página"}
+                                        title={page - 1 <= 0 ? '' : "Go to the previous page"}
                                         >
                                         <BiSolidChevronLeft size={24} />
                                     </button>
@@ -574,7 +575,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                             
                                         }}
                                         disabled={page + 1 > Math.floor(total / pageSize) + 1 ? true : false}
-                                        title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Ir a la siguiente página"}
+                                        title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Go to the next page"}
                                     >
                                         <BiSolidChevronRight size={24} />
                                     </button>
@@ -582,7 +583,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         className={page + 1 > Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
                                         onClick={() => setPage(Math.floor(total / pageSize) + 1)}
                                         disabled={page + 1 > Math.floor(total / pageSize) + 1 ? true : false}
-                                        title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Ir a la última página"}
+                                        title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Go to the last page"}
                                     >
                                         <BiSolidChevronsRight size={24} />
                                     </button>
@@ -597,33 +598,33 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     <div className="flex justify-start pt-2 min-w-fit">
                         <button className="flex mr-2 gap-1 rounded-md bg-lime-50 px-1 py-1 ring-1 ring-inset ring-lime-600/20 hover:bg-lime-200 hover:ring-lime-500" onClick={handleExcelFiles}>
                             <RiFileExcel2Fill className="text-lime-700" size={22} />
-                            <span className="text-base text-lime-700 pr-1">Gestionar Excel</span>
+                            <span className="text-base text-lime-700 pr-1">Handle Excel</span>
                         </button>
                     </div>
 
                     <div className="flex justify-start pt-2 min-w-fit">
                         <button className="flex mr-2 gap-1 rounded-md bg-yellow-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-200 hover:ring-yellow-500" onClick={handleNewDependency}>
                             <BiImageAdd className="text-yellow-700" size={24} />
-                            <span className="text-base text-yellow-700 pr-1">Gestionar Dependencias</span>
+                            <span className="text-base text-yellow-700 pr-1">Handle Dependencies</span>
                         </button>
                     </div>
 
                     <div className="flex justify-start pt-2 min-w-fit">
                         <button className="flex mr-2 gap-1 rounded-md bg-teal-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-teal-200 hover:ring-teal-500" onClick={handleNewDirection}>
                             <BiImageAdd className="text-teal-700" size={24} />
-                            <span className="text-base text-teal-700 pr-1">Gestionar Direcciones</span>
+                            <span className="text-base text-teal-700 pr-1">Handle Directions</span>
                         </button>
                     </div>
 
                     <div className="flex justify-start pt-2 min-w-fit">
                         <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
                             <BiSolidUserPlus className="text-green-700" size={24} />
-                            <span className="text-base text-green-700 pr-1">Crear Usuario</span>
+                            <span className="text-base text-green-700 pr-1">Create a new user</span>
                         </button>
                     </div>
                 </span>
             : ''}
-            {/* Secciones: */}
+            {/* Sections: */}
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
                 <div id="newUserForm" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">

@@ -46,7 +46,7 @@ const newPassword = () => {
         setReEnterPassword(enteredValue);
 
         if (reEnterPassword.length > newPassword.length || (reEnterPassword.length === newPassword.length && newPassword !== reEnterPassword)) {
-            setUnmatching('Las contraseñas no coinciden.')
+            setUnmatching('The passwords are different.')
         } else {
             setUnmatching('')
         }
@@ -72,9 +72,9 @@ const newPassword = () => {
                 console.log(error)
             }
         } else if (!regex.test(newPassword)) {
-            setErrorMessage('Ingrese una contraseña válida.')
+            setErrorMessage('Enter a valid password.')
         } else {
-            setErrorMessage('Debe ingresar una contraseña!')
+            setErrorMessage('You must enter a password!')
         } 
     }
 
@@ -99,14 +99,14 @@ const newPassword = () => {
             <div className="flex min-h-full flex-1 flex-col px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 underline underline-offset-">
-                        Cambio de Contraseña
+                        Password Reset
                     </h2>
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="mt-4">
                         <label htmlFor="newPassword" className="block text-sm font-medium leading-6 text-gray-900">
-                            Ingrese una nueva contraseña:
+                            Enter a new password:
                         </label>
                         <div className="mt-2 flex items-center">
                             <input
@@ -127,7 +127,7 @@ const newPassword = () => {
                         </div>
                         
                         <label htmlFor="reEnterPassword" className="block mt-10 text-sm font-medium leading-6 text-gray-900">
-                            Re-ingrese la contraseña:
+                            Re-enter the password:
                         </label>
 
                         <div className="mt-2 flex items-center">
@@ -144,7 +144,7 @@ const newPassword = () => {
                                 onClick={handleSecondReveal}
                                 type="button"
                             >
-                                {!revealFirstPass ? <BiShowAlt size={24} /> : <BiHide size={24} />}
+                                {!revealSecond ? <BiShowAlt size={24} /> : <BiHide size={24} />}
                             </button>
                         </div>
                         {
@@ -158,7 +158,7 @@ const newPassword = () => {
                             className="flex w-full justify-center mt-10 rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
                             onClick={handleSubmit}
                             >
-                            Reestablecer contraseña
+                            Reset password
                         </button>
                     </form>
                     <div>
@@ -167,18 +167,18 @@ const newPassword = () => {
                         onClick={goBack}
                     >
                         <BiLeftArrowAlt size={24} />
-                        <span>Volver al Inicio de Sesión</span>
+                        <span>Go back to the login page</span>
                     </button>
                 </div>
                 </div>
                 <div className="flex items-center justify-center mt-10">
                     <ul className="flex flex-col list-disc text-sm mt-2 font-medium leading-6 text-gray-900">
-                        <p className="text-base mb-2">La contraseña debe contener:</p>
-                        <li>Mínimo 8 letras o números.</li>
-                        <li>Al menos 1 mayúscula.</li>
-                        <li>Al menos 1 minúscula.</li>
-                        <li>Al menos 1 número.</li>
-                        <li>Puede contener símbolos.</li>
+                        <p className="text-base mb-2">The password must contain:</p>
+                        <li>As a minimum, 8 characters.</li>
+                        <li>At least 1 uppercase character.</li>
+                        <li>At least 1 lowercase character.</li>
+                        <li>At least 1 number.</li>
+                        <li>Can contain symbols.</li>
                     </ul>
                 </div>
                 
@@ -190,7 +190,7 @@ const newPassword = () => {
                                 <BiCheck  size={24} />
                                 <h1>{successMessage}</h1>
                             </div>
-                            <p className="mt-4">Ya puede cerrar esta pestaña.</p>
+                            <p className="mt-4">You can now close this tab.</p>
                         </div>
                     ) : ''
                 }

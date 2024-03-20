@@ -3,7 +3,7 @@ import rutFormater from "../../../services/rutFormater"
 import { ChangeEvent, useState } from "react"
 import { BiArrowBack } from "react-icons/bi"
 
-// Interfaz para el componente:
+// Component's interface:
 interface newUser {
     onFinish: () => void,
     initialDependencies: Array<any>,
@@ -12,7 +12,7 @@ interface newUser {
 }
 
 const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerenderDependency, initialDirections }) => {
-    // Estados para guardar la información del nuevo usuario:
+    // States to store the user's information:
     const [newRut, setNewRut] = useState('')
     const [rutWarning, setRutWarning] = useState(false)
     const [nombres, setNombres] = useState('')
@@ -30,7 +30,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
     const [passWarning, setPassWarning] = useState(false)
     const [rol, setRol] = useState('user')
 
-    // Mandando los datos del nuevo usuario al servidor:
+    // Sending data of a new user to the server:
     const handleNewUser = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         const newUser = {
@@ -65,13 +65,13 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
             return
         }
 
-        // Revisando que el objeto no tenga campos vacíos:
+        // Checking that the object does not has empty fields:
         const filterEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
         if (filterEmail.test(email)) {
             try {
                 const jwtToken = localStorage.getItem('jwt')
                 const userCrated = await handleRequests.createUser(newUser, jwtToken)
-                // Limpiando los datos una vez la petición se compelta:
+                // Clearing the fields when the request is completed:
                 setNewRut('')
                 setNombres('')
                 setApellidos('')
@@ -93,7 +93,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
         rerenderDependency()
     }
 
-    // Set de funciones que cambian el valor de cada elemento:
+    // Functions that change the value of each element:
     const handleRut = (event: ChangeEvent<HTMLInputElement>) => {
         const rut = event.target.value
         if (event.target.value === '') {
@@ -182,17 +182,17 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
 
     return (
         <div className="h-fit max-h-full overflow-y-scroll">
-            <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>
+            <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Go back" onClick={onFinish}>
                 <BiArrowBack size={24} />
             </button>
             <div className="max-w-6/12 mx-auto">
-                <h1 className="text-center text-xl font-bold p-4">Añadir un nuevo usuario</h1>
+                <h1 className="text-center text-xl font-bold p-4">Add a new user</h1>
                     <form>
                     <div className="flex justify-center mt-7">
                         <section className="pr-9 max-w-fit">
-                            <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Información personal</h2>
+                            <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Personal Information</h2>
 
-                            <label htmlFor="crearRut" className="block text-sm font-medium leading-6 text-gray-900">Rut:</label>
+                            <label htmlFor="crearRut" className="block text-sm font-medium leading-6 text-gray-900">Identifier:</label>
                             <div className="mb-2">
                                 <input id="crearRut"
                                     name="rut"
@@ -205,7 +205,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                 />
                             </div>
 
-                            <label htmlFor="crearNombres" className="block text-sm font-medium leading-6 text-gray-900">Nombres:</label>
+                            <label htmlFor="crearNombres" className="block text-sm font-medium leading-6 text-gray-900">Names:</label>
                             <div className="mb-2">
                                 <input id="crearNombres"
                                     name="nombres"
@@ -214,11 +214,11 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     className={!nombreWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleNombre}
                                     value={nombres}
-                                    placeholder="Nombre(s)..."
+                                    placeholder="Name(s)..."
                                 />
                             </div>
 
-                            <label htmlFor="crearApellidos" className="block text-sm font-medium leading-6 text-gray-900" >Apellidos:</label>
+                            <label htmlFor="crearApellidos" className="block text-sm font-medium leading-6 text-gray-900" >Lastnames:</label>
                             <div className="mb-2">
                                 <input
                                     id="crearApellidos"
@@ -228,11 +228,11 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     className={!apellidoWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleApellido}
                                     value={apellidos}
-                                    placeholder="Apellido(s)..."
+                                    placeholder="Lastname(s)..."
                                 />
                             </div>
 
-                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Correo Electrónico:</label>
+                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email:</label>
                             <div className="mb-2">
                                 <input
                                     id="email"
@@ -242,15 +242,15 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     className={!emailWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleEmail}
                                     value={email}
-                                    placeholder="ejemplo@correo.com"
+                                    placeholder="example@email.com"
                                     />
                             </div>
                         </section>
 
                         <section className="pl-9 max-w-fit">
-                            <h3 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Información de trabajo</h3>
+                            <h3 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Job Information</h3>
 
-                            <label htmlFor="rol" className="block text-sm font-medium leading-6 text-gray-900">Rol:</label>
+                            <label htmlFor="rol" className="block text-sm font-medium leading-6 text-gray-900">Role:</label>
                             <div className="mb-2">
                                 <select
                                     id="rol"
@@ -267,7 +267,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                 </select>
                             </div>
 
-                            <label htmlFor="dependencias" className="block text-sm font-medium leading-6 text-gray-900">Dependencias:</label>
+                            <label htmlFor="dependencias" className="block text-sm font-medium leading-6 text-gray-900">Dependencies:</label>
                             <div className="mb-2">
                                 <select
                                     id="dependencias"
@@ -286,7 +286,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                 </select>
                             </div>
                             
-                            <label htmlFor="direcciones" className="block text-sm font-medium leading-6 text-gray-900">Direcciones:</label>
+                            <label htmlFor="direcciones" className="block text-sm font-medium leading-6 text-gray-900">Directions:</label>
                             <div className="mb-2">
                                 <select
                                     id="direcciones"
@@ -295,7 +295,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     onChange={event => setDireccion(event.target.value)}
                                     value={direccion}
                                 >
-                                    <optgroup label="-- Selecciona una opción">
+                                    <optgroup label="-- Select an option">
                                         {
                                             initialDirections.map((item, index) => {
                                                 return <option key={`dependency${index}`}>{item.direccion}</option>
@@ -305,7 +305,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                 </select>
                             </div>
 
-                            <label htmlFor="num-muni" className="block text-sm font-medium leading-6 text-gray-900">Número municipal:</label>
+                            <label htmlFor="num-muni" className="block text-sm font-medium leading-6 text-gray-900">Job Number:</label>
                             <div className="mb-2">
                                 <input
                                     id="num-muni"
@@ -317,7 +317,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                 />
                             </div>
 
-                            <label htmlFor="anexo-muni" className="block text-sm font-medium leading-6 text-gray-900">Anexo municipal:</label>
+                            <label htmlFor="anexo-muni" className="block text-sm font-medium leading-6 text-gray-900">Contact Number:</label>
                             <div className="mb-2">
                                 <input
                                     id="anexo-muni"
@@ -326,14 +326,14 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     required
                                     className={!anexoWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleAnexo}
-                                    placeholder="9999"
+                                    placeholder="999999999"
                                     value={anexo} />
                             </div>
                         </section>
                     </div>
                     
                     <section className="flex flex-col justify-center items-center mt-7">
-                        <label htmlFor="contraseña" className="block text-sm font-medium leading-6 text-gray-900">Ingrese una contraseña:</label>
+                        <label htmlFor="contraseña" className="block text-sm font-medium leading-6 text-gray-900">Enter a password:</label>
                         <div className="mb-2">
                             <input 
                                 id="contraseña"
@@ -349,7 +349,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                 type="submit"
                                 className="block w-full mb-4 mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"
                                 onClick={handleNewUser}
-                                value="Registrar Usuario" />
+                                value="Save the user" />
                         </div>
                     </section>
                 </form>

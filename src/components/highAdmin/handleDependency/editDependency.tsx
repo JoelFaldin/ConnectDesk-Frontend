@@ -2,7 +2,7 @@ import dataService from '../../../services/handleRequests'
 import { ChangeEvent, useState } from "react"
 import ActionButtons from "./actionButtons"
 
-// Interfaz para el componente:
+// Component's interface:
 interface editDep {
     index: number,
     element: any,
@@ -26,7 +26,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
         setEditDireccion(event.target.value)
     }
 
-    // Función para mandar los nuevos datos de la dependencia al servidor:
+    // Function to send the new data to the server:
     const handleUpdate = async () => {
         if ((editNombre ?? initialValues[0]) === initialValues[0] && (editDireccion ?? initialValues[1]) === initialValues[1]) {
             alert('No has hecho cambios en ningún campo!')
@@ -37,7 +37,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                 rerender()
                 alert(update.message)
             } catch(error: any) {
-                alert('No se pudo actualizar los datos de la dependencia.')
+                alert("The dependency's information could not be updated.")
             }
         }
         toggleEdit()
@@ -46,7 +46,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
     return (
         <>
             <span key={`EditarGrupo${index}`} className="py-2">
-                <label htmlFor={`EditarDep${index}`} className="block text-sm font-medium leading-6 text-gray-900">Nombre:</label>
+                <label htmlFor={`EditarDep${index}`} className="block text-sm font-medium leading-6 text-gray-900">Name:</label>
                 <input key={`EditarDependencia${index}`}
                     type="text"
                     id={`EditarDep${index}`}
@@ -55,7 +55,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                     className={"block min-w-fit w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"}
                 />
 
-                <label htmlFor={`EditarDir${index}`} className="block text-sm font-medium leading-6 text-gray-900">Dirección:</label>
+                <label htmlFor={`EditarDir${index}`} className="block text-sm font-medium leading-6 text-gray-900">Direction:</label>
                 <input key={`EditarDireccion${index}`}
                     type="text"
                     id={`EditarDir${index}`}
@@ -70,7 +70,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                     className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-200"
                     onClick={handleUpdate}
                 >
-                    Guardar
+                    Save
                 </button>
             </span>
         </>

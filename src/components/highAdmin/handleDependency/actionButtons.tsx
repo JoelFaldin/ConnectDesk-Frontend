@@ -1,6 +1,6 @@
 import dataService from '../../../services/handleRequests'
 
-// Interfaz para el componente:
+// Component's interface:
 interface actionButtons {
     toggleEdit: () => void,
     edit: boolean,
@@ -10,9 +10,9 @@ interface actionButtons {
 }
 
 const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, number, rerender }) => {
-    // Función para eliminar una dependencia:
+    // Function to delete a dependency:
     const handleDelete = async () => {
-        if (confirm('¿Quieres eliminar esta dependencia?')) {
+        if (confirm('Do you really want to remove this dependency?')) {
             try {
                 const jwtToken = localStorage.getItem('jwt')
                 await dataService.deleteDependency(index, jwtToken)
@@ -30,15 +30,15 @@ const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, numbe
                 onClick={toggleEdit}
             >
                 {edit && index === number
-                    ? 'Cancelar'
-                    : 'Editar'
+                    ? 'Cancel'
+                    : 'Edit'
                 }
             </button>
             <button
                 className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 mr-1 hover:bg-red-200"
                 onClick={handleDelete}    
             >
-                Eliminar dependencia
+                Remove dependency
             </button>
         </>
     )

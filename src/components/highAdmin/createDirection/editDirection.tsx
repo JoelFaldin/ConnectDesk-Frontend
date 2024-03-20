@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react"
 import dataService from '../../../services/handleRequests'
 import ActionButtons from "./actionButtons"
 
+// Component's interface:
 interface editDir {
     index: number,
     element: any,
@@ -21,7 +22,7 @@ const EditDirection: React.FC<editDir> = ({ index, element, toggleEdit, edit, nu
 
     const handleUpdateDirection = async () => {
         if (editDirection === initialValues) {
-            alert('No has hecho ningún cambio!')
+            alert("You haven't made any changes!")
         } else {
             try {
                 const token = localStorage.getItem('jwt')
@@ -38,7 +39,7 @@ const EditDirection: React.FC<editDir> = ({ index, element, toggleEdit, edit, nu
     return (
         <>
             <span key={`EditarNuevoGrupo${index}`} className="py-2">
-                <label htmlFor={`EditarDir${index}`} className="block text-sm font-medium leading-6 text-gray-900">Dirección:</label>
+                <label htmlFor={`EditarDir${index}`} className="block text-sm font-medium leading-6 text-gray-900">Direction:</label>
                 <input key={`EditarDireccion${index}`}
                     type="text"
                     id={`EditarDir${index}`}
@@ -53,7 +54,7 @@ const EditDirection: React.FC<editDir> = ({ index, element, toggleEdit, edit, nu
                     className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10 hover:bg-green-200"
                     onClick={handleUpdateDirection}
                 >
-                    Guardar
+                    Save
                 </button>
             </span>
         </>

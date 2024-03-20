@@ -18,7 +18,7 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
     const [newDirection, setNewDirection] = useState('')
     const [directionWarning, setDirectionWarning] = useState(false)
     
-    // Estado para editar:
+    // States to edit:
     const [editDirection, setEditDirection] = useState<null | number>(null)
 
     const handleDirectionName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,20 +58,20 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
                 <BiArrowBack size={24} />
             </button>
 
-            <h1 className="text-center text-xl font-bold p-4">Gestionar Direcciones</h1>
+            <h1 className="text-center text-xl font-bold p-4">Handle Directions</h1>
             <div className="max-w-6/12 mt-10 mx-auto flex justify-center">
                 <section className="pr-9 max-w-fit">
-                <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Existentes:</h2>
+                <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Existing:</h2>
                     {
                         initialDirections.length === 0 ? (
-                            <p>No hay dependencias creadas.</p>
+                            <p>There are no directions created.</p>
                         ) : (
                             <ul>
                             {initialDirections.map((element: directions, index: number) => (
                                 <li key={`Grupo${index}`} className="pb-2 mb-8">
                                 {editDirection !== index ? (
                                     <>
-                                        <p key={`Dependencia${index}`} className="mb-1">{element.direccion}</p>
+                                        <p key={`Dependencia${index}`} className="mb-1 underline underline-offset-2">{element.direccion}</p>
                                         <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editDirection === null ? false : true} index={index} number={editDirection} rerender={rerenderDirections} />
                                     </>
                                 ) : (
@@ -85,9 +85,9 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
                 </section>
 
                 <section className="pl-9 max-w-fit">
-                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Crear nueva:</h2>
+                    <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Create a new one:</h2>
                     <form>
-                        <label htmlFor="directionName" className="block text-sm font-medium leading-6 text-gray-900">Nombre de la dirección:</label>
+                        <label htmlFor="directionName" className="block text-sm font-medium leading-6 text-gray-900">Direction name:</label>
                         <input id="direcionName"
                             name="nuevaDireccion"
                             type="text"
@@ -102,7 +102,7 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
                             type="submit"
                             className={directionWarning ? "block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-gray-200 px-2 font-medium text-gray-700 ring-1 ring-inset ring-gray-700/10 hover:cursor-default" : "block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"}
                             onClick={handleNewDirection}
-                            value="Agregar dependencia"
+                            value="Add direction"
                             disabled={directionWarning ? true : false}
                         />
                     </form>
