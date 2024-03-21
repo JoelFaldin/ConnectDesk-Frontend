@@ -1,6 +1,7 @@
 // Importando componentes y módulos:
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
 import CreateDependency from '../../highAdmin/handleDependency/createDependency'
+import CreateDirection from '../../highAdmin/createDirection/createDirection'
 import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
 import handleFilterRequest from '../../../services/handleFilterRequest'
 import CreateUser from '../../highAdmin/handleUser/createUser'
@@ -21,9 +22,8 @@ import { BiSolidChevronLeft } from "react-icons/bi"
 import { RiFileExcel2Fill } from "react-icons/ri";
 import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi"
-import CreateDirection from '../../highAdmin/createDirection/createDirection'
 
-// Module declaration for the
+// Module declaration for the component:
 declare module '@tanstack/react-table' {
     interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: unknown) => void,
@@ -156,11 +156,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
         fetchDirs()
     }, [])
-
-    // Rerendering the table when {page} changes:
-    useEffect(() => {
-        rerender()
-    }, [page])
 
     // Column definition:
     const columns = [
@@ -418,6 +413,27 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
+    // Changing the page:
+    const goToFirstPage = () => {
+        setPage(1)
+        rerender()
+    }
+
+    const goToPrevPage = () => {
+        setPage(page - 1 < 1 ? 1 : page - 1)
+        rerender()
+    }
+
+    const goToNextPage = () => {
+        setPage(page + 1)
+        rerender()
+    }
+
+    const goToLastPage = () => {
+        setPage(Math.floor(total / pageSize) + 1)
+        rerender()
+    }
+
     // Functions to show/hide excel, dependencies and user creation sections:
     const handleNewUser = () => {
         document.getElementById('newUserContainer')?.classList.toggle('invisible')
@@ -554,7 +570,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                 <span className="flex items-center gap-1">
                                     <button
                                         className={page - 1 <= 0 ? "cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded" : "cursor-pointer py-1 px-1 border border-slate-300 bg-white hover:bg-gray-100 rounded"}
-                                        onClick={() => setPage(1)}
+                                        onClick={goToFirstPage}
                                         disabled={page - 1 <= 0 ? true : false}
                                         title={page - 1 <= 0 ? '' : "Go to the start"}
                                     >
@@ -562,7 +578,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     </button>
                                     <button
                                         className={page - 1 <= 0 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
-                                        onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}
+                                        onClick={goToPrevPage}
                                         disabled={page - 1 <= 0 ? true : false}
                                         title={page - 1 <= 0 ? '' : "Go to the previous page"}
                                         >
@@ -570,10 +586,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     </button>
                                     <button
                                         className={page + 1 > Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
-                                        onClick={() => {
-                                            setPage(page + 1)
-                                            
-                                        }}
+                                        onClick={goToNextPage}
                                         disabled={page + 1 > Math.floor(total / pageSize) + 1 ? true : false}
                                         title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Go to the next page"}
                                     >
@@ -581,7 +594,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     </button>
                                     <button
                                         className={page + 1 > Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
-                                        onClick={() => setPage(Math.floor(total / pageSize) + 1)}
+                                        onClick={goToLastPage}
                                         disabled={page + 1 > Math.floor(total / pageSize) + 1 ? true : false}
                                         title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Go to the last page"}
                                     >
@@ -628,7 +641,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
                 <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
                 <div id="newUserForm" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateUser onFinish={handleNewUser} initialDependencies={dependencies} initialDirections={directions} rerenderDependency={rerenderDependency} />
+                    <CreateUser onFinish={handleNewUser} rerenderDependency={rerenderDependency} />
                 </div>
             </div>
             <div id="newDependencyContainer" className="fixed inset-0 w-full h-full invisible">

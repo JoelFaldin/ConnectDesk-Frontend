@@ -1,17 +1,14 @@
 import handleRequests from "../../../services/handleRequests"
-import rutFormater from "../../../services/rutFormater"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useState, useEffect } from "react"
 import { BiArrowBack } from "react-icons/bi"
 
 // Component's interface:
 interface newUser {
     onFinish: () => void,
-    initialDependencies: Array<any>,
     rerenderDependency: () => void,
-    initialDirections: Array<any>
 }
 
-const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerenderDependency, initialDirections }) => {
+const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
     // States to store the user's information:
     const [newRut, setNewRut] = useState('')
     const [rutWarning, setRutWarning] = useState(false)
@@ -21,7 +18,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
     const [apellidoWarning, setApellidoWarning] = useState(false)
     const [email, setEmail] = useState('')
     const [emailWarning, setEmailWarning] = useState(false)
-    const [dependencias, setDependencias] = useState('Municipalidad norte')
+    const [dependencias, setDependencias] = useState('')
     const [direccion, setDireccion] = useState('')
     const [numMuni, setNumMuni] = useState('')
     const [anexo, setAnexo] = useState('')
@@ -29,6 +26,15 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
     const [password, setPassword] = useState('')
     const [passWarning, setPassWarning] = useState(false)
     const [rol, setRol] = useState('user')
+
+    // States that need a call to the server:
+    const [initialDependencies, setInitialDependencies] = useState([])
+    const [initialDirections, setInitialDirections] = useState([])
+
+    // Automatically setting dependencies and direction states:
+    useEffect(() => {
+
+    }, [])
 
     // Sending data of a new user to the server:
     const handleNewUser = async (event: React.MouseEvent<HTMLInputElement>) => {
@@ -76,7 +82,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                 setNombres('')
                 setApellidos('')
                 setEmail('')
-                setDependencias('Municipalidad norte')
+                setDependencias('')
                 setDireccion('')
                 setNumMuni('')
                 setAnexo('')
@@ -94,44 +100,28 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
     }
 
     // Functions that change the value of each element:
-    const handleRut = (event: ChangeEvent<HTMLInputElement>) => {
-        const rut = event.target.value
-        if (event.target.value === '') {
-            setRutWarning(true)
-        } else if (rutFormater(rut)) {
-            setNewRut(rut)
+    const handleIdentifier = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value.length <= 12) {
             setRutWarning(false)
+            setNewRut(event.target.value)
+        } else {
+            ''
         }
     }
 
-    const handleNombre = (event: ChangeEvent<HTMLInputElement>) => {
-        const nombre = event.target.value
-        if (event.target.value === '') {
-            setNombreWarning(true)
-        } else {
-            setNombres(nombre)
-            setNombreWarning(false)
-        }
+    const handleName = (event: ChangeEvent<HTMLInputElement>) => {
+        setNombreWarning(false)
+        setNombres(event.target.value)
     }
 
-    const handleApellido = (event: ChangeEvent<HTMLInputElement>) => {
-        const apellido = event.target.value
-        if (event.target.value === '') {
-            setApellidoWarning(true)
-        } else {
-            setApellidos(apellido)
-            setApellidoWarning(false)
-        }
+    const handleLastname = (event: ChangeEvent<HTMLInputElement>) => {
+        setApellidos(event.target.value)
+        setApellidoWarning(false)
     }
 
     const handleEmail = (event: ChangeEvent<HTMLInputElement>) => {
-        const email = event.target.value
-        if (event.target.value === '') {
-            setEmailWarning(true)
-        } else {
-            setEmail(email)
-            setEmailWarning(false)
-        }
+        setEmail(event.target.value)
+        setEmailWarning(false)
     }
 
     const handleRol = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -160,13 +150,20 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
     }
 
     const handleAnexo = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value.length <= 9) {
+            setAnexoWarning(false)
+            setAnexo(event.target.value)
+        }
+    }
+
+    const handleAnexoBlur = (event: ChangeEvent<HTMLInputElement>) => {
         const filterAnexo = /[^0-9]/g
         if (filterAnexo.test(event.target.value) || event.target.value.length + 1 === 11) {
-            return
+            setAnexoWarning(false)
         } else if (event.target.value === '') {
             setAnexoWarning(true)
         } else {
-            setAnexo(event.target.value)
+            ''
         }
     }
  
@@ -199,7 +196,8 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     type="text"
                                     required
                                     className={!rutWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
-                                    onChange={handleRut}
+                                    onChange={handleIdentifier}
+                                    onBlur={event => event.target.value === '' ? setRutWarning(true) : setRutWarning(false)}
                                     value={newRut}
                                     placeholder="12.345.678-9" 
                                 />
@@ -212,13 +210,14 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     type="text"
                                     required
                                     className={!nombreWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
-                                    onChange={handleNombre}
+                                    onChange={handleName}
+                                    onBlur={event => event.target.value === '' ? setNombreWarning(true) : setNombreWarning(false)}
                                     value={nombres}
                                     placeholder="Name(s)..."
                                 />
                             </div>
 
-                            <label htmlFor="crearApellidos" className="block text-sm font-medium leading-6 text-gray-900" >Lastnames:</label>
+                            <label htmlFor="crearApellidos" className="block text-sm font-medium leading-6 text-gray-900">Lastnames:</label>
                             <div className="mb-2">
                                 <input
                                     id="crearApellidos"
@@ -226,7 +225,8 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     type="text"
                                     required
                                     className={!apellidoWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
-                                    onChange={handleApellido}
+                                    onChange={handleLastname}
+                                    onBlur={event => event.target.value === '' ? setApellidoWarning(true) : setApellidoWarning(false)}
                                     value={apellidos}
                                     placeholder="Lastname(s)..."
                                 />
@@ -241,6 +241,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     required
                                     className={!emailWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleEmail}
+                                    onBlur={event => event.target.value === '' ? setEmailWarning(true) : setEmailWarning(false)}
                                     value={email}
                                     placeholder="example@email.com"
                                     />
@@ -274,15 +275,15 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={event => setDependencias(event.target.value)}
-                                    value={dependencias}
+                                    value={''}
                                 >
-                                    <optgroup label="-- Selecciona una opción">
-                                        {
-                                            initialDependencies.map((item, index) => {
-                                                return <option key={`dependency${index}`}>{item.nombre}</option>
-                                            })
-                                        }
-                                    </optgroup>
+                                {/* <optgroup label="-- Select an option">
+                                    {
+                                        initialDependencies.map((item, index) => {
+                                            return <option key={`dependency${index}`}>{item.nombre}</option>
+                                        })
+                                    }
+                                </optgroup> */}
                                 </select>
                             </div>
                             
@@ -295,13 +296,13 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     onChange={event => setDireccion(event.target.value)}
                                     value={direccion}
                                 >
-                                    <optgroup label="-- Select an option">
+                                    {/* <optgroup label="-- Select an option">
                                         {
                                             initialDirections.map((item, index) => {
                                                 return <option key={`dependency${index}`}>{item.direccion}</option>
                                             })
                                         }
-                                    </optgroup>
+                                    </optgroup> */}
                                 </select>
                             </div>
 
@@ -326,6 +327,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, initialDependencies, rerender
                                     required
                                     className={!anexoWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleAnexo}
+                                    onBlur={handleAnexoBlur}
                                     placeholder="999999999"
                                     value={anexo} />
                             </div>
