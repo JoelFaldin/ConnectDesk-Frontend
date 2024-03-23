@@ -6,7 +6,7 @@ import { BiArrowBack } from "react-icons/bi"
 interface newUser {
     onFinish: () => void,
     rerenderDependency: () => void,
-}
+}   
 
 const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
     // States to store the user's information:
@@ -27,16 +27,40 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
     const [passWarning, setPassWarning] = useState(false)
     const [rol, setRol] = useState('user')
 
+    // Interface for the interface:
+    interface dependencyInterface {
+        nombre: String,
+        direccion: String
+    }
+
+    interface directionInterface {
+        direccion: String
+    }
+
+    // Interface for the state:
+    interface initialDataInterface {
+        dependencies: dependencyInterface[],
+        directions: directionInterface[]
+    }
     // States that need a call to the server:
-    const [initialDependencies, setInitialDependencies] = useState([])
-    const [initialDirections, setInitialDirections] = useState([])
+    const [initialData, setInitialData] = useState<initialDataInterface>({ dependencies: [], directions: [] })
+
 
     // Automatically setting dependencies and direction states:
     useEffect(() => {
+        const getDeps = async () => {
+            const jwt = localStorage.getItem('jwt')
+            const [deps, dirs] = await Promise.all([
+                handleRequests.getDependencies(jwt),
+                handleRequests.getDirections(jwt)
+            ])
+            setInitialData({ dependencies: deps.request, directions: dirs.directions })
+        }
 
+        getDeps()
     }, [])
 
-    // Sending data of a new user to the server:
+    // Sending data of a new     to the server:
     const handleNewUser = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         const newUser = {
@@ -46,11 +70,12 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
             email,
             passHash: password,
             rol,
-            dependencias,
-            direcciones: direccion,
+            dependencias: dependencias === '' ? initialData.dependencies[0].nombre : dependencias,
+            direcciones: direccion === '' ? initialData.directions[0].direccion : direccion,
             numMunicipal: numMuni,
             anexoMunicipal: anexo
         }
+
         if (newRut === '') {
             setRutWarning(true)
             return
@@ -277,13 +302,13 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     onChange={event => setDependencias(event.target.value)}
                                     value={''}
                                 >
-                                {/* <optgroup label="-- Select an option">
+                                <optgroup label="-- Select an option">
                                     {
-                                        initialDependencies.map((item, index) => {
+                                        initialData.dependencies.map((item, index) => {
                                             return <option key={`dependency${index}`}>{item.nombre}</option>
                                         })
                                     }
-                                </optgroup> */}
+                                </optgroup>
                                 </select>
                             </div>
                             
@@ -296,13 +321,13 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     onChange={event => setDireccion(event.target.value)}
                                     value={direccion}
                                 >
-                                    {/* <optgroup label="-- Select an option">
-                                        {
-                                            initialDirections.map((item, index) => {
-                                                return <option key={`dependency${index}`}>{item.direccion}</option>
-                                            })
-                                        }
-                                    </optgroup> */}
+                                <optgroup label="-- Select an option">
+                                    {
+                                        initialData.directions.map((item, index) => {
+                                            return <option key={`dependency${index}`}>{item.direccion}</option>
+                                        })
+                                    }
+                                </optgroup>
                                 </select>
                             </div>
 

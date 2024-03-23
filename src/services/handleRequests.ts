@@ -1,16 +1,16 @@
 import axios from "axios"
 
 interface userModel {
-    rut: string,
-    nombres: string,
-    apellidos: string,
-    email: string,
-    passHash: string,
-    rol: string,
-    dependencias: string,
-    direcciones: string,
-    numMunicipal: string,
-    anexoMunicipal: string
+    rut: String,
+    nombres: String,
+    apellidos: String,
+    email: String,
+    passHash: String,
+    rol: String,
+    dependencias: String,
+    direcciones: String,
+    numMunicipal: String,
+    anexoMunicipal: String
 }
 
 const baseUrl = ''

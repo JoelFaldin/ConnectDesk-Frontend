@@ -413,26 +413,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
-    // Changing the page:
-    const goToFirstPage = () => {
-        setPage(1)
+    //  Updating the component when 'page' changes:
+    useEffect(() => {
         rerender()
-    }
-
-    const goToPrevPage = () => {
-        setPage(page - 1 < 1 ? 1 : page - 1)
-        rerender()
-    }
-
-    const goToNextPage = () => {
-        setPage(page + 1)
-        rerender()
-    }
-
-    const goToLastPage = () => {
-        setPage(Math.floor(total / pageSize) + 1)
-        rerender()
-    }
+    }, [page])
 
     // Functions to show/hide excel, dependencies and user creation sections:
     const handleNewUser = () => {
@@ -570,7 +554,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                 <span className="flex items-center gap-1">
                                     <button
                                         className={page - 1 <= 0 ? "cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded" : "cursor-pointer py-1 px-1 border border-slate-300 bg-white hover:bg-gray-100 rounded"}
-                                        onClick={goToFirstPage}
+                                        onClick={() => setPage(1)}
                                         disabled={page - 1 <= 0 ? true : false}
                                         title={page - 1 <= 0 ? '' : "Go to the start"}
                                     >
@@ -578,7 +562,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     </button>
                                     <button
                                         className={page - 1 <= 0 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
-                                        onClick={goToPrevPage}
+                                        onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}
                                         disabled={page - 1 <= 0 ? true : false}
                                         title={page - 1 <= 0 ? '' : "Go to the previous page"}
                                         >
@@ -586,7 +570,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     </button>
                                     <button
                                         className={page + 1 > Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
-                                        onClick={goToNextPage}
+                                        onClick={() => setPage(page + 1)}
                                         disabled={page + 1 > Math.floor(total / pageSize) + 1 ? true : false}
                                         title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Go to the next page"}
                                     >
@@ -594,7 +578,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                     </button>
                                     <button
                                         className={page + 1 > Math.floor(total / pageSize) + 1 ? 'cursor-default py-1 px-1 border text-gray-300 border-slate-300 bg-white rounded' : "cursor-pointer py-1 px-2 border border-slate-300 bg-white hover:bg-gray-100 rounded nav-button"}
-                                        onClick={goToLastPage}
+                                        onClick={() => setPage(Math.floor(total / pageSize) + 1)}
                                         disabled={page + 1 > Math.floor(total / pageSize) + 1 ? true : false}
                                         title={page + 1 > Math.floor(total / pageSize) + 1 ? '' : "Go to the last page"}
                                     >
