@@ -102,6 +102,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     // State to temporarily store edited data:
     const [tempData, setTempData] = useState<arrayInterface[]>([])
 
+    // States to hide or show button components:
+    const [excelComp, setExcelComp] = useState(false)
+    const [depComp, setDepComp] = useState(false)
+    const [dirComp, setDirComp] = useState(false)
+    const [newUserComp, setNewUserComp] = useState(false)
+
     // Function to rerender the table. It is used when the page is changed:
     const rerender = async () => {
         const token = localStorage.getItem('jwt')
@@ -418,39 +424,6 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         rerender()
     }, [page])
 
-    // Functions to show/hide excel, dependencies and user creation sections:
-    const handleNewUser = () => {
-        document.getElementById('newUserContainer')?.classList.toggle('invisible')
-        document.getElementById('newUserFormBG')?.classList.toggle('opacity-0')
-        document.getElementById('newUserFormBG')?.classList.toggle('opacity-50')
-        document.getElementById('newUserForm')?.classList.toggle('translate-x-full')
-        rerender()
-    }
-
-    const handleNewDependency = () => {
-        document.getElementById('newDependencyContainer')?.classList.toggle('invisible')
-        document.getElementById('newDependencyBG')?.classList.toggle('opacity-0')
-        document.getElementById('newDependencyBG')?.classList.toggle('opacity-50')
-        document.getElementById('newDependency')?.classList.toggle('translate-x-full')
-        rerender()
-    }
-
-    const handleNewDirection = () => {
-        document.getElementById('newDirectionContainer')?.classList.toggle('invisible')
-        document.getElementById('newDirectionBG')?.classList.toggle('opacity-0')
-        document.getElementById('newDirectionBG')?.classList.toggle('opacity-50')
-        document.getElementById('newDirection')?.classList.toggle('translate-x-full')
-        rerender()
-    }
-
-    const handleExcelFiles = () => {
-        document.getElementById('handleExcelContainer')?.classList.toggle('invisible')
-        document.getElementById('handleExcelBG')?.classList.toggle('opacity-0')
-        document.getElementById('handleExcelBG')?.classList.toggle('opacity-50')
-        document.getElementById('handleExcel')?.classList.toggle('translate-x-full')
-        rerender()
-    }
-
     // Main table:
     return (
        <div className="p-2">
@@ -593,28 +566,28 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             {rol === 'superAdmin' ?
                 <span className="flex flex-row justify-center">
                     <div className="flex justify-start pt-2 min-w-fit">
-                        <button className="flex mr-2 gap-1 rounded-md bg-lime-50 px-1 py-1 ring-1 ring-inset ring-lime-600/20 hover:bg-lime-200 hover:ring-lime-500" onClick={handleExcelFiles}>
+                        <button className="flex mr-2 gap-1 rounded-md bg-lime-50 px-1 py-1 ring-1 ring-inset ring-lime-600/20 hover:bg-lime-200 hover:ring-lime-500" onClick={() => setExcelComp(prev => !prev)}>
                             <RiFileExcel2Fill className="text-lime-700" size={22} />
                             <span className="text-base text-lime-700 pr-1">Handle Excel</span>
                         </button>
                     </div>
 
                     <div className="flex justify-start pt-2 min-w-fit">
-                        <button className="flex mr-2 gap-1 rounded-md bg-yellow-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-200 hover:ring-yellow-500" onClick={handleNewDependency}>
+                        <button className="flex mr-2 gap-1 rounded-md bg-yellow-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-200 hover:ring-yellow-500" onClick={() => setDepComp(prev => !prev)}>
                             <BiImageAdd className="text-yellow-700" size={24} />
                             <span className="text-base text-yellow-700 pr-1">Handle Dependencies</span>
                         </button>
                     </div>
 
                     <div className="flex justify-start pt-2 min-w-fit">
-                        <button className="flex mr-2 gap-1 rounded-md bg-teal-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-teal-200 hover:ring-teal-500" onClick={handleNewDirection}>
+                        <button className="flex mr-2 gap-1 rounded-md bg-teal-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-teal-200 hover:ring-teal-500" onClick={() => setDirComp(prev => !prev)}>
                             <BiImageAdd className="text-teal-700" size={24} />
                             <span className="text-base text-teal-700 pr-1">Handle Directions</span>
                         </button>
                     </div>
 
                     <div className="flex justify-start pt-2 min-w-fit">
-                        <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={handleNewUser}>
+                        <button className="flex mr-2 gap-1 rounded-md bg-green-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-green-200 hover:ring-green-500" onClick={() => setNewUserComp(prev => !prev)}>
                             <BiSolidUserPlus className="text-green-700" size={24} />
                             <span className="text-base text-green-700 pr-1">Create a new user</span>
                         </button>
@@ -622,28 +595,28 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 </span>
             : ''}
             {/* Sections: */}
-            <div id="newUserContainer" className="fixed inset-0 w-full h-full invisible">
-                <div id="newUserFormBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewUser}></div>
-                <div id="newUserForm" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateUser onFinish={handleNewUser} rerenderDependency={rerenderDependency} />
+            <div id="handleExcelContainer" className={`fixed inset-0 w-full h-full ${excelComp ? '' : 'invisible'}`}>
+                <div id="handleExcelBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${excelComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setExcelComp(prev => !prev)}></div>
+                <div id="handleExcel" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${excelComp ? '' : 'translate-x-full'}`}>
+                    <ExcelComponent onFinish={() => setExcelComp(prev => !prev)} />
                 </div>
             </div>
-            <div id="newDependencyContainer" className="fixed inset-0 w-full h-full invisible">
-                <div id="newDependencyBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDependency}></div>
-                <div id="newDependency" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateDependency onFinish={handleNewDependency} initialDependencies={dependencies} rerenderDependency={rerenderDependency} />
+            <div id="newDependencyContainer" className={`fixed inset-0 w-full h-full ${depComp ? '' : 'invisible'}`}>
+                <div id="newDependencyBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${depComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setDepComp(prev => !prev)}></div>
+                <div id="newDependency" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${depComp ? '' : 'translate-x-full'}`}>
+                    <CreateDependency onFinish={() => setDepComp(prev => !prev)} initialDependencies={dependencies} rerenderDependency={rerenderDependency} />
                 </div>
             </div>
-            <div id="newDirectionContainer" className="fixed inset-0 w-full h-full invisible">
-                <div id="newDirectionBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleNewDirection}></div>
-                <div id="newDirection" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <CreateDirection onFinish={handleNewDirection} initialDirections={directions} rerenderDirections={rerenderDirection} />
+            <div id="newDirectionContainer" className={`fixed inset-0 w-full h-full ${dirComp ? '' : 'invisible'}`}>
+                <div id="newDirectionBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${dirComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setDirComp(prev => !prev)}></div>
+                <div id="newDirection" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${dirComp ? '' : 'translate-x-full'}`}>
+                    <CreateDirection onFinish={() => setDirComp(prev => !prev)} initialDirections={directions} rerenderDirections={rerenderDirection} />
                 </div>
             </div>
-            <div id="handleExcelContainer" className="fixed inset-0 w-full h-full invisible">
-                <div id="handleExcelBG" className="w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 opacity-0" onClick={handleExcelFiles}></div>
-                <div id="handleExcel" className="w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 translate-x-full">
-                    <ExcelComponent onFinish={handleExcelFiles} />
+            <div id="newUserContainer" className={`fixed inset-0 w-full h-full ${newUserComp ? '' : 'invisible'}`}>
+                <div id="newUserFormBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${newUserComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setNewUserComp(prev => !prev)}></div>
+                <div id="newUserForm" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${newUserComp ? '' : 'translate-x-full'}`}>
+                    <CreateUser onFinish={() => setNewUserComp(prev => !prev)} rerenderDependency={rerenderDependency} />
                 </div>
             </div>
             { showMessage ? 
