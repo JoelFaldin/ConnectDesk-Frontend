@@ -611,21 +611,23 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                             <span className="text-base text-green-700 pr-1">Create a new user</span>
                         </button>
                     </div>
-                    <div className="flex justify-start pt-2 min-w-fit">
-                        <button
-                            className={!loading? "flex mr-2 gap-1 rounded-md bg-indigo-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-indigo-200 hover:ring-indigo-500" : "flex mr-2 gap-1 rounded-md bg-gray-50 px-1 py-1 ring-1 ring-inset ring-gray-600/20"}
-                            onClick={handleLogout}
-                            disabled={loading}
-                        >
-                            <BiLogOut className="text-indigo-700" size={24} />
-                            <span className='text-base text-indigo-700 pr-1'>Log out</span>
-                        </button>
-                        {
-                            loading ? <span className='text-base'>Logging out...</span> : ''
-                        }
-                    </div>
                 </span>
             : ''}
+            <span className='flex flex-row justify-center'>
+                <div className="flex justify-start pt-2 min-w-fit">
+                    <button
+                        className={!loading? "flex mr-2 gap-1 rounded-md bg-indigo-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-indigo-200 hover:ring-indigo-500" : "flex mr-2 gap-1 rounded-md bg-gray-50 px-1 py-1 ring-1 ring-inset ring-gray-600/20"}
+                        onClick={handleLogout}
+                        disabled={loading}
+                    >
+                        <BiLogOut className="text-indigo-700" size={24} />
+                        <span className='text-base text-indigo-700 pr-1'>Log out</span>
+                    </button>
+                {
+                    loading ? <span className='text-base'>Logging out...</span> : ''
+                }
+                </div>
+            </span>
             {/* Sections: */}
             <div id="handleExcelContainer" className={`fixed inset-0 w-full h-full ${excelComp ? '' : 'invisible'}`}>
                 <div id="handleExcelBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${excelComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setExcelComp(prev => !prev)}></div>
