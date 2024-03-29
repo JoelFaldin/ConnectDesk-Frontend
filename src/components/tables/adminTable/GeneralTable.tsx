@@ -7,6 +7,7 @@ import handleFilterRequest from '../../../services/handleFilterRequest'
 import CreateUser from '../../highAdmin/handleUser/createUser'
 import dataService from '../../../services/handleRequests'
 import { ChangeEvent, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Message } from "../message/Message"
 
 // Editable cells:
@@ -22,6 +23,7 @@ import { BiSolidChevronLeft } from "react-icons/bi"
 import { RiFileExcel2Fill } from "react-icons/ri";
 import { BiSolidUserPlus } from "react-icons/bi"
 import { BiImageAdd } from "react-icons/bi"
+import { BiLogOut } from "react-icons/bi";
 
 // Module declaration for the component:
 declare module '@tanstack/react-table' {
@@ -107,6 +109,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [depComp, setDepComp] = useState(false)
     const [dirComp, setDirComp] = useState(false)
     const [newUserComp, setNewUserComp] = useState(false)
+
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
     // Function to rerender the table. It is used when the page is changed:
     const rerender = async () => {
@@ -419,6 +424,20 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
+    // Function to handle the logout:
+    const handleLogout = async () => {
+        setLoading(true)
+        const token = localStorage.getItem('jwt')
+        try {
+            await dataService.logout(token)
+            localStorage.removeItem('jwt')
+            navigate('/')
+        } catch(error: any) {
+            console.log(error.response.data.error)
+        }
+        setLoading(false)
+    }
+
     //  Updating the component when 'page' changes:
     useEffect(() => {
         rerender()
@@ -591,6 +610,19 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                             <BiSolidUserPlus className="text-green-700" size={24} />
                             <span className="text-base text-green-700 pr-1">Create a new user</span>
                         </button>
+                    </div>
+                    <div className="flex justify-start pt-2 min-w-fit">
+                        <button
+                            className={!loading? "flex mr-2 gap-1 rounded-md bg-indigo-50 px-1 py-1 ring-1 ring-inset ring-green-600/20 hover:bg-indigo-200 hover:ring-indigo-500" : "flex mr-2 gap-1 rounded-md bg-gray-50 px-1 py-1 ring-1 ring-inset ring-gray-600/20"}
+                            onClick={handleLogout}
+                            disabled={loading}
+                        >
+                            <BiLogOut className="text-indigo-700" size={24} />
+                            <span className='text-base text-indigo-700 pr-1'>Log out</span>
+                        </button>
+                        {
+                            loading ? <span className='text-base'>Logging out...</span> : ''
+                        }
                     </div>
                 </span>
             : ''}
