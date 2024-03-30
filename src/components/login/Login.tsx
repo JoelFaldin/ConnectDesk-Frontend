@@ -32,9 +32,9 @@ const Login = () => {
     }
 
     // Verifying login credentials and navegating to other component:
-    const handleAuth = async (rut: string, password: string) => {
+    const handleAuth = async (identifier: string, password: string) => {
         try {
-            const res = await handleRequest.verify(rut, password)
+            const res = await handleRequest.verify(identifier, password)
             localStorage.setItem('jwt', res.token)
 
             if (res.access === 'admin') {

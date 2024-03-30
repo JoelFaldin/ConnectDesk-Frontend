@@ -10,22 +10,22 @@ interface newUser {
 
 const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
     // States to store the user's information:
-    const [newRut, setNewRut] = useState('')
-    const [rutWarning, setRutWarning] = useState(false)
-    const [nombres, setNombres] = useState('')
-    const [nombreWarning, setNombreWarning] = useState(false)
-    const [apellidos, setApellidos] = useState('')
-    const [apellidoWarning, setApellidoWarning] = useState(false)
+    const [newIdentifier, setNewIdentifier] = useState('')
+    const [identifierWarning, setIdentifierWarning] = useState(false)
+    const [names, setNames] = useState('')
+    const [nameWarning, setNameWarning] = useState(false)
+    const [lastNames, setLastNames] = useState('')
+    const [lastNameWarning, setLastNameWarning] = useState(false)
     const [email, setEmail] = useState('')
     const [emailWarning, setEmailWarning] = useState(false)
-    const [dependencias, setDependencias] = useState('')
-    const [direccion, setDireccion] = useState('')
-    const [numMuni, setNumMuni] = useState('')
-    const [anexo, setAnexo] = useState('')
-    const [anexoWarning, setAnexoWarning] = useState(false)
+    const [departments, setDepartments] = useState('')
+    const [directions, setDirections] = useState('')
+    const [jobNumber, setJobNumber] = useState('')
+    const [contactNumber, setContactNumber] = useState('')
+    const [contactWarning, setContactWarning] = useState(false)
     const [password, setPassword] = useState('')
     const [passWarning, setPassWarning] = useState(false)
-    const [rol, setRol] = useState('user')
+    const [role, setRole] = useState('user')
 
     // Interface for the interface:
     interface dependencyInterface {
@@ -64,32 +64,32 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
     const handleNewUser = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         const newUser = {
-            rut: newRut,
-            nombres,
-            apellidos,
+            identifier: newIdentifier,
+            names,
+            lastNames,
             email,
             passHash: password,
-            rol,
-            dependencias: dependencias === '' ? initialData.dependencies[0].nombre : dependencias,
-            direcciones: direccion === '' ? initialData.directions[0].direccion : direccion,
-            numMunicipal: numMuni,
-            anexoMunicipal: anexo
+            role,
+            departments: departments === '' ? initialData.dependencies[0].nombre : departments,
+            directions: directions === '' ? initialData.directions[0].direccion : directions,
+            jobNumber: jobNumber,
+            contactNumber: contactNumber
         }
 
-        if (newRut === '') {
-            setRutWarning(true)
+        if (newIdentifier === '') {
+            setIdentifierWarning(true)
             return
-        } else if (nombres === '') {
-            setNombreWarning(true)
+        } else if (names === '') {
+            setNameWarning(true)
             return
-        } else if (apellidos === '') {
-            setApellidoWarning(true)
+        } else if (lastNames === '') {
+            setLastNameWarning(true)
             return
         } else if (email === '') {
             setEmailWarning(true)
             return
-        } else if (anexo === '') {
-            setAnexoWarning(true)
+        } else if (contactNumber === '') {
+            setContactWarning(true)
             return
         } else if (password === '') {
             setPassWarning(true)
@@ -103,23 +103,23 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                 const jwtToken = localStorage.getItem('jwt')
                 const userCrated = await handleRequests.createUser(newUser, jwtToken)
                 // Clearing the fields when the request is completed:
-                setNewRut('')
-                setNombres('')
-                setApellidos('')
+                setNewIdentifier('')
+                setNames('')
+                setLastNames('')
                 setEmail('')
-                setDependencias('')
-                setDireccion('')
-                setNumMuni('')
-                setAnexo('')
+                setDepartments('')
+                setDirections('')
+                setJobNumber('')
+                setContactNumber('')
                 setPassword('')
-                setRol('user')
+                setRole('user')
                 alert(userCrated.message)
                 onFinish()
             } catch(error: any) {
                 alert(error.response.data.error)
             }
         } else {
-            alert('Formato de correo incorrecto!')
+            alert('Wrong email format!')
         }
         rerenderDependency()
     }
@@ -127,21 +127,21 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
     // Functions that change the value of each element:
     const handleIdentifier = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length <= 12) {
-            setRutWarning(false)
-            setNewRut(event.target.value)
+            setIdentifierWarning(false)
+            setNewIdentifier(event.target.value)
         } else {
             ''
         }
     }
 
     const handleName = (event: ChangeEvent<HTMLInputElement>) => {
-        setNombreWarning(false)
-        setNombres(event.target.value)
+        setNameWarning(false)
+        setNames(event.target.value)
     }
 
     const handleLastname = (event: ChangeEvent<HTMLInputElement>) => {
-        setApellidos(event.target.value)
-        setApellidoWarning(false)
+        setLastNames(event.target.value)
+        setLastNameWarning(false)
     }
 
     const handleEmail = (event: ChangeEvent<HTMLInputElement>) => {
@@ -149,19 +149,19 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
         setEmailWarning(false)
     }
 
-    const handleRol = (event: ChangeEvent<HTMLSelectElement>) => {
+    const handleRole = (event: ChangeEvent<HTMLSelectElement>) => {
         switch (event.target.value) {
             case 'superAdmin':
-                setRol('superAdmin')
+                setRole('superAdmin')
                 break
             case 'admin':
-                setRol('admin')
+                setRole('admin')
                 break
             case 'user':
-                setRol('user')
+                setRole('user')
                 break
             default:
-                setRol('user')
+                setRole('user')
         }
     }
 
@@ -170,23 +170,23 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
         if (filterNumber.test(event.target.value) || event.target.value.length + 1 === 17) {
             return
         } else {
-            setNumMuni(event.target.value)
+            setJobNumber(event.target.value)
         }
     }
 
     const handleAnexo = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length <= 9) {
-            setAnexoWarning(false)
-            setAnexo(event.target.value)
+            setContactWarning(false)
+            setContactNumber(event.target.value)
         }
     }
 
     const handleAnexoBlur = (event: ChangeEvent<HTMLInputElement>) => {
         const filterAnexo = /[^0-9]/g
         if (filterAnexo.test(event.target.value) || event.target.value.length + 1 === 11) {
-            setAnexoWarning(false)
+            setContactWarning(false)
         } else if (event.target.value === '') {
-            setAnexoWarning(true)
+            setContactWarning(true)
         } else {
             ''
         }
@@ -220,10 +220,10 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     name="rut"
                                     type="text"
                                     required
-                                    className={!rutWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
+                                    className={!identifierWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleIdentifier}
-                                    onBlur={event => event.target.value === '' ? setRutWarning(true) : setRutWarning(false)}
-                                    value={newRut}
+                                    onBlur={event => event.target.value === '' ? setIdentifierWarning(true) : setIdentifierWarning(false)}
+                                    value={newIdentifier}
                                     placeholder="12.345.678-9" 
                                 />
                             </div>
@@ -234,10 +234,10 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     name="nombres"
                                     type="text"
                                     required
-                                    className={!nombreWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
+                                    className={!nameWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleName}
-                                    onBlur={event => event.target.value === '' ? setNombreWarning(true) : setNombreWarning(false)}
-                                    value={nombres}
+                                    onBlur={event => event.target.value === '' ? setNameWarning(true) : setNameWarning(false)}
+                                    value={names}
                                     placeholder="Name(s)..."
                                 />
                             </div>
@@ -249,10 +249,10 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     name="apellidos"
                                     type="text"
                                     required
-                                    className={!apellidoWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
+                                    className={!lastNameWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleLastname}
-                                    onBlur={event => event.target.value === '' ? setApellidoWarning(true) : setApellidoWarning(false)}
-                                    value={apellidos}
+                                    onBlur={event => event.target.value === '' ? setLastNameWarning(true) : setLastNameWarning(false)}
+                                    value={lastNames}
                                     placeholder="Lastname(s)..."
                                 />
                             </div>
@@ -282,8 +282,8 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     id="rol"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={handleRol}
-                                    value={rol}
+                                    onChange={handleRole}
+                                    value={role}
                                 >
                                     <optgroup label="-- Seleccionar una opción">
                                         <option>user</option>
@@ -299,7 +299,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     id="dependencias"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={event => setDependencias(event.target.value)}
+                                    onChange={event => setDepartments(event.target.value)}
                                     value={''}
                                 >
                                 <optgroup label="-- Select an option">
@@ -318,8 +318,8 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     id="direcciones"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={event => setDireccion(event.target.value)}
-                                    value={direccion}
+                                    onChange={event => setDirections(event.target.value)}
+                                    value={directions}
                                 >
                                 <optgroup label="-- Select an option">
                                     {
@@ -339,7 +339,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     type="text"
                                     required={false}
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={handleNumMuni} placeholder="9 1111 1111" value={numMuni}
+                                    onChange={handleNumMuni} placeholder="9 1111 1111" value={jobNumber}
                                 />
                             </div>
 
@@ -350,11 +350,11 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                     name="anexoMunicipal"
                                     type="text"
                                     required
-                                    className={!anexoWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
+                                    className={!contactWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
                                     onChange={handleAnexo}
                                     onBlur={handleAnexoBlur}
                                     placeholder="999999999"
-                                    value={anexo} />
+                                    value={contactNumber} />
                             </div>
                         </section>
                     </div>

@@ -40,15 +40,15 @@ declare module '@tanstack/react-table' {
 
 // File's shape:
 type Employee = {
-    rut: string,
-    nombres: string,
-    apellidos: string,
+    identifier: string,
+    names: string,
+    lastNames: string,
     email: string,
-    rol: string,
-    dependencias: string,
-    direcciones: string,
-    numMunicipal: string,
-    anexoMunicipal: number
+    role: string,
+    departments: string,
+    directions: string,
+    jobNumber: string,
+    contactNumber: number
 }
 
 // Editing info in a
@@ -174,22 +174,22 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             id: 'Person',
             header: () => <span>Person</span>,
             columns: [
-                columnhelper.accessor('rut', {
+                columnhelper.accessor('identifier', {
                     header: 'Identifier',
-                    id: 'rut',
+                    id: 'identifier',
                     cell: TableCell,
                     meta: {
                         type: "text"
                     }
                 }),
-                columnhelper.accessor('nombres', {
+                columnhelper.accessor('names', {
                     header: 'Names',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
-                columnhelper.accessor('apellidos', {
+                columnhelper.accessor('lastNames', {
                     header: 'Lastnames',
                     cell: TableCell,
                     meta: {
@@ -209,36 +209,36 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             id: "Company's information",
             header: () => <span>Company's Information</span>,
             columns: [
-                columnhelper.accessor('rol', {
+                columnhelper.accessor('role', {
                     header: 'Role',
-                    id: 'rol',
+                    id: 'role',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
-                columnhelper.accessor('dependencias', {
-                    header: 'Dependencies',
+                columnhelper.accessor('departments', {
+                    header: 'departments',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
-                columnhelper.accessor('direcciones',{
+                columnhelper.accessor('directions',{
                     header: 'Direction',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
-                columnhelper.accessor('numMunicipal',{
+                columnhelper.accessor('jobNumber',{
                     header: 'Job Number',
                     cell: TableCell,
                     meta: {
                         type: 'text'
                     }
                 }),
-                columnhelper.accessor('anexoMunicipal',{
+                columnhelper.accessor('contactNumber',{
                     header: 'Contact Number',
                     cell: TableCell,
                     meta: {
@@ -320,7 +320,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 if (decision) {
                     try {
                         const token = localStorage.getItem('jwt')
-                        await dataService.deleteUser(cancelChange[rowIndex].rut, token)
+                        await dataService.deleteUser(cancelChange[rowIndex].identifier, token)
                     } catch(error: any) {
                         alert(error.response.data.error)
                     }
@@ -328,11 +328,11 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 rerender()
             },
             makeAdmin: async (rowIndex: number) => {
-                const decision = window.confirm(cancelChange[rowIndex].rol === 'user' ? `Do you want this user to become an admin?` : `Do you want this user to stop being an admin?`)
+                const decision = window.confirm(cancelChange[rowIndex].role === 'user' ? `Do you want this user to become an admin?` : `Do you want this user to stop being an admin?`)
                 if (decision) {
                     try {
                         const token = localStorage.getItem('jwt')
-                        await dataService.makeAdmin(cancelChange[rowIndex].rut, token)
+                        await dataService.makeAdmin(cancelChange[rowIndex].identifier, token)
                     } catch(error: any) {
                         alert(error.response.data.error)
                     }
@@ -485,7 +485,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id} className="border-b border-solid border-gray-300 odd:bg-white even:bg-#f3f3f3" >
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className={ (row.original.rol === 'admin' || row._valuesCache.rol === 'superAdmin') && rol !== 'user'
+                                <td key={cell.id} className={ (row.original.role === 'admin' || row._valuesCache.role === 'superAdmin') && rol !== 'user'
                                     ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 wax-w-1 max-h-2"
                                     : "text-left py-2 px-2.5 border-r border-solid border-gray-300 wax-w-1 max-h-2"}
                                 >

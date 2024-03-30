@@ -22,7 +22,8 @@ const RouterComponent = () => {
                     <Route path="/data/superadmin" element={<HighAdminPage />} />
                     <Route path="/data/admin" element={<AdminPage />} />
                     <Route path="/data/user" element={<UserPage />} />
-                    <Route path="/createUser" element={<CreateUser onFinish={test} initialDependencies={[]} rerenderDependency={test} initialDirections={[]} />} />
+                    {/* Check this: */}
+                    <Route path="/createUser" element={<CreateUser onFinish={test} rerenderDependency={test} />} />
                 </Routes>
             </Router>
         </div>

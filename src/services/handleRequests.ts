@@ -1,16 +1,16 @@
 import axios from "axios"
 
 interface userModel {
-    rut: String,
-    nombres: String,
-    apellidos: String,
+    identifier: String,
+    names: String,
+    lastNames: String,
     email: String,
     passHash: String,
-    rol: String,
-    dependencias: String,
-    direcciones: String,
-    numMunicipal: String,
-    anexoMunicipal: String
+    role: String,
+    departments: String,
+    directions: String,
+    jobNumber: String,
+    contactNumber: String
 }
 
 const baseUrl = ''
@@ -62,14 +62,14 @@ const getFilteredUsers = async (column: string, order: string, pageSize: number,
     return res.data
 }
 
-const verify = async (rut: string, password: string): Promise<any> => {
-    const request = axios.post(`${baseUrl}/api/verifyLogin`, { rut, password })
+const verify = async (identifier: string, password: string): Promise<any> => {
+    const request = axios.post(`${baseUrl}/api/verifyLogin`, { identifier, password })
     const res = await request
     return res.data
 }
 
-const recoverPassword = async (rut: string, email: string) => {
-    const request = axios.post(`${baseUrl}/api/getPassword`, { rut, email })
+const recoverPassword = async (identifier: string, email: string) => {
+    const request = axios.post(`${baseUrl}/api/getPassword`, { identifier, email })
     const res = await request
     return res.data
 }
@@ -104,14 +104,14 @@ const updateUser = async (values: object, pageSize: number, page: number, jwt: s
     return res.data
 }
 
-const deleteUser = async (rut: string, jwt: string | null) => {
-    const request = axios.delete(`${baseUrl}/api/delete/${rut}`, { headers: { Authorization: `Bearer ${jwt}` } })
+const deleteUser = async (identifier: string, jwt: string | null) => {
+    const request = axios.delete(`${baseUrl}/api/delete/${identifier}`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
-const makeAdmin = async (rut: string, jwt: string | null) => {
-    const request = axios.put(`${baseUrl}/api/newAdmin/${rut}`, null, { headers: { Authorization: `Bearer ${jwt}` } } )
+const makeAdmin = async (identifier: string, jwt: string | null) => {
+    const request = axios.put(`${baseUrl}/api/newAdmin/${identifier}`, null, { headers: { Authorization: `Bearer ${jwt}` } } )
     const res = await request
     return res.data
 }
@@ -122,8 +122,8 @@ const getDependencies = async (jwt: string | null) => {
     return res.data
 }
 
-const createDependency = async (nombre: string, direccion: string, jwt: string | null) => {
-    const request = axios.post(`${baseUrl}/api/newDependency`, { nombre, direccion }, { headers: { Authorization: `Bearer ${jwt}` } })
+const createDependency = async (names: string, directions: string, jwt: string | null) => {
+    const request = axios.post(`${baseUrl}/api/newDependency`, { names, directions }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
