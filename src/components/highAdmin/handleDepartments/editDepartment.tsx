@@ -29,7 +29,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
     // Function to send the new data to the server:
     const handleUpdate = async () => {
         if ((editNombre ?? initialValues[0]) === initialValues[0] && (editDireccion ?? initialValues[1]) === initialValues[1]) {
-            alert('No has hecho cambios en ningún campo!')
+            alert('You havent made any changes!')
         } else {
             try {
                 const jwtToken = localStorage.getItem('jwt')
@@ -50,7 +50,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                 <input key={`EditarDependencia${index}`}
                     type="text"
                     id={`EditarDep${index}`}
-                    value={editNombre ?? element.nombre}
+                    value={editNombre ?? element.name}
                     onChange={handleEditDependency}
                     className={"block min-w-fit w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"}
                 />
@@ -59,7 +59,7 @@ const EditDependency: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                 <input key={`EditarDireccion${index}`}
                     type="text"
                     id={`EditarDir${index}`}
-                    value={editDireccion ?? element.direccion}
+                    value={editDireccion ?? element.address}
                     onChange={handleEditDirection}
                     className={"block min-w-fit w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-2"}
                 />

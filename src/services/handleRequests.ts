@@ -122,8 +122,8 @@ const getDependencies = async (jwt: string | null) => {
     return res.data
 }
 
-const createDependency = async (names: string, directions: string, jwt: string | null) => {
-    const request = axios.post(`${baseUrl}/api/newDependency`, { names, directions }, { headers: { Authorization: `Bearer ${jwt}` } })
+const createDependency = async (name: string, address: string, jwt: string | null) => {
+    const request = axios.post(`${baseUrl}/api/newDependency`, { name, address }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }

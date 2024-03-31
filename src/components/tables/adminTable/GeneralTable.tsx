@@ -1,6 +1,6 @@
 // Importando componentes y módulos:
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
-import CreateDependency from '../../highAdmin/handleDependency/createDependency'
+import CreateDependency from '../../highAdmin/handleDepartments/createDepartment'
 import CreateDirection from '../../highAdmin/createDirection/createDirection'
 import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
 import handleFilterRequest from '../../../services/handleFilterRequest'
@@ -594,7 +594,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     <div className="flex justify-start pt-2 min-w-fit">
                         <button className="flex mr-2 gap-1 rounded-md bg-yellow-50 px-1 py-1 ring-1 ring-inset ring-yellow-600/20 hover:bg-yellow-200 hover:ring-yellow-500" onClick={() => setDepComp(prev => !prev)}>
                             <BiImageAdd className="text-yellow-700" size={24} />
-                            <span className="text-base text-yellow-700 pr-1">Handle Dependencies</span>
+                            <span className="text-base text-yellow-700 pr-1">Handle Departments</span>
                         </button>
                     </div>
 

@@ -1,13 +1,13 @@
 import { ChangeEvent, useState } from "react"
 import dataService from '../../../services/handleRequests'
-import EditDependency from "./editDependency"
+import EditDependency from "./editDepartment"
 import ActionButtons from "./actionButtons"
 import { BiArrowBack } from "react-icons/bi"
 
 // Component's interface:
 interface dependencies {
-    nombre: string,
-    direccion: string,
+    name: string,
+    address: string,
 }
 
 interface dependencyComponent {
@@ -57,7 +57,7 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
                 await dataService.createDependency(newDependencyName, newDireccion, jwtToken)
                 setNewDependencyName('')
                 setNewDireccion('')
-                alert('Dependencia creada!')
+                alert('Department created!')
             } catch(error: any) {
                 alert(error.response.data.error)
             }
@@ -72,11 +72,11 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
 
     return (
         <div className="h-fit max-h-full overflow-y-scroll">
-            <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Volver" onClick={onFinish}>
+            <button className="w-fit inline-flex items-center mt-10 ml-10 text-xs" title="Go back" onClick={onFinish}>
                 <BiArrowBack size={24} />
             </button>
             
-            <h1 className="text-center text-xl font-bold p-4">Handle Dependencies</h1>
+            <h1 className="text-center text-xl font-bold p-4">Handle Departments</h1>
             <div className="max-w-6/12 mt-10 mx-auto flex justify-center">
                 <section className="pr-9 max-w-fit">
                     <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Existing:</h2>
@@ -86,11 +86,11 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
                         ) : (
                             <ul>
                             {initialDependencies.map((element: dependencies, index: number) => (
-                                <li key={`Grupo${index}`} className="pb-2 mb-8">
+                                <li key={`Group${index}`} className="pb-2 mb-8">
                                 {editState !== index ? (
                                     <>
-                                        <p key={`Dependencia${index}`}>{element.nombre}</p>
-                                        <i key={`Direccion${index}`} className="block text-base pl-4">{element.direccion}</i>
+                                        <p key={`Department${index}`}>{element.name}</p>
+                                        <i key={`Address${index}`} className="block text-base pl-4">{element.address}</i>
                                         <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} index={index} number={editState} rerender={rerenderDependency} />
                                     </>
                                 ) : (
@@ -105,7 +105,7 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
                 <section className="pl-9 max-w-fit">
                     <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Create a new one:</h2>
                     <form>
-                        <label htmlFor="dependencyName" className="block text-sm font-medium leading-6 text-gray-900">Dependency:</label>
+                        <label htmlFor="dependencyName" className="block text-sm font-medium leading-6 text-gray-900">Department:</label>
                         <input id="dependencyName"
                             name="nuevaDependencia"
                             type="text"
@@ -115,7 +115,7 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
                             value={newDependencyName}
                         />
 
-                        <label htmlFor="direccion" className="block text-sm font-medium leading-6 text-gray-900">Direction:</label>
+                        <label htmlFor="direccion" className="block text-sm font-medium leading-6 text-gray-900">Address:</label>
                         <textarea id="direccion"
                             name="direccion"
                             required
