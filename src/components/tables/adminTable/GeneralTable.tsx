@@ -1,6 +1,6 @@
 // Importando componentes y módulos:
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, RowData, createColumnHelper, VisibilityState } from '@tanstack/react-table'
-import CreateDependency from '../../highAdmin/handleDepartments/createDepartment'
+import CreateDepartment from '../../highAdmin/handleDepartments/createDepartment'
 import CreateDirection from '../../highAdmin/createDirection/createDirection'
 import ExcelComponent from '../../highAdmin/HandleExcel/ExcelComponent'
 import handleFilterRequest from '../../../services/handleFilterRequest'
@@ -87,7 +87,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [pageSize, setPageSize] = useState(10)
     const [total, setTotal] = useState(0)
     const [page, setPage] = useState(1)
-    const [dependencies, setDependencies] = useState([])
+    const [departments, setDepartments] = useState([])
     const [directions, setDirections] = useState([])
 
     // Table's functionality:
@@ -137,7 +137,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     }
 
-    // Initial function that brings data from the server to the table and brings existing dependencies and directions:
+    // Initial function that brings data from the server to the table and brings existing departments and directions:
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -155,8 +155,8 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
         const fetchDeps = async () => {
             const token = localStorage.getItem('jwt')
-            const deps = await dataService.getDependencies(token)
-            setDependencies(deps.request)
+            const deps = await dataService.getDepartments(token)
+            setDepartments(deps.request)
         }
         fetchDeps()
 
@@ -218,7 +218,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     }
                 }),
                 columnhelper.accessor('departments', {
-                    header: 'departments',
+                    header: 'Departments',
                     cell: TableCell,
                     meta: {
                         type: 'text'
@@ -342,12 +342,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         }
     })
 
-    // Function to rerender dependencies:
-    const rerenderDependency = async () => {
+    // Function to rerender departments:
+    const rerenderDepartment = async () => {
         try {
             const token = localStorage.getItem('jwt')
-            const rerender = await dataService.getDependencies(token)
-            setDependencies(rerender.request)
+            const rerender = await dataService.getDepartments(token)
+            setDepartments(rerender.request)
         } catch(error: any) {
             alert(error.response.data.error)
         }
@@ -635,10 +635,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     <ExcelComponent onFinish={() => setExcelComp(prev => !prev)} />
                 </div>
             </div>
-            <div id="newDependencyContainer" className={`fixed inset-0 w-full h-full ${depComp ? '' : 'invisible'}`}>
-                <div id="newDependencyBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${depComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setDepComp(prev => !prev)}></div>
-                <div id="newDependency" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${depComp ? '' : 'translate-x-full'}`}>
-                    <CreateDependency onFinish={() => setDepComp(prev => !prev)} initialDependencies={dependencies} rerenderDependency={rerenderDependency} />
+            <div id="newDepartmentContainer" className={`fixed inset-0 w-full h-full ${depComp ? '' : 'invisible'}`}>
+                <div id="newDepartmentBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${depComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setDepComp(prev => !prev)}></div>
+                <div id="newDepartment" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${depComp ? '' : 'translate-x-full'}`}>
+                    <CreateDepartment onFinish={() => setDepComp(prev => !prev)} initialDepartments={departments} rerenderDepartment={rerenderDepartment} />
                 </div>
             </div>
             <div id="newDirectionContainer" className={`fixed inset-0 w-full h-full ${dirComp ? '' : 'invisible'}`}>
@@ -650,7 +650,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="newUserContainer" className={`fixed inset-0 w-full h-full ${newUserComp ? '' : 'invisible'}`}>
                 <div id="newUserFormBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${newUserComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setNewUserComp(prev => !prev)}></div>
                 <div id="newUserForm" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${newUserComp ? '' : 'translate-x-full'}`}>
-                    <CreateUser onFinish={() => setNewUserComp(prev => !prev)} rerenderDependency={rerenderDependency} />
+                    <CreateUser onFinish={() => setNewUserComp(prev => !prev)} rerenderDepartment={rerenderDepartment} />
                 </div>
             </div>
             { showMessage ? 

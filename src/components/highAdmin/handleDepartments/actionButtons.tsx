@@ -10,12 +10,12 @@ interface actionButtons {
 }
 
 const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, number, rerender }) => {
-    // Function to delete a dependency:
+    // Function to delete a department:
     const handleDelete = async () => {
-        if (confirm('Do you really want to remove this dependency?')) {
+        if (confirm('Do you really want to remove this department?')) {
             try {
                 const jwtToken = localStorage.getItem('jwt')
-                await dataService.deleteDependency(index, jwtToken)
+                await dataService.deleteDepartment(index, jwtToken)
             } catch(error: any) {
                 alert(error.response.data.error)
             }
@@ -38,7 +38,7 @@ const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, numbe
                 className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 mr-1 hover:bg-red-200"
                 onClick={handleDelete}    
             >
-                Remove dependency
+                Remove department
             </button>
         </>
     )

@@ -116,26 +116,26 @@ const makeAdmin = async (identifier: string, jwt: string | null) => {
     return res.data
 }
 
-const getDependencies = async (jwt: string | null) => {
-    const request = axios.get(`${baseUrl}/api/getDependencies`, { headers: { Authorization: `Bearer ${jwt}` } })
+const getDepartments = async (jwt: string | null) => {
+    const request = axios.get(`${baseUrl}/api/getDepartments`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
-const createDependency = async (name: string, address: string, jwt: string | null) => {
-    const request = axios.post(`${baseUrl}/api/newDependency`, { name, address }, { headers: { Authorization: `Bearer ${jwt}` } })
+const createDepartment = async (name: string, address: string, jwt: string | null) => {
+    const request = axios.post(`${baseUrl}/api/newDepartment`, { name, address }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
-const deleteDependency = async (index: number, jwt: string | null) => {
-    const request = axios.delete(`${baseUrl}/api/deleteDependency/${index}`, { headers: { Authorization: `Bearer ${jwt}` } })
+const deleteDepartment = async (index: number, jwt: string | null) => {
+    const request = axios.delete(`${baseUrl}/api/deleteDepartment/${index}`, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
 
-const updateDependency = async (newName: string | null, newDirection: string | null, index: number, jwt: string | null) => {
-    const request = axios.put(`${baseUrl}/api/updateDependency/${index}`, { newName, newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
+const updateDepartment = async (newName: string | null, newDirection: string | null, index: number, jwt: string | null) => {
+    const request = axios.put(`${baseUrl}/api/updateDepartment/${index}`, { newName, newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
@@ -238,10 +238,10 @@ export default {
     updateUser, 
     deleteUser,
     makeAdmin,
-    getDependencies,
-    createDependency,
-    deleteDependency,
-    updateDependency,
+    getDepartments,
+    createDepartment,
+    deleteDepartment,
+    updateDepartment,
     getDirections,
     createDirection,
     deleteDirection,

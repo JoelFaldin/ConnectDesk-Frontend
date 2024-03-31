@@ -5,10 +5,10 @@ import { BiArrowBack } from "react-icons/bi"
 // Component's interface:
 interface newUser {
     onFinish: () => void,
-    rerenderDependency: () => void,
+    rerenderDepartment: () => void,
 }   
 
-const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
+const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment }) => {
     // States to store the user's information:
     const [newIdentifier, setNewIdentifier] = useState('')
     const [identifierWarning, setIdentifierWarning] = useState(false)
@@ -28,9 +28,9 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
     const [role, setRole] = useState('user')
 
     // Interface for the interface:
-    interface dependencyInterface {
-        nombre: String,
-        direccion: String
+    interface departmentInterface {
+        name: String,
+        address: String
     }
 
     interface directionInterface {
@@ -39,22 +39,22 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
 
     // Interface for the state:
     interface initialDataInterface {
-        dependencies: dependencyInterface[],
+        departments: departmentInterface[],
         directions: directionInterface[]
     }
     // States that need a call to the server:
-    const [initialData, setInitialData] = useState<initialDataInterface>({ dependencies: [], directions: [] })
+    const [initialData, setInitialData] = useState<initialDataInterface>({ departments: [], directions: [] })
 
 
-    // Automatically setting dependencies and direction states:
+    // Automatically setting departments and direction states:
     useEffect(() => {
         const getDeps = async () => {
             const jwt = localStorage.getItem('jwt')
             const [deps, dirs] = await Promise.all([
-                handleRequests.getDependencies(jwt),
+                handleRequests.getDepartments(jwt),
                 handleRequests.getDirections(jwt)
             ])
-            setInitialData({ dependencies: deps.request, directions: dirs.directions })
+            setInitialData({ departments: deps.request, directions: dirs.directions })
         }
 
         getDeps()
@@ -70,7 +70,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
             email,
             passHash: password,
             role,
-            departments: departments === '' ? initialData.dependencies[0].nombre : departments,
+            departments: departments === '' ? initialData.departments[0].name : departments,
             directions: directions === '' ? initialData.directions[0].direccion : directions,
             jobNumber: jobNumber,
             contactNumber: contactNumber
@@ -121,7 +121,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
         } else {
             alert('Wrong email format!')
         }
-        rerenderDependency()
+        rerenderDepartment()
     }
 
     // Functions that change the value of each element:
@@ -293,10 +293,10 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                 </select>
                             </div>
 
-                            <label htmlFor="dependencias" className="block text-sm font-medium leading-6 text-gray-900">Dependencies:</label>
+                            <label htmlFor="departments" className="block text-sm font-medium leading-6 text-gray-900">Departments:</label>
                             <div className="mb-2">
                                 <select
-                                    id="dependencias"
+                                    id="departments"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={event => setDepartments(event.target.value)}
@@ -304,8 +304,8 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                 >
                                 <optgroup label="-- Select an option">
                                     {
-                                        initialData.dependencies.map((item, index) => {
-                                            return <option key={`dependency${index}`}>{item.nombre}</option>
+                                        initialData.departments.map((item, index) => {
+                                            return <option key={`department${index}`}>{item.name}</option>
                                         })
                                     }
                                 </optgroup>
@@ -324,7 +324,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDependency }) => {
                                 <optgroup label="-- Select an option">
                                     {
                                         initialData.directions.map((item, index) => {
-                                            return <option key={`dependency${index}`}>{item.direccion}</option>
+                                            return <option key={`department${index}`}>{item.direccion}</option>
                                         })
                                     }
                                 </optgroup>

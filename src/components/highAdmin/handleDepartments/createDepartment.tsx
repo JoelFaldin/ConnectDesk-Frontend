@@ -1,23 +1,23 @@
 import { ChangeEvent, useState } from "react"
 import dataService from '../../../services/handleRequests'
-import EditDependency from "./editDepartment"
+import EditDepartment from "./editDepartment"
 import ActionButtons from "./actionButtons"
 import { BiArrowBack } from "react-icons/bi"
 
 // Component's interface:
-interface dependencies {
+interface departments {
     name: string,
     address: string,
 }
 
-interface dependencyComponent {
+interface departmentComponent {
     onFinish: () => void,
-    initialDependencies: Array<any>,
-    rerenderDependency: () => void
+    initialDepartments: Array<any>,
+    rerenderDepartment: () => void
 }
 
-const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDependencies, rerenderDependency }) => {
-    const [newDependencyName, setNewDependencyName] = useState('')
+const createDepartment: React.FC<departmentComponent> = ({ onFinish, initialDepartments, rerenderDepartment }) => {
+    const [newDepartmentName, setNewDepartmentName] = useState('')
     const [newDireccion, setNewDireccion] = useState('')
     const [nameWarning, setNameWarning] = useState(false)
     const [dirWarning, setDirWarning] = useState(false)
@@ -25,8 +25,8 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
     // States to edit:
     const [editState, setEditState] = useState<null | number>(null)
 
-    const handleDependencyName = (event: ChangeEvent<HTMLInputElement>) => {
-        setNewDependencyName(event.target.value)
+    const handleDepartmentName = (event: ChangeEvent<HTMLInputElement>) => {
+        setNewDepartmentName(event.target.value)
         if (event.target.value === '') {
             setNameWarning(true)
         } else {
@@ -43,9 +43,9 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
         }
     }
 
-    const handleNewDependency = async (event: React.MouseEvent<HTMLInputElement>) => {
+    const handleNewDepartment = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
-        if (newDependencyName === '') {
+        if (newDepartmentName === '') {
             setNameWarning(true)
             return
         } else if (newDireccion === '') {
@@ -54,15 +54,15 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
         } else {
             try {
                 const jwtToken = localStorage.getItem('jwt')
-                await dataService.createDependency(newDependencyName, newDireccion, jwtToken)
-                setNewDependencyName('')
+                await dataService.createDepartment(newDepartmentName, newDireccion, jwtToken)
+                setNewDepartmentName('')
                 setNewDireccion('')
                 alert('Department created!')
             } catch(error: any) {
                 alert(error.response.data.error)
             }
         }
-        rerenderDependency()
+        rerenderDepartment()
     }
 
     // Function to swap between edit mode and normal mode:
@@ -81,20 +81,20 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
                 <section className="pr-9 max-w-fit">
                     <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Existing:</h2>
                     {
-                        initialDependencies.length === 0 ? (
-                            <p>There are no created dependencies.</p>
+                        initialDepartments.length === 0 ? (
+                            <p>There are no departments created.</p>
                         ) : (
                             <ul>
-                            {initialDependencies.map((element: dependencies, index: number) => (
+                            {initialDepartments.map((element: departments, index: number) => (
                                 <li key={`Group${index}`} className="pb-2 mb-8">
                                 {editState !== index ? (
                                     <>
                                         <p key={`Department${index}`}>{element.name}</p>
                                         <i key={`Address${index}`} className="block text-base pl-4">{element.address}</i>
-                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} index={index} number={editState} rerender={rerenderDependency} />
+                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} index={index} number={editState} rerender={rerenderDepartment} />
                                     </>
                                 ) : (
-                                    <EditDependency key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} number={editState} rerender={rerenderDependency} />
+                                    <EditDepartment key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} number={editState} rerender={rerenderDepartment} />
                                 )}
                                 </li>
                             ))}
@@ -105,14 +105,14 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
                 <section className="pl-9 max-w-fit">
                     <h2 className="text-xl font-medium pb-2 underline decoration-solid underline-offset-2">Create a new one:</h2>
                     <form>
-                        <label htmlFor="dependencyName" className="block text-sm font-medium leading-6 text-gray-900">Department:</label>
-                        <input id="dependencyName"
-                            name="nuevaDependencia"
+                        <label htmlFor="departmentName" className="block text-sm font-medium leading-6 text-gray-900">Department:</label>
+                        <input id="departmentName"
+                            name="newDepartment"
                             type="text"
                             required
                             className={nameWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-600 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"}
-                            onChange={handleDependencyName}
-                            value={newDependencyName}
+                            onChange={handleDepartmentName}
+                            value={newDepartmentName}
                         />
 
                         <label htmlFor="direccion" className="block text-sm font-medium leading-6 text-gray-900">Address:</label>
@@ -124,12 +124,12 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
                             value={newDireccion}
                         />
 
-                        <input id="submitDependency"
+                        <input id="submitDepartment"
                             name="submit"
                             type="submit"
                             className={nameWarning || dirWarning ? "block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-gray-200 px-2 font-medium text-gray-700 ring-1 ring-inset ring-gray-700/10 hover:cursor-default" : "block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"}
-                            onClick={handleNewDependency}
-                            value="Add dependency"
+                            onClick={handleNewDepartment}
+                            value="Add department"
                             disabled={nameWarning || dirWarning ? true : false}
                         />
                     </form>
@@ -139,4 +139,4 @@ const createDependency: React.FC<dependencyComponent> = ({ onFinish, initialDepe
     )
 }
 
-export default createDependency
+export default createDepartment

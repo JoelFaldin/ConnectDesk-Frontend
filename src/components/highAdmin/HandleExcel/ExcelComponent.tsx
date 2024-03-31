@@ -45,7 +45,6 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
         const jwtToken = localStorage.getItem('jwt')
         try {
             await dataService.downloadExcel(userQuantity, selectPage, jwtToken)
-            console.log('Archivo descargado!')
         } catch(error: any) {
             console.log(error.response.data.error)
         }
