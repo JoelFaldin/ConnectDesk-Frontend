@@ -433,7 +433,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             localStorage.removeItem('jwt')
             navigate('/')
         } catch(error: any) {
-            console.log(error.response.data.error)
+            alert(error.response.data.error)
         }
         setLoading(false)
     }
@@ -650,7 +650,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="newUserContainer" className={`fixed inset-0 w-full h-full ${newUserComp ? '' : 'invisible'}`}>
                 <div id="newUserFormBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${newUserComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setNewUserComp(prev => !prev)}></div>
                 <div id="newUserForm" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${newUserComp ? '' : 'translate-x-full'}`}>
-                    <CreateUser onFinish={() => setNewUserComp(prev => !prev)} rerenderDepartment={rerenderDepartment} />
+                    <CreateUser onFinish={() => setNewUserComp(prev => !prev)} rerenderDepartment={rerenderDepartment} rerender={rerender} />
                 </div>
             </div>
             { showMessage ? 

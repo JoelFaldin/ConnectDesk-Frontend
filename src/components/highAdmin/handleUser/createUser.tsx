@@ -6,9 +6,10 @@ import { BiArrowBack } from "react-icons/bi"
 interface newUser {
     onFinish: () => void,
     rerenderDepartment: () => void,
+    rerender: () => void,
 }   
 
-const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment }) => {
+const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment, rerender }) => {
     // States to store the user's information:
     const [newIdentifier, setNewIdentifier] = useState('')
     const [identifierWarning, setIdentifierWarning] = useState(false)
@@ -34,7 +35,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment }) => {
     }
 
     interface directionInterface {
-        direccion: String
+        name: String
     }
 
     // Interface for the state:
@@ -71,7 +72,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment }) => {
             passHash: password,
             role,
             departments: departments === '' ? initialData.departments[0].name : departments,
-            directions: directions === '' ? initialData.directions[0].direccion : directions,
+            directions: directions === '' ? initialData.directions[0].name : directions,
             jobNumber: jobNumber,
             contactNumber: contactNumber
         }
@@ -115,6 +116,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment }) => {
                 setRole('user')
                 alert(userCrated.message)
                 onFinish()
+                rerender()
             } catch(error: any) {
                 alert(error.response.data.error)
             }
@@ -319,12 +321,11 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment }) => {
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     onChange={event => setDirections(event.target.value)}
-                                    value={directions}
                                 >
                                 <optgroup label="-- Select an option">
                                     {
                                         initialData.directions.map((item, index) => {
-                                            return <option key={`department${index}`}>{item.direccion}</option>
+                                            return <option key={`department${index}`}>{item.name}</option>
                                         })
                                     }
                                 </optgroup>
