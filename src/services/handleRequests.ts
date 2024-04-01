@@ -122,8 +122,8 @@ const getDepartments = async (jwt: string | null) => {
     return res.data
 }
 
-const createDepartment = async (name: string, address: string, jwt: string | null) => {
-    const request = axios.post(`${baseUrl}/api/newDepartment`, { name, address }, { headers: { Authorization: `Bearer ${jwt}` } })
+const createDepartment = async (name: string, jwt: string | null) => {
+    const request = axios.post(`${baseUrl}/api/newDepartment`, { name }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
@@ -134,8 +134,8 @@ const deleteDepartment = async (index: number, jwt: string | null) => {
     return res.data
 }
 
-const updateDepartment = async (newName: string | null, newDirection: string | null, index: number, jwt: string | null) => {
-    const request = axios.put(`${baseUrl}/api/updateDepartment/${index}`, { newName, newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
+const updateDepartment = async (newName: string | null, index: number, jwt: string | null) => {
+    const request = axios.put(`${baseUrl}/api/updateDepartment/${index}`, { newName }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
@@ -146,8 +146,8 @@ const getDirections = async (jwt: string | null) => {
     return res.data
 }
 
-const createDirection = async (newDirection: string, jwt: string | null) => {
-    const request = axios.post(`${baseUrl}/api/newDirection`, { newDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
+const createDirection = async (newDirection: string, address: string, jwt: string | null) => {
+    const request = axios.post(`${baseUrl}/api/newDirection`, { newDirection, address }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }
@@ -158,8 +158,8 @@ const deleteDirection = async (index: number, jwt: string | null) => {
     return res.data
 }
 
-const updateDirection = async (editDirection: string | null, index: number, jwt: string | null) => {
-    const request = axios.put(`${baseUrl}/api/updateDirection/${index}`, { editDirection }, { headers: { Authorization: `Bearer ${jwt}` } })
+const updateDirection = async (editDirection: string | null, address: string | null, index: number, jwt: string | null) => {
+    const request = axios.put(`${baseUrl}/api/updateDirection/${index}`, { editDirection, address }, { headers: { Authorization: `Bearer ${jwt}` } })
     const res = await request
     return res.data
 }

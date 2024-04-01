@@ -18,9 +18,7 @@ interface departmentComponent {
 
 const createDepartment: React.FC<departmentComponent> = ({ onFinish, initialDepartments, rerenderDepartment }) => {
     const [newDepartmentName, setNewDepartmentName] = useState('')
-    const [newDireccion, setNewDireccion] = useState('')
     const [nameWarning, setNameWarning] = useState(false)
-    const [dirWarning, setDirWarning] = useState(false)
     
     // States to edit:
     const [editState, setEditState] = useState<null | number>(null)
@@ -34,29 +32,16 @@ const createDepartment: React.FC<departmentComponent> = ({ onFinish, initialDepa
         }
     }
 
-    const handleDireccion = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        setNewDireccion(event.target.value)
-        if (event.target.value === '') {
-            setDirWarning(true)
-        } else {
-            setDirWarning(false)
-        }
-    }
-
     const handleNewDepartment = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         if (newDepartmentName === '') {
             setNameWarning(true)
             return
-        } else if (newDireccion === '') {
-            setDirWarning(true)
-            return
         } else {
             try {
                 const jwtToken = localStorage.getItem('jwt')
-                await dataService.createDepartment(newDepartmentName, newDireccion, jwtToken)
+                await dataService.createDepartment(newDepartmentName, jwtToken)
                 setNewDepartmentName('')
-                setNewDireccion('')
                 alert('Department created!')
             } catch(error: any) {
                 alert(error.response.data.error)
@@ -90,7 +75,6 @@ const createDepartment: React.FC<departmentComponent> = ({ onFinish, initialDepa
                                 {editState !== index ? (
                                     <>
                                         <p key={`Department${index}`}>{element.name}</p>
-                                        <i key={`Address${index}`} className="block text-base pl-4">{element.address}</i>
                                         <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} index={index} number={editState} rerender={rerenderDepartment} />
                                     </>
                                 ) : (
@@ -115,22 +99,13 @@ const createDepartment: React.FC<departmentComponent> = ({ onFinish, initialDepa
                             value={newDepartmentName}
                         />
 
-                        <label htmlFor="direccion" className="block text-sm font-medium leading-6 text-gray-900">Address:</label>
-                        <textarea id="direccion"
-                            name="direccion"
-                            required
-                            className={dirWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-600 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6 h-fit" : "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 h-fit"}
-                            onChange={handleDireccion}
-                            value={newDireccion}
-                        />
-
                         <input id="submitDepartment"
                             name="submit"
                             type="submit"
-                            className={nameWarning || dirWarning ? "block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-gray-200 px-2 font-medium text-gray-700 ring-1 ring-inset ring-gray-700/10 hover:cursor-default" : "block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"}
+                            className={nameWarning ? "block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-gray-200 px-2 font-medium text-gray-700 ring-1 ring-inset ring-gray-700/10 hover:cursor-default" : "block w-full mt-4 py-1.5 text-l text-center items-center rounded-md bg-indigo-200 px-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:cursor-pointer hover:ring-indigo-800 hover:bg-indigo-300"}
                             onClick={handleNewDepartment}
                             value="Add department"
-                            disabled={nameWarning || dirWarning ? true : false}
+                            disabled={nameWarning ? true : false}
                         />
                     </form>
                 </section>

@@ -5,7 +5,8 @@ import ActionButtons from "./actionButtons"
 import EditDirection from "./editDirection"
 
 interface directions {
-    direccion: string
+    name: string,
+    address: string
 }
 
 interface directionComponent {
@@ -17,6 +18,8 @@ interface directionComponent {
 const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirections, rerenderDirections }) => {
     const [newDirection, setNewDirection] = useState('')
     const [directionWarning, setDirectionWarning] = useState(false)
+    const [address, setAddress] = useState('')
+    const [addressWarning, setAddressWarning] = useState(false)
     
     // States to edit:
     const [editDirection, setEditDirection] = useState<null | number>(null)
@@ -35,12 +38,16 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
         if (newDirection === '') {
             setDirectionWarning(true)
             return
+        } else if (address === '') {
+            setAddressWarning(true)
+            return
         } else {
             try {
                 const token = localStorage.getItem('jwt')
-                const dir = await dataService.createDirection(newDirection, token)
+                const dir = await dataService.createDirection(newDirection, address, token)
                 alert(dir.message)
                 setNewDirection('')
+                setAddress('')
             } catch (error: any) {
                 alert(error.response.data.error)
             }
@@ -71,7 +78,8 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
                                 <li key={`Grupo${index}`} className="pb-2 mb-8">
                                 {editDirection !== index ? (
                                     <>
-                                        <p key={`Dependencia${index}`} className="mb-1 underline underline-offset-2">{element.direccion}</p>
+                                        <p key={`Direction${index}`} className="mb-1 underline underline-offset-2">{element.name}</p>
+                                        <i key={`Address${index}`} className="block text-base pl-2">{element.address}</i>
                                         <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editDirection === null ? false : true} index={index} number={editDirection} rerender={rerenderDirections} />
                                     </>
                                 ) : (
@@ -95,6 +103,15 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
                             className={directionWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-600 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"}
                             onChange={handleDirectionName}
                             value={newDirection}
+                        />
+
+                        <label htmlFor="direction" className="block text-sm font-medium leading-6 text-gray-900">Address:</label>
+                        <textarea id="direction"
+                            name="direction"
+                            required
+                            className={addressWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-2 ring-inset ring-red-600 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6 h-fit" : "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 h-fit"}
+                            onChange={event => setAddress(event.target.value)}
+                            value={address}
                         />
 
                         <input id="submitDirection"

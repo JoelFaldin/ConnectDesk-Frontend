@@ -14,7 +14,6 @@ interface editDep {
 
 const EditDepartment: React.FC<editDep> = ({ index, element, toggleEdit, edit, number, rerender }) => {
     const [editNombre, setEditNombre] = useState<string | null>(null)
-    const [editDireccion, setEditDireccion] = useState<string | null>(null)
     const initialValues = [element.nombre, element.direccion]
 
     // Editing department values:
@@ -22,18 +21,14 @@ const EditDepartment: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
         setEditNombre(event.target.value)
     }
 
-    const handleEditDirection = (event: ChangeEvent<HTMLInputElement>) => {
-        setEditDireccion(event.target.value)
-    }
-
     // Function to send the new data to the server:
     const handleUpdate = async () => {
-        if ((editNombre ?? initialValues[0]) === initialValues[0] && (editDireccion ?? initialValues[1]) === initialValues[1]) {
+        if ((editNombre ?? initialValues[0]) === initialValues[0]) {
             alert('You havent made any changes!')
         } else {
             try {
                 const jwtToken = localStorage.getItem('jwt')
-                const update = await dataService.updateDepartment(editNombre, editDireccion, index, jwtToken)
+                const update = await dataService.updateDepartment(editNombre, index, jwtToken)
                 rerender()
                 alert(update.message)
             } catch(error: any) {
@@ -53,15 +48,6 @@ const EditDepartment: React.FC<editDep> = ({ index, element, toggleEdit, edit, n
                     value={editNombre ?? element.name}
                     onChange={handleEditDepartment}
                     className={"block min-w-fit w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"}
-                />
-
-                <label htmlFor={`EditarDir${index}`} className="block text-sm font-medium leading-6 text-gray-900">Direction:</label>
-                <input key={`EditDirection${index}`}
-                    type="text"
-                    id={`EditDir${index}`}
-                    value={editDireccion ?? element.address}
-                    onChange={handleEditDirection}
-                    className={"block min-w-fit w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-2"}
                 />
             </span>
             <span>
