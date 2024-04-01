@@ -632,7 +632,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             <div id="handleExcelContainer" className={`fixed inset-0 w-full h-full ${excelComp ? '' : 'invisible'}`}>
                 <div id="handleExcelBG" className={`w-full h-full duration-500 ease-out transition-all inset-0 absolute bg-gray-900 ${excelComp ? 'opacity-50' : 'opacity-0'}`} onClick={() => setExcelComp(prev => !prev)}></div>
                 <div id="handleExcel" className={`w-2/5 h-full duration-150 ease-out transition-all absolute bg-gradient-to-tl from-bg-slate-400 to-bg-white right-0 top-0 ${excelComp ? '' : 'translate-x-full'}`}>
-                    <ExcelComponent onFinish={() => setExcelComp(prev => !prev)} />
+                    <ExcelComponent onFinish={() => setExcelComp(prev => !prev)} rerender={rerender} />
                 </div>
             </div>
             <div id="newDepartmentContainer" className={`fixed inset-0 w-full h-full ${depComp ? '' : 'invisible'}`}>

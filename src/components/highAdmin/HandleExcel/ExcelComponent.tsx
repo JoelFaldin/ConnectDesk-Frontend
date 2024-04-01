@@ -5,10 +5,11 @@ import { BiArrowBack } from "react-icons/bi"
 
 // Component's interface:
 interface excelComp {
-    onFinish: () => void
+    onFinish: () => void,
+    rerender: () => void
 }
 
-const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
+const ExcelComponent: React.FC<excelComp> = ({ onFinish, rerender }) => {
     const [excel, setExcel] = useState<File | null>()
     const [userQuantity, setUserQuantity] = useState<number | string>('todo')
     const [selectPage, setSelectPage] = useState(1)
@@ -38,6 +39,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish }) => {
             alert(error.response.data.message)
             setExcel(null)
         }
+        rerender()
     }
 
     // Downloading an excel with data:
