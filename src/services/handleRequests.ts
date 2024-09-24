@@ -93,7 +93,11 @@ const logout = async (jwt: string | null) => {
 }
 
 const createUser = async (object: userModel, jwt: string | null) => {
-    const request = axios.post(`${baseUrl}/api/newUser`, object, { headers: { Authorization: `Bearer ${jwt}` } })
+    const request = axios.post(`${baseUrl}/api/newUser`, object, {
+        headers: {
+            Authorization: `Bearer ${jwt}`
+        }
+    })
     const res = await request
     return res.data
 }

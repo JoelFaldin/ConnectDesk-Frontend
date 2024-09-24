@@ -61,7 +61,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment, rerender 
         getDeps()
     }, [])
 
-    // Sending data of a new     to the server:
+    // Sending data of a new user to the server:
     const handleNewUser = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         const newUser = {
@@ -191,16 +191,6 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment, rerender 
             setContactWarning(true)
         } else {
             ''
-        }
-    }
- 
-    const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
-        const pass = event.target.value
-        if (event.target.value === '') {
-            setPassWarning(true)
-        } else {
-            setPassword(pass)
-            setPassWarning(false)
         }
     }
 
@@ -369,7 +359,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment, rerender 
                                 type="password"
                                 required
                                 className={!passWarning ? "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" : "block w-full rounded-md border-0 py-1.5 text-red-900 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"}
-                                onChange={handlePassword}
+                                onChange={event => setPassword(event.target.value)}
                                 value={password}
                             />
                             <input id="submit"
