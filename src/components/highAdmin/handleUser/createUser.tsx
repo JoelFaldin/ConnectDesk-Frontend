@@ -55,7 +55,7 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment, rerender 
                 handleRequests.getDepartments(jwt),
                 handleRequests.getDirections(jwt)
             ])
-            setInitialData({ departments: deps.request, directions: dirs.directions })
+            setInitialData({ departments: deps, directions: dirs })
         }
 
         getDeps()
@@ -65,16 +65,16 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment, rerender 
     const handleNewUser = async (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         const newUser = {
-            identifier: newIdentifier,
+            rut: newIdentifier,
             names,
             lastNames,
             email,
-            passHash: password,
+            password,
             role,
             departments: departments === '' ? initialData.departments[0].name : departments,
             directions: directions === '' ? initialData.directions[0].name : directions,
             jobNumber: jobNumber,
-            contactNumber: contactNumber
+            contact: contactNumber
         }
 
         if (newIdentifier === '') {
@@ -153,17 +153,17 @@ const CreateUser: React.FC<newUser> = ({ onFinish, rerenderDepartment, rerender 
 
     const handleRole = (event: ChangeEvent<HTMLSelectElement>) => {
         switch (event.target.value) {
-            case 'superAdmin':
-                setRole('superAdmin')
+            case 'SUPERADMIN':
+                setRole('SUPERADMIN')
                 break
-            case 'admin':
-                setRole('admin')
+            case 'ADMIN':
+                setRole('ADMIN')
                 break
-            case 'user':
-                setRole('user')
+            case 'USER':
+                setRole('USER')
                 break
             default:
-                setRole('user')
+                setRole('USER')
         }
     }
 

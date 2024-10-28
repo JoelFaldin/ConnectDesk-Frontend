@@ -40,7 +40,7 @@ declare module '@tanstack/react-table' {
 
 // File's shape:
 type Employee = {
-    identifier: string,
+    rut: string,
     names: string,
     lastNames: string,
     email: string,
@@ -48,7 +48,7 @@ type Employee = {
     departments: string,
     directions: string,
     jobNumber: string,
-    contactNumber: number
+    contact: number
 }
 
 // Editing info in a
@@ -98,7 +98,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
     const [searchValue, setSearchValue] = useState('')
     const [searchColumn, setSearchColumn] = useState('')
     const [filterColumn, setFilterColumn] = useState('')
-    const [filterOrder, setFilterOrder] = useState('normal')
+    const [filterOrder, setFilterOrder] = useState('')
     const [showMessage, setShowMessage] = useState(false)
     
     // State to temporarily store edited data:
@@ -143,10 +143,10 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             try {
                 const token = localStorage.getItem('jwt')
                 const data = await dataService.getUsers(searchValue, searchColumn, pageSize, page, token)
-                setData(data.content)
-                setCancelChange(data.content)
+                setData(data)
+                setCancelChange(data)
                 setTotal(data.totalData)
-                rol !== 'user' ? setColumnVisibility({ 'edit': true }) : ''
+                rol !== 'USER' ? setColumnVisibility({ 'edit': true }) : ''
             } catch(error: any) {
                 console.error(error.response.data.error)
             }
@@ -156,14 +156,14 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         const fetchDeps = async () => {
             const token = localStorage.getItem('jwt')
             const deps = await dataService.getDepartments(token)
-            setDepartments(deps.request)
+            setDepartments(deps)
         }
         fetchDeps()
 
         const fetchDirs = async () => {
             const token = localStorage.getItem('jwt')
             const dirs = await dataService.getDirections(token)
-            setDirections(dirs.directions)
+            setDirections(dirs)
         }
         fetchDirs()
     }, [])
@@ -174,9 +174,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
             id: 'Person',
             header: () => <span>Person</span>,
             columns: [
-                columnhelper.accessor('identifier', {
-                    header: 'Identifier',
-                    id: 'identifier',
+                columnhelper.accessor('rut', {
+                    header: 'Rut',
+                    id: 'rut',
                     cell: TableCell,
                     meta: {
                         type: "text"
@@ -238,11 +238,11 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                         type: 'text'
                     }
                 }),
-                columnhelper.accessor('contactNumber',{
+                columnhelper.accessor('contact',{
                     header: 'Contact Number',
                     cell: TableCell,
                     meta: {
-                        type: 'number'
+                        type: 'text'
                     }
                 })
             ]
@@ -250,9 +250,9 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         columnhelper.display({
             header: 'Actions',
             id: "edit",
-            cell: rol === 'superAdmin'
+            cell: rol === 'SUPERADMIN'
                 ? EditAdminCell
-                : rol === 'admin' ? EditCell : ''
+                : rol === 'ADMIN' ? EditCell : ''
         }),
     ]
 
@@ -301,12 +301,12 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
 
                     const filteredData = Object.values(
                         tempData.reduce((acc: any, item: any) => {
-                          const key = `${item.rowIndex}_${item.columnId}`
-                          acc[key] = item
-                          return acc
+                            const key = `${item.rowIndex}_${item.columnId}`
+                            acc[key] = item
+                            return acc
                         }, {})
-                      )
-                      setTempData([])
+                    )
+                    setTempData([])
                     try {
                         await dataService.updateUser(filteredData, pageSize, page, jwtToken)
                         rerender()
@@ -320,7 +320,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 if (decision) {
                     try {
                         const token = localStorage.getItem('jwt')
-                        await dataService.deleteUser(cancelChange[rowIndex].identifier, token)
+                        await dataService.deleteUser(cancelChange[rowIndex].rut, token)
                     } catch(error: any) {
                         alert(error.response.data.error)
                     }
@@ -328,11 +328,11 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 rerender()
             },
             makeAdmin: async (rowIndex: number) => {
-                const decision = window.confirm(cancelChange[rowIndex].role === 'user' ? `Do you want this user to become an admin?` : `Do you want this user to stop being an admin?`)
+                const decision = window.confirm(cancelChange[rowIndex].role === 'USER' ? `Do you want this user to become an admin?` : `Do you want this user to stop being an admin?`)
                 if (decision) {
                     try {
                         const token = localStorage.getItem('jwt')
-                        await dataService.makeAdmin(cancelChange[rowIndex].identifier, token)
+                        await dataService.makeAdmin(cancelChange[rowIndex].rut, token)
                     } catch(error: any) {
                         alert(error.response.data.error)
                     }
@@ -347,7 +347,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         try {
             const token = localStorage.getItem('jwt')
             const rerender = await dataService.getDepartments(token)
-            setDepartments(rerender.request)
+            setDepartments(rerender)
         } catch(error: any) {
             alert(error.response.data.error)
         }
@@ -358,7 +358,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         try {
             const token = localStorage.getItem('jwt')
             const rerender = await dataService.getDirections(token)
-            setDirections(rerender.directions)
+            setDirections(rerender)
         } catch(error: any) {
             alert(error.response.data.error)
         }
@@ -371,22 +371,22 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         if (filterOrder === 'asc') {
             handleFilterRequest.toggleFilter(column, 'desc', searchValue, searchColumn, pageSize, page, token)
                 .then(res => {
-                    setData(res.content)
-                    setCancelChange(res.content)
+                    setData(res)
+                    setCancelChange(res)
                 })
             setFilterOrder('desc')
         } else if (filterOrder === 'desc') {
-            handleFilterRequest.toggleFilter(column, 'normal', searchValue, searchColumn, pageSize, page, token)
+            handleFilterRequest.toggleFilter('', '', searchValue, searchColumn, pageSize, page, token)
                 .then(res => {
-                    setData(res.content)
-                    setCancelChange(res.content)
+                    setData(res)
+                    setCancelChange(res)
                 })
-            setFilterOrder('normal')
-        } else if (filterOrder === 'normal') {
+            setFilterOrder('')
+        } else if (filterOrder === '') {
             handleFilterRequest.toggleFilter(column, 'asc', searchValue, searchColumn, pageSize, page, token)
                 .then(res => {
-                    setData(res.content)
-                    setCancelChange(res.content)
+                    setData(res)
+                    setCancelChange(res)
                 })
             setFilterOrder('asc')
         }
@@ -399,12 +399,11 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
         
         const timeout = setTimeout(async () => {
             const token = localStorage.getItem('jwt')
-            const res = await handleFilterRequest.searchFilter(column, event.target.value, pageSize, page, token)
-            res.content.length === 0 ? setShowMessage(true) : setShowMessage(false)
+            const res = await handleFilterRequest.toggleFilter(searchColumn, '', event.target.value, column, pageSize, page, token)
+            res.length === 0 ? setShowMessage(true) : setShowMessage(false)
 
-            setData(res.content)
-            setCancelChange(res.content)
-            setTotal(res.totalData)
+            setData(res)
+            setCancelChange(res)
         }, 500)
         return () => clearTimeout(timeout)
     }
@@ -485,7 +484,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id} className="border-b border-solid border-gray-300 odd:bg-white even:bg-#f3f3f3" >
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className={ (row.original.role === 'admin' || row._valuesCache.role === 'superAdmin') && rol !== 'user'
+                                <td key={cell.id} className={ (row.original.role === 'ADMIN' || row._valuesCache.role === 'SUPERADMIN') && rol !== 'USER'
                                     ? "text-left py-2 px-2.5 border-r border-solid border-gray-300 bg-cyan-50 wax-w-1 max-h-2"
                                     : "text-left py-2 px-2.5 border-r border-solid border-gray-300 wax-w-1 max-h-2"}
                                 >
@@ -500,14 +499,14 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colSpan={rol === 'user' ? 2 : 5}>
+                        <td colSpan={rol === 'USER' ? 2 : 5}>
                             <div className="flex justify-start p-2">
                                 <p className="font-medium">
-                                    Showing <span className="underline decoration-1 underline-offset-2">{data.length}</span> of <span className="underline decoration-1 underline-offset-2">{total}</span> rows
+                                    {/* Showing <span className="underline decoration-1 underline-offset-2">{data.length}</span> of <span className="underline decoration-1 underline-offset-2">{total}</span> rows */}
                                 </p>
                             </div>
                         </td>
-                        <td colSpan={rol === 'user' ? 6 : 5}>
+                        <td colSpan={rol === 'USER' ? 6 : 5}>
                             <div className="flex justify-end p-2 gap-6">
                                 <span className="flex items-center gap-2">
                                     <p>Current page:</p>
@@ -524,15 +523,15 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                                         onChange={event => {
                                             const inputValue = event.target.value
                                             const newPage = Number(inputValue)
-                                          
+
                                             if (!Number.isNaN(newPage) && newPage > -1) {
-                                              const totalPages = Math.ceil(total / pageSize)
-                                              const validPage = Math.min(newPage, totalPages)
-                                          
-                                              setPage(validPage)
-                                              rerender()
+                                                const totalPages = Math.ceil(total / pageSize)
+                                                const validPage = Math.min(newPage, totalPages)
+
+                                                setPage(validPage)
+                                                rerender()
                                             }
-                                          }}
+                                        }}
                                         className={ Number(page) < 10 ? "px-2 py-1 rounded w-10" : "px-1 py-1 rounded w-10" }
                                     />
                                 </span>
@@ -582,7 +581,7 @@ const GeneralTable: React.FC<adminTable> = ({ rol }) => {
                     </tr>
                 </tfoot>
             </table>
-            {rol === 'superAdmin' ?
+            {rol === 'SUPERADMIN' ?
                 <span className="flex flex-row justify-center">
                     <div className="flex justify-start pt-2 min-w-fit">
                         <button className="flex mr-2 gap-1 rounded-md bg-lime-50 px-1 py-1 ring-1 ring-inset ring-lime-600/20 hover:bg-lime-200 hover:ring-lime-500" onClick={() => setExcelComp(prev => !prev)}>

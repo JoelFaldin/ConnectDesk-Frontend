@@ -23,7 +23,7 @@ const RouterComponent = () => {
                     <Route path="/data/admin" element={<AdminPage />} />
                     <Route path="/data/user" element={<UserPage />} />
                     {/* Check this: */}
-                    <Route path="/createUser" element={<CreateUser onFinish={test} rerenderDependency={test} />} />
+                    <Route path="/createUser" element={<CreateUser onFinish={test} />} />
                 </Routes>
             </Router>
         </div>

@@ -10,8 +10,14 @@ const HighAdminPage = () => {
     useEffect(() => {
         const getData = async () => {
             try {
-                const user = await dataService.getUserData(token)
-                setUserName(user.nombres)
+                const identifier = localStorage.getItem('rut')
+
+                if (identifier) {
+                    const user = await dataService.getUserData(identifier, token)
+                    setUserName(user.nombres)
+                } else {
+                    alert('Log in again')
+                }
             } catch(error: any) {
                 console.log(error.response.data.error)
             }
@@ -33,7 +39,7 @@ const HighAdminPage = () => {
     
     return (
         <section className="bg-gradient-to-b from-white	to-slate-200 min-h-dvh w-fit min-w-full pt-20">
-            <GeneralTable rol={'superAdmin'} />
+            <GeneralTable rol={'SUPERADMIN'} />
         </section>
     )
 }

@@ -11,7 +11,7 @@ interface excelComp {
 
 const ExcelComponent: React.FC<excelComp> = ({ onFinish, rerender }) => {
     const [excel, setExcel] = useState<File | null>()
-    const [userQuantity, setUserQuantity] = useState<number | string>('todo')
+    const [userQuantity, setUserQuantity] = useState<number | string>('all')
     const [selectPage, setSelectPage] = useState(1)
     
     // Changing the page of the data that you want to display on the excel file:
@@ -110,7 +110,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish, rerender }) => {
                         className="block w-fit rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mb-4"
                         onChange={event => setUserQuantity(event.target.value)}
                     >
-                        <option value="todo">All of them</option>
+                        <option value="all">All of them</option>
                         {
                             [10, 20, 30, 40, 50].map(number => (
                                 <option key={`OptionNumber${number}`} value={number}>{number} users</option>
@@ -118,7 +118,7 @@ const ExcelComponent: React.FC<excelComp> = ({ onFinish, rerender }) => {
                         }
                     </select>
                     {
-                        userQuantity !== 'todo' ? (
+                        userQuantity !== 'all' ? (
                             <>
                                 <label
                                     htmlFor="page"

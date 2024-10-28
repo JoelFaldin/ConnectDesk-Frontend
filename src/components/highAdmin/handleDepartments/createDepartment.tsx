@@ -7,7 +7,7 @@ import { BiArrowBack } from "react-icons/bi"
 // Component's interface:
 interface departments {
     name: string,
-    address: string,
+    id: string,
 }
 
 interface departmentComponent {
@@ -75,10 +75,10 @@ const createDepartment: React.FC<departmentComponent> = ({ onFinish, initialDepa
                                 {editState !== index ? (
                                     <>
                                         <p key={`Department${index}`}>{element.name}</p>
-                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} index={index} number={editState} rerender={rerenderDepartment} />
+                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} id={element.id} rerender={rerenderDepartment} />
                                     </>
                                 ) : (
-                                    <EditDepartment key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} number={editState} rerender={rerenderDepartment} />
+                                    <EditDepartment key={`EditComponent${index}`} id={element.id} element={element} toggleEdit={() => toggleEdit(index)} edit={editState === null ? false : true} rerender={rerenderDepartment} />
                                 )}
                                 </li>
                             ))}

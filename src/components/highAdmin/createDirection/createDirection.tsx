@@ -6,7 +6,8 @@ import EditDirection from "./editDirection"
 
 interface directions {
     name: string,
-    address: string
+    address: string,
+    id: string,
 }
 
 interface directionComponent {
@@ -80,10 +81,10 @@ const createDirection: React.FC<directionComponent> = ({ onFinish, initialDirect
                                     <>
                                         <p key={`Direction${index}`} className="mb-1 underline underline-offset-2">{element.name}</p>
                                         <i key={`Address${index}`} className="block text-base pl-2">{element.address}</i>
-                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editDirection === null ? false : true} index={index} number={editDirection} rerender={rerenderDirections} />
+                                        <ActionButtons key={`ActionComponent${index}`} toggleEdit={() => toggleEdit(index)} edit={editDirection === null ? false : true} index={element.id} rerender={rerenderDirections} />
                                     </>
                                 ) : (
-                                    <EditDirection key={`EditComponent${index}`} index={index} element={element} toggleEdit={() => toggleEdit(index)} edit={editDirection === null ? false : true} number={editDirection} rerender={rerenderDirections} />
+                                    <EditDirection key={`EditComponent${index}`} id={element.id} element={element} toggleEdit={() => toggleEdit(index)} edit={editDirection === null ? false : true} rerender={rerenderDirections} />
                                 )}
                                 </li>
                             ))}

@@ -36,16 +36,17 @@ const Login = () => {
         try {
             const res = await handleRequest.verify(identifier, password)
             localStorage.setItem('jwt', res.token)
+            localStorage.setItem('rut', res.identifier)
 
-            if (res.access === 'admin') {
+            if (res.access === 'ADMIN') {
                 navigate('/data/admin')
-                localStorage.setItem('userRol', 'admin')
-            } else if (res.access === 'superAdmin') {
+                localStorage.setItem('userRol', 'ADMIN')
+            } else if (res.access === 'SUPERADMIN') {
                 navigate('/data/superadmin ')
-                localStorage.setItem('userRol', 'superAdmin')
-            } else if (res.access === 'user') {
+                localStorage.setItem('userRol', 'SUPERADMIN')
+            } else if (res.access === 'USER') {
                 navigate('/data/user')
-                localStorage.setItem('userRol', 'user')
+                localStorage.setItem('userRol', 'USER')
             }
             window.localStorage.setItem('loggedUser', JSON.stringify(res))
         } catch(error: any) {

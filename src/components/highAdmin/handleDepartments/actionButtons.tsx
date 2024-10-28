@@ -4,18 +4,17 @@ import dataService from '../../../services/handleRequests'
 interface actionButtons {
     toggleEdit: () => void,
     edit: boolean,
-    index: number,
-    number: number | null,
+    id: string,
     rerender: () => void
 }
 
-const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, number, rerender }) => {
+const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, id, rerender }) => {
     // Function to delete a department:
     const handleDelete = async () => {
         if (confirm('Do you really want to remove this department?')) {
             try {
                 const jwtToken = localStorage.getItem('jwt')
-                await dataService.deleteDepartment(index, jwtToken)
+                await dataService.deleteDepartment(id, jwtToken)
             } catch(error: any) {
                 alert(error.response.data.error)
             }
@@ -29,7 +28,7 @@ const ActionButtons: React.FC<actionButtons> = ({ toggleEdit, edit, index, numbe
                 className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 mr-1 hover:bg-indigo-200"
                 onClick={toggleEdit}
             >
-                {edit && index === number
+                {edit
                     ? 'Cancel'
                     : 'Edit'
                 }
