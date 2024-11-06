@@ -13,7 +13,7 @@
     "@heroicons/react": "^2.1.1",
     "@tanstack/match-sorter-utils": "^8.11.3",
     "@tanstack/react-table": "^8.11.3",
-    "axios": "^1.6.5",
+    "axios": "^1.7.4",
     "boxicons": "^2.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
