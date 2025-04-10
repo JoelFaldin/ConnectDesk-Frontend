@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 interface MenuOption {
   icon: string,
@@ -10,7 +10,7 @@ interface MenuOption {
 
 @Component({
   selector: 'side-menu-pages',
-  imports: [RouterLink, MatIconModule],
+  imports: [RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './side-menu-pages.component.html',
 })
 export class SideMenuPagesComponent {
