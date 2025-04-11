@@ -4,7 +4,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./shared/side-bar/side-bar.component')
+      import('./pages/dashboard/dashboard.component')
   },
   {
     path: '**',

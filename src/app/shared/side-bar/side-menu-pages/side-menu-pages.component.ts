@@ -1,6 +1,8 @@
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { filter } from 'rxjs';
 
 interface MenuOption {
   icon: string,
@@ -10,10 +12,20 @@ interface MenuOption {
 
 @Component({
   selector: 'side-menu-pages',
-  imports: [RouterLink, RouterLinkActive, MatIconModule],
+  imports: [RouterLink, RouterLinkActive, MatIconModule, NgClass],
   templateUrl: './side-menu-pages.component.html',
 })
 export class SideMenuPagesComponent {
+  currentRoute: string = '';
+
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.currentRoute = event.urlAfterRedirects;
+      });
+  }
+
   menuOptions: MenuOption[] = [
     {
       icon: 'dashboard',
@@ -31,4 +43,10 @@ export class SideMenuPagesComponent {
       route: '/dashboard/settings'
     }
   ]
+
+  renderActive(path: string): string {
+    return this.currentRoute === path
+      ? 'bg-purple-500/10 text-purple-500'
+      : 'text-slate-400 hover:bg-slate-700 hover:text-slate-200'
+  }
 }
