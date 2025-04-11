@@ -12,7 +12,7 @@ interface MenuOption {
 
 @Component({
   selector: 'side-menu-pages',
-  imports: [RouterLink, RouterLinkActive, MatIconModule, NgClass],
+  imports: [RouterLink, MatIconModule, NgClass],
   templateUrl: './side-menu-pages.component.html',
 })
 export class SideMenuPagesComponent {
@@ -36,6 +36,11 @@ export class SideMenuPagesComponent {
       icon: 'people',
       label: 'Users',
       route: '/dashboard/users'
+    },
+    {
+      icon: 'table_chart',
+      label: 'Excel',
+      route: '/dashboard/excel'
     },
     {
       icon: 'settings',

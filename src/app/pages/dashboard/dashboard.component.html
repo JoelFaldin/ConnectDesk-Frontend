@@ -1,6 +1,8 @@
-<div className="flex min-h-screen flex-col md:flex-row">
-  <app-side-bar />
-  <main className="flex-1 p-6 md:p-8 bg-background">
-    <router-outlet />
-  </main>
+<div className="flex flex-row min-h-screen">
+  <div class="flex flex-row relative w-screen">
+    <app-side-bar />
+    <section className="ml-[220px] flex-1 p-6 md:p-8 bg-background">
+      <router-outlet />
+    </section>
+  </div>
 </div>
