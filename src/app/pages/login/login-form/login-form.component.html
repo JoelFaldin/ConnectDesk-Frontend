@@ -34,7 +34,13 @@
       <!-- {isLoading ? "Authenticating..." : "Sign In"} -->
     </button>
     <p class="mt-4 text-center text-sm text-slate-400">
-      Need access? Contact your system administrator
+      Don't have an account? Create one
+      <a
+        [routerLink]="['/register']"
+        class="underline text-purple-500"
+      >
+        here
+      </a>
     </p>
   </section>
 </form>
