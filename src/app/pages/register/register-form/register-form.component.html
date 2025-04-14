@@ -1,0 +1,110 @@
+<form class="flex flex-col gap-y-5">
+  <section class="space-y-4">
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="name" class="text-white">Name</label>
+      <input
+        id="name"
+        type="text"
+        required
+        class="bg-slate-900/50 p-2 text-slate-400"
+      />
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="lastname" class="text-white">Lastname</label>
+      <input
+        id="lastname"
+        type="text"
+        required
+        class="bg-slate-900/50 p-2 text-slate-400"
+      />
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="email" class="text-white">Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="example@test.com"
+        required
+        class="bg-slate-900/50 p-2 text-slate-400"
+      />
+    </div>
+
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+      <div class="space-y-2">
+        <label htmlFor="jobNumber" class="text-white">Job Number</label>
+        <input
+          id="jobNumber"
+          type="number"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+        />
+      </div>
+      <div class="space-y-2">
+        <label htmlFor="contactNumber" class="text-white">Contact Number</label>
+        <input
+          id="contactNumber"
+          type="number"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+          />
+      </div>
+    </div>
+
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+      <div class="space-y-2">
+        <label htmlFor="password" class="text-white">Password</label>
+        <input
+          id="password"
+          type="password"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+        />
+      </div>
+      <div class="space-y-2">
+        <label htmlFor="confirmPassword" class="text-white">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="department" class="text-white">Department</label>
+      <input
+        id="department"
+        type="text"
+        required
+        class="bg-slate-900/50 p-2 text-slate-400"
+      />
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="direction" class="text-white">Direction</label>
+      <input
+        id="direction"
+        type="text"
+        required
+        class="bg-slate-900/50 p-2 text-slate-400"
+      />
+    </div>
+  </section>
+
+  <section class="flex flex-col space-y-4">
+    <button type="submit" class="w-full rounded-md bg-purple-600 p-2 cursor-pointer hover:bg-purple-700 text-white" disabled={isLoading}>
+      Register
+    </button>
+
+    <div class="text-center text-sm">
+      <span class="text-slate-400">Already have an account?</span>
+      <a [routerLink]="['/login']" class="text-purple-500 hover:text-purple-400 underline underline-offset-4">
+        Sign in
+      </a>
+    </div>
+  </section>
+</form>
