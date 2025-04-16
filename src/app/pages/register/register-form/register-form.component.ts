@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { RegisterPayload } from '@interfaces/register-payload.interface';
 import { UserService } from '@services/user-service.service';
 
 @Component({
@@ -27,17 +26,7 @@ export class RegisterFormComponent {
   });
 
   async handleSubmit() {
-    const payload: RegisterPayload = {
-      name: this.form.value.name,
-      lastname: this.form.value.lastname,
-      rut: this.form.value.rut,
-      email: this.form.value.email,
-      jobNumber: this.form.value.jobNumber,
-      contactNumber: this.form.value.contactNumber,
-      department: this.form.value.department,
-      direction: this.form.value.direction,
-      password: this.form.value.password,
-    };
+    const { confirmPassword, ...payload } = this.form.getRawValue();
 
     try {
       const res = await this.userService.register(payload);
