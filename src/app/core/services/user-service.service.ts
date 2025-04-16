@@ -2,16 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-interface RegisterPayload {
-  name: string;
-  lastname: string;
-  email: string;
-  jobNumber: number;
-  contactNumber: number;
-  department: string;
-  direction: string;
-  password: string;
-}
+import { RegisterPayload } from '@interfaces/register-payload.interface';
 
 @Injectable({
   providedIn: 'root'

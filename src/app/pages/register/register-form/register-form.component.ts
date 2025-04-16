@@ -2,19 +2,8 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
+import { RegisterPayload } from '@interfaces/register-payload.interface';
 import { UserService } from '@services/user-service.service';
-
-interface RegisterPayload {
-  name: string;
-  lastname: string;
-  rut: string;
-  email: string;
-  jobNumber: number;
-  contactNumber: number;
-  department: string;
-  direction: string;
-  password: string;
-}
 
 @Component({
   selector: 'register-form',
