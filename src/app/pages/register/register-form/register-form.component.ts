@@ -1,7 +1,9 @@
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
+import { passwordsMatchValidator } from '@utils/passwords-match.validator';
+import { RegisterPayload } from '@interfaces/register-payload.interface';
 import { UserService } from '@services/user-service.service';
 
 @Component({
@@ -13,20 +15,43 @@ export class RegisterFormComponent {
   public userService = inject(UserService);
 
   form = new FormGroup({
-    name: new FormControl(),
-    lastname: new FormControl(),
-    rut: new FormControl(),
-    email: new FormControl(),
-    jobNumber: new FormControl(),
-    contactNumber: new FormControl(),
-    department: new FormControl(),
-    direction: new FormControl(),
-    password: new FormControl(),
-    confirmPassword: new FormControl(),
-  });
+    name: new FormControl('', Validators.required),
+    lastname: new FormControl('', Validators.required),
+    rut: new FormControl('', [Validators.required, Validators.pattern('\d\d?\.?\d{3}\.?\d{3}\-[kK\d]')]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    jobNumber: new FormControl('', Validators.required),
+    contactNumber: new FormControl('', Validators.required),
+    department: new FormControl('', Validators.required),
+    direction: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    confirmPassword: new FormControl('', Validators.required),
+  }, { validators: passwordsMatchValidator }
+  );
 
   async handleSubmit() {
-    const { confirmPassword, ...payload } = this.form.getRawValue();
+    const raw = this.form.getRawValue();
+
+    const payload: RegisterPayload = {
+      name: raw.name!,
+      lastname: raw.lastname!,
+      rut: raw.rut!,
+      email: raw.email!,
+      jobNumber: parseFloat(raw.jobNumber!),
+      contactNumber: parseFloat(raw.contactNumber!),
+      department: raw.department!,
+      direction: raw.direction!,
+      password: raw.password!,
+    }
+
+    if (this.form.invalid) {
+      for (const [key, control] of Object.entries(this.form.controls)) {
+        if (control?.invalid) {
+          console.log(`${key}:`);
+          console.log(control.errors);
+        }
+      }
+      return
+    }
 
     try {
       const res = await this.userService.register(payload);
@@ -35,6 +60,5 @@ export class RegisterFormComponent {
     } catch (error) {
       console.log(error)
     }
-
   }
 }
