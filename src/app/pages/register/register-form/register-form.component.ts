@@ -1,6 +1,5 @@
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { passwordsMatchValidator } from '@utils/passwords-match.validator';
 import { RegisterPayload } from '@interfaces/register-payload.interface';
@@ -8,7 +7,7 @@ import { UserService } from '@services/user-service.service';
 
 @Component({
   selector: 'register-form',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './register-form.component.html',
 })
 export class RegisterFormComponent {
