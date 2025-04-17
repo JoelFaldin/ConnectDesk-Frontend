@@ -30,6 +30,17 @@ export class RegisterFormComponent {
   );
 
   async handleSubmit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+
+      for (const [key, control] of Object.entries(this.form.controls)) {
+        if (control?.invalid) {
+          console.log(`${key}:`);
+          console.log(control.errors);
+        }
+      }
+      return
+    }
     const raw = this.form.getRawValue();
 
     const payload: RegisterPayload = {
@@ -44,15 +55,6 @@ export class RegisterFormComponent {
       password: raw.password!,
     }
 
-    if (this.form.invalid) {
-      for (const [key, control] of Object.entries(this.form.controls)) {
-        if (control?.invalid) {
-          console.log(`${key}:`);
-          console.log(control.errors);
-        }
-      }
-      return
-    }
 
     this.authService.register(payload).subscribe({
       next: (res) => {
