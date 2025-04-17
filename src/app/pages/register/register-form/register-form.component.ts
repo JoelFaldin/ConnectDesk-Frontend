@@ -4,6 +4,7 @@ import { Component, inject } from '@angular/core';
 import { passwordsMatchValidator } from '@utils/passwords-match.validator';
 import { RegisterPayload } from '@interfaces/auth-payload.interface';
 import { AuthService } from '@services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'register-form',
@@ -11,12 +12,13 @@ import { AuthService } from '@services/auth.service';
   templateUrl: './register-form.component.html',
 })
 export class RegisterFormComponent {
-  public authService = inject(AuthService);
+  authService = inject(AuthService);
+  router = inject(Router);
 
   form = new FormGroup({
     name: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
-    rut: new FormControl('', [Validators.required, Validators.pattern('\d\d?\.?\d{3}\.?\d{3}\-[kK\d]')]),
+    rut: new FormControl('', [Validators.required, Validators.pattern(/^(\d{1,2})\.?(\d{3})\.?(\d{3})\-([kK\d])$/)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     jobNumber: new FormControl('', Validators.required),
     contactNumber: new FormControl('', Validators.required),
@@ -52,12 +54,14 @@ export class RegisterFormComponent {
       return
     }
 
-    try {
-      const res = await this.authService.register(payload);
-
-      console.log(res);
-    } catch (error) {
-      console.log(error)
-    }
+    this.authService.register(payload).subscribe({
+      next: (res) => {
+        console.log('user created! refirecting...')
+        this.router.navigate(['/login'])
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
   }
 }
