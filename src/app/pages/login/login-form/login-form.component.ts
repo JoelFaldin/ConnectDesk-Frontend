@@ -20,13 +20,9 @@ export class LoginFormComponent {
   })
 
   async handleLogin() {
-    const raw = this.form.getRawValue();
-    const payload: LoginPayload = ({
-      email: raw.email!,
-      password: raw.password!
-    })
-
     if (this.form.invalid) {
+      this.form.markAllAsTouched();
+
       for (const [key, control] of Object.entries(this.form.controls)) {
         if (control?.invalid) {
           console.log(`${key}:`);
@@ -35,6 +31,12 @@ export class LoginFormComponent {
       }
       return
     }
+
+    const raw = this.form.getRawValue();
+    const payload: LoginPayload = ({
+      email: raw.email!,
+      password: raw.password!
+    })
 
     this.authService.login(payload).subscribe({
       next: (res) => {
