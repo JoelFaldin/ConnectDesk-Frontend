@@ -2,7 +2,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Component, inject } from '@angular/core';
 
 import { passwordsMatchValidator } from '@utils/passwords-match.validator';
-import { RegisterPayload } from '@interfaces/register-payload.interface';
+import { RegisterPayload } from '@interfaces/auth-payload.interface';
 import { UserService } from '@services/user-service.service';
 
 @Component({
