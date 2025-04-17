@@ -3,6 +3,18 @@ export interface LoginPayload {
     password: string;
 }
 
+enum UserRole {
+    ADMIN,
+    USER,
+}
+
+export interface LoginResponsePayload {
+    token: string;
+    identifier: string;
+    names: string;
+    role: UserRole;
+}
+
 export interface RegisterPayload {
     name: string;
     lastname: string;

@@ -1,8 +1,9 @@
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, inject } from '@angular/core';
 
-import { UserService } from '@services/user-service.service';
 import type { LoginPayload } from '@interfaces/auth-payload.interface';
+import { AuthService } from '@services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login-form',
@@ -10,7 +11,8 @@ import type { LoginPayload } from '@interfaces/auth-payload.interface';
   templateUrl: './login-form.component.html',
 })
 export class LoginFormComponent {
-  public userService = inject(UserService);
+  authService = inject(AuthService);
+  router = inject(Router);
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required,Validators.email]),
@@ -34,11 +36,13 @@ export class LoginFormComponent {
       return
     }
 
-    try {
-      const res = await this.userService.login(payload);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+    this.authService.login(payload).subscribe({
+      next: (res) => {
+        this.router.navigate(['/dashboard'])
+      },
+      error: (error) => {
+        console.error(error)
+      }
+    })
   }
 }

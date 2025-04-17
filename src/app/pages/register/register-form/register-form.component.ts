@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 
 import { passwordsMatchValidator } from '@utils/passwords-match.validator';
 import { RegisterPayload } from '@interfaces/auth-payload.interface';
-import { UserService } from '@services/user-service.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'register-form',
@@ -11,7 +11,7 @@ import { UserService } from '@services/user-service.service';
   templateUrl: './register-form.component.html',
 })
 export class RegisterFormComponent {
-  public userService = inject(UserService);
+  public authService = inject(AuthService);
 
   form = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -53,7 +53,7 @@ export class RegisterFormComponent {
     }
 
     try {
-      const res = await this.userService.register(payload);
+      const res = await this.authService.register(payload);
 
       console.log(res);
     } catch (error) {
