@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 import { AuthService } from '@services/auth.service';
 
@@ -10,4 +11,14 @@ import { AuthService } from '@services/auth.service';
 })
 export class SideMenuFooterComponent {
   authService = inject(AuthService);
+  router = inject(Router);
+
+  handleLogout() {
+    if (confirm('You really want to log out?')) {
+      this.router.navigate(['/login']);
+      this.authService.logout();
+    } else {
+      return;
+    }
+  }
 }

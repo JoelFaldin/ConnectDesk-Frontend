@@ -4,7 +4,7 @@
     <p class="text-sm font-medium text-slate-200">{{ authService.getUser().names }}</p>
     <p class="text-xs font-muted-foreground text-slate-400">{{ authService.getUser().email }}</p>
   </span>
-  <button>
+  <button (click)="handleLogout()" class="cursor-pointer">
     <mat-icon style="color: white;">logout</mat-icon>
   </button>
 </div>
