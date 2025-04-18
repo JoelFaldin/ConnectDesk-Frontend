@@ -47,4 +47,9 @@ export class LoginFormComponent {
       }
     })
   }
+
+  handleGuestLogin() {
+    this.authService.loginAsGuest();
+    this.router.navigate(['/dashboard']);
+  }
 }

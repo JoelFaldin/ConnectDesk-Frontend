@@ -32,13 +32,26 @@ export class AuthService {
     }));
   }
 
+  loginAsGuest() {
+    localStorage.setItem('guest', 'true');
+    localStorage.setItem('user', JSON.stringify({
+      names: 'Guest',
+      identifier: 'guest',
+      email: null,
+    }))
+  }
+
   getUser() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   }
 
   isLoggedIn() {
-    return localStorage.getItem('token') ? true : false;
+    return !!localStorage.getItem('token') || !!localStorage.getItem('guest');
+  }
+
+  isGuest() {
+    return localStorage.getItem('guest') ? true : false;
   }
 
   logout() {
