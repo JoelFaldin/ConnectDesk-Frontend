@@ -13,11 +13,11 @@ import { Component } from '@angular/core';
   templateUrl: './users-table.component.html',
 })
 export class UsersTableComponent {
-  displayedColumns = ['name', 'actions']
+  displayedColumns = ['name', 'email', 'rut', 'jobNumber', 'actions']
 
   dataSource = new MatTableDataSource([
-    { name: 'Alice', role: 'Admin', email: 'alice@email.com' },
-    { name: 'Bob', role: 'User', email: 'bob@email.com' }
+    { name: 'Alice', role: 'Admin', email: 'alice@email.com', rut: '21.261.340-1', jobNumber: '900001111' },
+    { name: 'Bob', role: 'User', email: 'bob@email.com', rut: '21.298.571-k', jobNumber: '900001112' }
   ])
 
   handleAdd() {
