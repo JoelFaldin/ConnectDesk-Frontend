@@ -1,20 +1,10 @@
-<div className="border-t p-4">
-  <div className="flex items-center justify-between">
-    <div className="flex items-center gap-3">
-      <!-- <Avatar>
-        <AvatarImage src="/placeholder.svg" alt="User" />
-        <AvatarFallback>AD</AvatarFallback>
-      </Avatar> -->
-      <div>
-        <p className="text-sm font-medium">Admin User</p>
-        <!-- <p className="text-xs text-muted-foreground">admin@example.com</p> -->
-      </div>
-    </div>
-    <button variant="ghost" size="icon" asChild>
-      <!-- <Link href="/"> -->
-        <!-- <LogOut className="h-5 w-5" /> -->
-        <span className="sr-only">Log out</span>
-      <!-- </Link> -->
-    </button>
-  </div>
+<div class="flex flex-row justify-between items-center border-t border-slate-600 p-4">
+  <img src="default-user-pfp.webp" class="w-10 h-10" alt="User profile picture">
+  <span>
+    <p class="text-sm font-medium text-slate-200">{{ authService.getUser().names }}</p>
+    <p class="text-xs font-muted-foreground text-slate-400">{{ authService.getUser().email }}</p>
+  </span>
+  <button>
+    <mat-icon style="color: white;">logout</mat-icon>
+  </button>
 </div>

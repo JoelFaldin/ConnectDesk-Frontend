@@ -12,6 +12,7 @@ export interface LoginResponsePayload {
     token: string;
     identifier: string;
     names: string;
+    email: string;
     role: UserRole;
 }
 
