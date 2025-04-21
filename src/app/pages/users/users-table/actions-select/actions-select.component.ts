@@ -4,10 +4,11 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'actions-select',
-  imports: [MenuModule, ButtonModule, MatIconModule],
+  imports: [CommonModule, MenuModule, ButtonModule, MatIconModule],
   standalone: true,
   templateUrl: './actions-select.component.html',
 })
@@ -19,13 +20,23 @@ export class ActionsSelectComponent {
     this.menuItems = [
       {
         label: 'Edit',
-        icon: 'pi pi-pencil',
+        icon: 'edit',
         command: () => this.editUser(),
       },
       {
         label: 'Reset password',
-        icon: 'pi-refresh',
+        icon: 'refresh',
         command: () => this.resetPassword(),
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'Delete user',
+        icon: 'delete',
+        styleClass: 'text-red-500',
+        style: { color: 'red' },
+        command: () => this.deleteUser(),
       }
     ]
   }
@@ -36,5 +47,9 @@ export class ActionsSelectComponent {
 
   resetPassword() {
     console.log('resetting password!');
+  }
+
+  deleteUser() {
+    console.log('deleting user!')
   }
 }

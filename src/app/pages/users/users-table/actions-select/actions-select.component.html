@@ -1,5 +1,23 @@
 <div class="flex items-center relative">
-  <p-menu #menu [model]="menuItems" [popup]="true" appendTo="body" />
+  <p-menu #menu [model]="menuItems" [popup]="true" appendTo="body">
+    <ng-template #start>
+      <span class="inline-flex items-center gap-1 px-4 py-2 text-xl font-medium">Actions</span>
+    </ng-template>
+    
+    <ng-template pTemplate="item" let-item>
+      <button class="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-700">
+
+        <mat-icon
+          [style]="item?.style"
+        >
+          {{ item.icon }}
+        </mat-icon>
+        <span [class]="item?.styleClass">{{ item.label }}</span>
+
+      </button>
+    </ng-template>
+  </p-menu>
+
   <p-button
     (click)="menu.toggle($event)"
     styleClass="p-button-text p-button-rounded p-button-plain text-white"
