@@ -1,11 +1,11 @@
-<div class="card flex items-center">
-  <p-menu #menu [model]="menuItems" [popup]="true" />
+<div class="flex items-center relative">
+  <p-menu #menu [model]="menuItems" [popup]="true" appendTo="body" />
   <p-button
     (click)="menu.toggle($event)"
     styleClass="p-button-text p-button-rounded p-button-plain text-white"
   >
     <mat-icon>
-    more_horiz
+      more_horiz
     </mat-icon>
   </p-button>
 </div>
