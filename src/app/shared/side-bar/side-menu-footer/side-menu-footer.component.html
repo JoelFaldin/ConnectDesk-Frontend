@@ -1,8 +1,8 @@
 <div class="flex flex-row justify-between items-center border-t border-slate-600 p-4">
   <img src="default-user-pfp.webp" class="w-10 h-10" alt="User profile picture">
   <span>
-    <p class="text-sm font-medium text-slate-200">{{ authService.getUser().names }}</p>
-    <p class="text-xs font-muted-foreground text-slate-400">{{ authService.getUser().email }}</p>
+    <p class="text-sm font-medium text-slate-200">{{ authService.getUser()?.names }}</p>
+    <p class="text-xs font-muted-foreground text-slate-400">{{ authService.getUser()?.email }}</p>
   </span>
   <button (click)="handleLogout()" class="cursor-pointer">
     <mat-icon style="color: white;">logout</mat-icon>

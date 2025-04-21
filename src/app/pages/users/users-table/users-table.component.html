@@ -24,6 +24,11 @@
     <td mat-cell *matCellDef="let row" class="text-white ">{{ row.names }}</td>
   </ng-container>
 
+  <ng-container matColumnDef="lastname">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">Last name</th>
+    <td mat-cell *matCellDef="let row" class="text-white ">{{ row.lastNames }}</td>
+  </ng-container>
+
   <ng-container matColumnDef="email">
     <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">Email</th>
     <td mat-cell *matCellDef="let row" class="text-white ">{{ row.email }}</td>
@@ -36,15 +41,31 @@
 
   <ng-container matColumnDef="jobNumber">
     <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-white">Job Number</th>
-    <td mat-cell *matCellDef="let row" class="text-white ">{{ row.jobNumber }}</td>
+    <td mat-cell *matCellDef="let row" class="text-white">{{ row.jobNumber }}</td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef class="text-white">Actions</th>
-    <td mat-cell *matCellDef="let row" class="text-white">
-      <button mat-icon-button>
-        <mat-icon>edit</mat-icon>
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let row">
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="text-white">
+       <mat-icon style="color: white;">more_horiz</mat-icon>
       </button>
+
+      <mat-menu #menu="matMenu">
+       <button mat-menu-item>
+         <mat-icon style="color: white;">dialpad</mat-icon>
+         <span>Redial</span>
+       </button>
+       <button mat-menu-item disabled>
+         <mat-icon style="color: white;">voicemail</mat-icon>
+         <span>Check voice mail</span>
+       </button>
+       <button mat-menu-item>
+         <mat-icon style="color: white;">notifications_off</mat-icon>
+         <span>Disable alerts</span>
+       </button>
+     </mat-menu>
+
     </td>
   </ng-container>
 

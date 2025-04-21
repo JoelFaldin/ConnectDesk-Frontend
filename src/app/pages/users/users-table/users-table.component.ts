@@ -1,9 +1,11 @@
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { Component, inject, OnInit } from '@angular/core';
 
@@ -29,14 +31,14 @@ interface UserDataResponse {
 
 @Component({
   selector: 'users-table',
-  imports: [MatTableModule, MatFormFieldModule, MatInputModule, MatIconModule, MatSortModule, MatPaginatorModule],
+  imports: [MatTableModule, MatFormFieldModule, MatInputModule, MatIconModule, MatSortModule, MatPaginatorModule, MatButtonModule, MatMenuModule],
   templateUrl: './users-table.component.html',
 })
 export class UsersTableComponent implements OnInit {
   userService = inject(UserService)
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
-  displayedColumns = ['name', 'email', 'rut', 'jobNumber', 'actions']
+  displayedColumns = ['name', 'lastname', 'email', 'rut', 'jobNumber', 'actions']
 
   ngOnInit() {
     this.fetchUsers();
