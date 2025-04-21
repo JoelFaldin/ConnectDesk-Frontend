@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
 
 import { Component, inject, OnInit } from '@angular/core';
 
@@ -31,14 +33,14 @@ interface UserDataResponse {
 
 @Component({
   selector: 'users-table',
-  imports: [MatTableModule, MatFormFieldModule, MatInputModule, MatIconModule, MatSortModule, MatPaginatorModule, MatButtonModule, MatMenuModule],
+  imports: [TableModule, CommonModule],
   templateUrl: './users-table.component.html',
 })
 export class UsersTableComponent implements OnInit {
   userService = inject(UserService)
-  dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
+  dataSource: User[] = [];
 
-  displayedColumns = ['name', 'lastname', 'email', 'rut', 'jobNumber', 'actions']
+  displayedColumns = ['Name', 'Last Name', 'Email', 'Rut', 'Job Number', 'Actions']
 
   ngOnInit() {
     this.fetchUsers();
@@ -47,7 +49,7 @@ export class UsersTableComponent implements OnInit {
   fetchUsers() {
     this.userService.getUserData().subscribe({
       next: (res: UserDataResponse) => {
-        this.dataSource = new MatTableDataSource<User>(res.content);
+        this.dataSource = res.content ?? [];
       },
       error: (error) => {
         console.log('there was an error...', error);
