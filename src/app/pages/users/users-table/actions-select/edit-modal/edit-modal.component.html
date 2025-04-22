@@ -1,12 +1,93 @@
-<span class="p-text-secondary block mb-8">Update your information.</span>
-<div class="flex items-center gap-4 mb-4">
-  <label for="username" class="font-semibold w-24">Username</label>
-  <input pInputText id="username" class="flex-auto" autocomplete="off" />
-</div>
-<div class="flex items-center gap-4 mb-8">
-  <label for="email" class="font-semibold w-24">Email</label>
-  <input pInputText id="email" class="flex-auto" autocomplete="off" />
-</div>
+<section>
+  <span class="text-slate-600 text-sm my-4">Personal information</span>
+
+  <div class="flex items-center gap-4 mb-4">
+    <label for="names" class="w-24">Names</label>
+    <input
+      pInputText
+      id="names"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+      autocomplete="off"
+      [value]="user?.names"
+    />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="lastnames" class="w-24">Last names</label>
+    <input
+      pInputText
+      id="lastnames"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+      autocomplete="off"
+      [value]="user?.lastNames"
+    />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="rut" class="w-24">Rut</label>
+    <input
+      pInputText
+      id="rut"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+      autocomplete="off"
+      [value]="user?.rut"
+    />
+  </div>
+  <div class="flex items-center gap-4 mb-8">
+    <label for="email" class="w-24">Email</label>
+    <input
+      pInputText
+      id="email"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+      autocomplete="off"
+      [value]="user?.email"
+    />
+  </div>
+</section>
+
+<section>
+  <span class="text-slate-600 text-sm my-4">Job Information</span>
+
+  <div class="flex items-center gap-4 mb-8">
+    <label for="jobNumber" class="w-24">Job Number</label>
+    <input
+      pInputText
+      id="jobNumber"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+      autocomplete="off"
+      [value]="user?.jobNumber"
+    />
+  </div>
+  <div class="flex items-center gap-4 mb-8">
+    <label for="contactNumber" class="w-24">Contact Number</label>
+    <input
+      pInputText
+      id="contactNumber"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+      autocomplete="off"
+      [value]="user?.contact"
+    />
+  </div>
+  <div class="flex items-center gap-4 mb-8">
+    <label for="department" class="w-24">Department</label>
+    <input
+      pInputText
+      id="department"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+      autocomplete="off"
+      [value]="user?.departments"
+    />
+  </div>
+  <div class="flex items-center gap-4 mb-8">
+    <label for="direction" class="w-24">Direction</label>
+    <input
+      pInputText
+      id="direction"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+      autocomplete="off"
+      [value]="user?.directions"
+    />
+  </div>
+</section>
+
 <div class="flex justify-end gap-2">
   <p-button label="Cancel" severity="secondary" (click)="handleCloseModal()" />
   <p-button label="Save" (click)="handleCloseModal()" />
