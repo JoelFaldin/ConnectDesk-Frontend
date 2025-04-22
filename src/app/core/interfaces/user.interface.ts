@@ -15,3 +15,8 @@ export interface UserDataResponse {
   content?: User[];
   totalData?: number;
 }
+
+export interface UpdateUser {
+  columnName: string;
+  value: string;
+}
