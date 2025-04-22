@@ -39,6 +39,15 @@ export class UserService {
     this.setUsers(updatedUsers);
   }
 
+  removeUserFromArray(rut: string) {
+    const users = this.usersSource.getValue();
+    const updatedUsers: User[] = users.filter(user => {
+      return user.rut !== rut;
+    })
+
+    this.setUsers(updatedUsers);
+  }
+
   // Interact with backend:
   getUserData(searchValue: string = '', searchColumn: string = '', page: number = 1, pageSize: number = 10) {
     return this.http.get(`${this.apiUrl}/users?searchValue=${searchValue}&searchColumn=${searchColumn}&page=${page}&pageSize=${pageSize}`)
@@ -49,5 +58,9 @@ export class UserService {
       rut,
       values: updatedValues,
     })
+  }
+
+  deleteUser(rut: string) {
+    return this.http.delete(`${this.apiUrl}/users/${rut}`);
   }
 }

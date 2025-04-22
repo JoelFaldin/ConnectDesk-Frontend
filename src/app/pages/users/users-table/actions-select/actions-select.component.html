@@ -32,10 +32,10 @@
   </p-dialog>
 
   <p-dialog header="Reset password" [draggable]="false" [(visible)]="resetDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-    <reset-modal [userRut]="this.userRut" (closeModal)="onCloseResetModal" />
+    <reset-modal [userRut]="this.userRut" (closeModal)="onCloseResetModal()" />
   </p-dialog>
 
   <p-dialog header="Delete user" [draggable]="false" [(visible)]="deleteDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-    <delete-modal [userRut]="this.userRut" (closeModal)="onCloseDeleteModal" />
+    <delete-modal [userRut]="this.userRut" (closeModal)="onCloseDeleteModal()" />
   </p-dialog>
 </div>
