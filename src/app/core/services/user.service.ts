@@ -14,7 +14,7 @@ export class UserService {
   private usersSource = new BehaviorSubject<User[]>([]);
   users$ = this.usersSource.asObservable();
 
-  // Methods to store user data:
+  // Methods to handle local users data:
   setUsers(users: User[]) {
     this.usersSource.next(users);
   }
@@ -24,6 +24,19 @@ export class UserService {
       filter(users => users.length > 0),
       map(users => users.find(user => user.rut === rut)),
     )
+  }
+
+  getUsers() {
+    return this.usersSource.getValue();
+  }
+
+  updateUserArray(rut: string, updatedValues: Partial<User>) {
+    const users = this.usersSource.getValue();
+    const updatedUsers: User[] = users.map(user => {
+      return user.rut === rut ? { ...user, ...updatedValues } : user;
+    });
+
+    this.setUsers(updatedUsers);
   }
 
   // Interact with backend:

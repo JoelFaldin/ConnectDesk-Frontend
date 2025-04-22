@@ -19,6 +19,10 @@ export class UsersTableComponent implements OnInit {
   displayedColumns = ['Name', 'Last Name', 'Email', 'Rut', 'Job Number', '']
 
   ngOnInit() {
+    this.userService.users$.subscribe(users => {
+      this.dataSource = users;
+    })
+
     this.fetchUsers();
   }
 

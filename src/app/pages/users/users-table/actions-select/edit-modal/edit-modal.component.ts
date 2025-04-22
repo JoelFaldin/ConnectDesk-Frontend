@@ -80,6 +80,8 @@ export class EditModalComponent {
       console.log(res);
     });
 
+    this.userService.updateUserArray(current.rut!, updateFields);
+
     this.closeModal.emit();
   }
 
