@@ -28,14 +28,14 @@
   </p-button>
 
   <p-dialog [(visible)]="editDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-    <edit-modal [userRut]="this.userRut" />
+    <edit-modal [userRut]="this.userRut" (closeModal)="onCloseEditModal()" />
   </p-dialog>
 
   <p-dialog [(visible)]="resetDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-    <reset-modal [userRut]="this.userRut" />
+    <reset-modal [userRut]="this.userRut" (closeModal)="onCloseResetModal" />
   </p-dialog>
 
   <p-dialog [(visible)]="deleteDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-    <delete-modal [userRut]="this.userRut" />
+    <delete-modal [userRut]="this.userRut" (closeModal)="onCloseDeleteModal" />
   </p-dialog>
 </div>

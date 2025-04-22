@@ -61,4 +61,16 @@ export class ActionsSelectComponent {
   deleteUser() {
     this.deleteDialogVisible.set(true);
   }
+
+  onCloseEditModal() {
+    this.editDialogVisible.set(false);
+  }
+
+  onCloseResetModal() {
+    this.resetDialogVisible.set(false);
+  }
+
+  onCloseDeleteModal() {
+    this.deleteDialogVisible.set(false);
+  }
 }
