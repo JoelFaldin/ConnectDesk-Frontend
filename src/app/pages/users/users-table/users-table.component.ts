@@ -26,6 +26,8 @@ export class UsersTableComponent implements OnInit {
     this.userService.getUserData().subscribe({
       next: (res: UserDataResponse) => {
         this.dataSource = res.content ?? [];
+
+        this.userService.setUsers(this.dataSource);
       },
       error: (error) => {
         console.log('there was an error...', error);
