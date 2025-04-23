@@ -20,6 +20,11 @@ export const routes: Routes = [
           import('./pages/excel/excel.component')
       },
       {
+        path: 'logs',
+        loadComponent: () =>
+          import('./pages/logs/logs.component')
+      },
+      {
         path: 'settings',
         loadComponent: () =>
           import('./pages/settings/settings.component')

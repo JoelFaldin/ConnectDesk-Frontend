@@ -43,6 +43,11 @@ export class SideMenuPagesComponent {
       route: '/dashboard/excel'
     },
     {
+      icon: 'dns',
+      label: 'Logs',
+      route: '/dashboard/logs'
+    },
+    {
       icon: 'settings',
       label: 'Settings',
       route: '/dashboard/settings'
