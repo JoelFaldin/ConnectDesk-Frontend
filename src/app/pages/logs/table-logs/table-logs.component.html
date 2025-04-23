@@ -11,7 +11,21 @@
       <td>{{ log.date }}</td>
       <td>{{ log.endpoint }}</td>
       <td>{{ log.method }}</td>
-      <td>{{ log.statusCode }}</td>
+      <td
+        class="flex flex-row items-center gap-x-2"
+        [class.text-green-500]="log.statusCode === 201"
+        [class.text-yellow-500]="log.statusCode === 401"
+        [class.text-red-500]="log.statusCode !== 201 && log.statusCode !== 401"
+      >
+        @if (log.statusCode === 201) {
+          <mat-icon>check_circle_outline</mat-icon>
+        } @else if (log.statusCode === 401) {
+          <mat-icon>warning_outline</mat-icon>
+        } @else if (log.statusCode !== 201 && log.statusCode !== 401) {
+          <mat-icon>error_outline</mat-icon>
+        }
+        {{ log.statusCode }}
+      </td>
     </tr>
   </ng-template>
 </p-table>

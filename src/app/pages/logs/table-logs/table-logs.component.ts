@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { TableModule } from 'primeng/table';
 
 import { Component, inject } from '@angular/core';
@@ -7,7 +8,7 @@ import { LogsInterface } from '@interfaces/logs.interface';
 
 @Component({
   selector: 'table-logs',
-  imports: [TableModule],
+  imports: [TableModule, MatIconModule],
   templateUrl: './table-logs.component.html',
 })
 export class TableLogsComponent {
@@ -29,10 +30,13 @@ export class TableLogsComponent {
         }
 
         this.dataSource = res.map((log: LogsInterface) => {
+          const newEndpoint = log.endpoint.slice(4);
           const logDate = new Date(log.date);
 
           return {
             ...log,
+            statusCode: Number(log.statusCode),
+            endpoint: newEndpoint,
             date: `${logDate.getFullYear()}-${logDate.getMonth() + 1}-${logDate.getDate()} ${logDate.getHours()}:${logDate.getMinutes()}:${logDate.getSeconds()}`
           }
         })
