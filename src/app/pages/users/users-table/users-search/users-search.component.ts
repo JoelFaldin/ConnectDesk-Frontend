@@ -1,5 +1,4 @@
 import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
 
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +8,7 @@ import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'users-search',
-  imports: [InputTextModule, FormsModule, ButtonModule],
+  imports: [InputTextModule, FormsModule],
   templateUrl: './users-search.component.html',
 })
 export class UsersSearchComponent {
@@ -26,6 +25,8 @@ export class UsersSearchComponent {
     this.userService.getUserData(this.value()).subscribe({
       next: (res: UserDataResponse) => {
         this.userService.setUsers(res.content ?? []);
+
+        this.value.set('');
       },
     });
   }

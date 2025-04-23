@@ -20,3 +20,7 @@ export interface UpdateUser {
   columnName: string;
   value: string;
 }
+
+export interface CreateUserInterface extends User {
+  password: string,
+}

@@ -1,0 +1,139 @@
+<button (click)="showModal()" class="rounded-md bg-teal-600 p-2 px-4 cursor-pointer hover:bg-teal-700 text-white transition">
+  Add New User
+</button>
+
+<p-dialog header="Add new user" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+  <form [formGroup]="form">
+
+    <section>
+      <span class="text-slate-400 text-sm my-4">Personal information</span>
+      <p-divider class="h-1" />
+
+      <div class="flex items-center gap-4 mb-4">
+        <label for="names" class="w-24">Names</label>
+        <input
+          pInputText
+          id="names"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="names"
+        />
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <label for="lastnames" class="w-24">Last names</label>
+        <input
+          pInputText
+          id="lastnames"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="lastNames"
+        />
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <label for="rut" class="w-24">Rut</label>
+        <input
+          pInputText
+          id="rut"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="rut"
+        />
+      </div>
+
+      <div class="flex items-center gap-4 mb-4">
+        <label for="password" class="w-24">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="password"
+        />
+      </div>
+
+      <div class="flex items-center gap-4 mb-4">
+        <label for="confirmPassword" class="w-24">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="confirmPassword"
+        />
+      </div>
+
+      <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="w-24">Email</label>
+        <input
+          pInputText
+          id="email"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="email"
+        />
+      </div>
+    </section>
+
+    <section>
+      <span class="text-slate-400 text-sm my-4">Job Information</span>
+      <p-divider class="h-1" />
+
+      <div class="flex items-center gap-4 mb-8">
+        <label for="role" class="w-24">User Role</label>
+        <input
+          pInputText
+          id="role"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="role"
+        />
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+        <label for="jobNumber" class="w-24">Job Number</label>
+        <input
+          pInputText
+          id="jobNumber"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="jobNumber"
+        />
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+        <label for="contactNumber" class="w-24">Contact Number</label>
+        <input
+          pInputText
+          id="contactNumber"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="contact"
+        />
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+        <label for="department" class="w-24">Department</label>
+        <input
+          pInputText
+          id="department"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="departments"
+        />
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+        <label for="direction" class="w-24">Direction</label>
+        <input
+          pInputText
+          id="direction"
+          class="flex-auto px-2 py-1 border border-slate-600 rounded-md"
+          autocomplete="off"
+          formControlName="directions"
+        />
+      </div>
+    </section>
+
+    <div class="flex justify-end gap-2">
+      <p-button label="Cancel" severity="secondary" (click)="visible.set(false)" />
+      <p-button label="Save" (click)="handleAddUser()" />
+    </div>
+
+  </form>
+</p-dialog>

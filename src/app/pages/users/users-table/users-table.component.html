@@ -1,5 +1,12 @@
 <span class="flex flex-col gap-y-4">
-  <users-search />
+  <section class="flex flex-row justify-between">
+    <users-search />
+    <span class="flex flex-row gap-x-5">
+      <users-reset />
+      <users-add />
+    </span>
+  </section>
+
 
   <p-table [value]="dataSource" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template #header>

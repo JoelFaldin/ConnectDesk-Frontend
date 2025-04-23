@@ -53,6 +53,10 @@ export class UserService {
     return this.http.get(`${this.apiUrl}/users?searchValue=${searchValue}&searchColumn=${searchColumn}&page=${page}&pageSize=${pageSize}`)
   }
 
+  createUser(newUser: User) {
+    return this.http.post(`${this.apiUrl}/users`, newUser);
+  }
+
   updateUser(rut: string, updatedValues: UpdateUser[]) {
     return this.http.patch(`${this.apiUrl}/users`, {
       rut,
