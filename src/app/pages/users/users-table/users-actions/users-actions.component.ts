@@ -12,12 +12,12 @@ import { ResetModalComponent } from './reset-modal/reset-modal.component';
 import { EditModalComponent } from './edit-modal/edit-modal.component';
 
 @Component({
-  selector: 'actions-select',
+  selector: 'users-actions',
   imports: [CommonModule, MenuModule, ButtonModule, MatIconModule, DialogModule, EditModalComponent, ResetModalComponent, DeleteModalComponent],
   standalone: true,
-  templateUrl: './actions-select.component.html',
+  templateUrl: './users-actions.component.html',
 })
-export class ActionsSelectComponent {
+export class UsersActionsComponent {
   menuItems: MenuItem[] = [];
   @Input() userRut: string = '';
 

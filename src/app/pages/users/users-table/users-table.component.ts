@@ -3,13 +3,14 @@ import { TableModule } from 'primeng/table';
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ActionsSelectComponent } from './actions-select/actions-select.component';
+import { UsersActionsComponent } from './users-actions/users-actions.component';
+import { UsersSearchComponent } from './users-search/users-search.component';
 import type { User, UserDataResponse } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'users-table',
-  imports: [TableModule, CommonModule, ActionsSelectComponent],
+  imports: [TableModule, CommonModule, UsersSearchComponent, UsersActionsComponent],
   templateUrl: './users-table.component.html',
 })
 export class UsersTableComponent implements OnInit {
