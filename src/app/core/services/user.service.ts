@@ -2,6 +2,7 @@ import { BehaviorSubject, filter, map } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { PaginationInterface } from '@interfaces/pagination.interface';
 import { UpdateUser, User } from '@interfaces/user.interface';
 
 @Injectable({
@@ -13,6 +14,17 @@ export class UserService {
 
   private usersSource = new BehaviorSubject<User[]>([]);
   users$ = this.usersSource.asObservable();
+
+  private page = new BehaviorSubject<Partial<PaginationInterface>>({});
+  pagination$ = this.page.asObservable();
+
+  // Methods to handle pagination:
+  setPaginationData(pageData: Partial<PaginationInterface>) {
+    this.page.next({
+      ...this.page.getValue(),
+      ...pageData,
+    })
+  }
 
   // Methods to handle local users data:
   setUsers(users: User[]) {
@@ -49,7 +61,7 @@ export class UserService {
   }
 
   // Interact with backend:
-  getUserData(searchValue: string = '', searchColumn: string = '', page: number = 1, pageSize: number = 10) {
+  getUserData(searchValue: string = '', searchColumn: string = '', page: number = 1, pageSize: number = 5) {
     return this.http.get(`${this.apiUrl}/users?searchValue=${searchValue}&searchColumn=${searchColumn}&page=${page}&pageSize=${pageSize}`)
   }
 

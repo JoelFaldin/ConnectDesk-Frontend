@@ -35,6 +35,11 @@ export class UsersTableComponent implements OnInit {
         this.dataSource = res.content ?? [];
 
         this.userService.setUsers(this.dataSource);
+        this.userService.setPaginationData({
+          page: res.page!,
+          pageSize: res.showing!,
+          total: res.total!
+        });
       },
       error: (error) => {
         console.log('there was an error...', error);

@@ -1,5 +1,6 @@
-<button (click)="showModal()" class="rounded-md bg-teal-600 p-2 px-4 cursor-pointer hover:bg-teal-700 text-white transition">
-  Add New User
+<button (click)="showModal()" class="flex flex-row items-center gap-x-2 rounded-md bg-teal-600 p-2 px-4 cursor-pointer hover:bg-teal-700 text-white transition">
+  <mat-icon>person_add</mat-icon>
+  <span>Add New User</span>
 </button>
 
 <p-dialog header="Add new user" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">

@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
@@ -12,7 +13,7 @@ import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'users-add',
-  imports: [ButtonModule, DialogModule, ReactiveFormsModule, DividerModule, PasswordModule],
+  imports: [ButtonModule, DialogModule, ReactiveFormsModule, DividerModule, PasswordModule, MatIconModule],
   templateUrl: './users-add.component.html',
 
 })

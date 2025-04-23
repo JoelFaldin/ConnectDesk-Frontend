@@ -13,6 +13,9 @@ export interface User {
 export interface UserDataResponse {
   message?: string;
   content?: User[];
+  showing?: number;
+  page?: number;
+  total?: number;
   totalData?: number;
 }
 

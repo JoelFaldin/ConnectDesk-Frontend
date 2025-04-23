@@ -1,4 +1,5 @@
 import { InputTextModule } from 'primeng/inputtext';
+import { MatIconModule } from '@angular/material/icon';
 
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +9,7 @@ import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'users-search',
-  imports: [InputTextModule, FormsModule],
+  imports: [InputTextModule, FormsModule, MatIconModule],
   templateUrl: './users-search.component.html',
 })
 export class UsersSearchComponent {
