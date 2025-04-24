@@ -3,12 +3,13 @@ import { TableModule } from 'primeng/table';
 
 import { Component, inject } from '@angular/core';
 
-import { LogsService } from '@services/logs.service';
+import { TableSelectComponent } from './table-select/table-select.component';
 import { LogsInterface } from '@interfaces/logs.interface';
+import { LogsService } from '@services/logs.service';
 
 @Component({
   selector: 'table-logs',
-  imports: [TableModule, MatIconModule],
+  imports: [TableModule, MatIconModule, TableSelectComponent],
   templateUrl: './table-logs.component.html',
 })
 export class TableLogsComponent {
@@ -18,6 +19,10 @@ export class TableLogsComponent {
   displayedColumns = ['Timestamp', 'Endpoint', 'Method', 'Status Code'];
 
   ngOnInit() {
+    this.logsService.logsData$.subscribe(logs => {
+      this.dataSource = logs;
+    })
+
     this.fetchLogs();
   }
 
@@ -25,7 +30,7 @@ export class TableLogsComponent {
     this.logsService.getLogs().subscribe({
       next: (res: any) => {
         if (res.length === 0) {
-          this.dataSource = res ?? [];
+          this.dataSource = [];
           return;
         }
 
@@ -42,6 +47,8 @@ export class TableLogsComponent {
             date: `${logDate.getFullYear()}-${pad(logDate.getMonth() + 1)}-${pad(logDate.getDate())} ${pad(logDate.getHours())}:${pad(logDate.getMinutes())}:${pad(logDate.getSeconds())}`
           }
         })
+
+        this.logsService.setLogData(this.dataSource);
       }
     })
   }
