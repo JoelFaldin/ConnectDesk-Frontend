@@ -4,7 +4,7 @@ import { TableModule } from 'primeng/table';
 import { Component, inject } from '@angular/core';
 
 import { TableSelectComponent } from './table-select/table-select.component';
-import { LogsInterface } from '@interfaces/logs.interface';
+import { LogsDataResponse, LogsInterface } from '@interfaces/logs.interface';
 import { LogsService } from '@services/logs.service';
 
 @Component({
@@ -28,13 +28,13 @@ export class TableLogsComponent {
 
   fetchLogs() {
     this.logsService.getLogs().subscribe({
-      next: (res: any) => {
-        if (res.length === 0) {
+      next: (res: LogsDataResponse) => {
+        if (res.content!.length === 0) {
           this.dataSource = [];
           return;
         }
 
-        this.dataSource = res.map((log: LogsInterface) => {
+        this.dataSource = (res.content ?? []).map((log: LogsInterface) => {
           const newEndpoint = log.endpoint.slice(4);
           const logDate = new Date(log.date);
 
@@ -49,6 +49,12 @@ export class TableLogsComponent {
         })
 
         this.logsService.setLogData(this.dataSource);
+
+        this.logsService.setPaginationData({
+          page: res.page!,
+          pageSize: res.pageSize!,
+          total: res.total!
+        });
       }
     })
   }

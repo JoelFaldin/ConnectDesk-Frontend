@@ -5,5 +5,13 @@ export interface LogsInterface {
   method: string;
   statusCode: number;
   description: string;
-  date: Date;
+  date: string;
+}
+
+export interface LogsDataResponse {
+  message?: string;
+  content?: LogsInterface[];
+  pageSize?: number;
+  total?: number;
+  page?: number;
 }
