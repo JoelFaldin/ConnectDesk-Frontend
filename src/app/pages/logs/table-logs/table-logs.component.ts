@@ -32,12 +32,13 @@ export class TableLogsComponent {
         this.dataSource = res.map((log: LogsInterface) => {
           const newEndpoint = log.endpoint.slice(4);
           const logDate = new Date(log.date);
+          const seconds = logDate.getSeconds().toString().length === 1 ? `0${logDate.getSeconds()}` : logDate.getSeconds();
 
           return {
             ...log,
             statusCode: Number(log.statusCode),
             endpoint: newEndpoint,
-            date: `${logDate.getFullYear()}-${logDate.getMonth() + 1}-${logDate.getDate()} ${logDate.getHours()}:${logDate.getMinutes()}:${logDate.getSeconds()}`
+            date: `${logDate.getFullYear()}-${logDate.getMonth() + 1}-${logDate.getDate()} ${logDate.getHours()}:${logDate.getMinutes()}:${seconds}`
           }
         })
       }
