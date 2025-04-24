@@ -70,8 +70,7 @@ export class UserService {
   }
 
   updateUser(rut: string, updatedValues: UpdateUser[]) {
-    return this.http.patch(`${this.apiUrl}/users`, {
-      rut,
+    return this.http.patch(`${this.apiUrl}/users?originalRut=${rut}`, {
       values: updatedValues,
     })
   }

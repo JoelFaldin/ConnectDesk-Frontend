@@ -76,11 +76,11 @@ export class EditModalComponent {
       })
     })
 
-    this.userService.updateUser(current.rut!, fields).subscribe(res => {
+    this.userService.updateUser(this.originalUser.rut!, fields).subscribe(res => {
       console.log(res);
     });
 
-    this.userService.updateUserArray(current.rut!, updateFields);
+    this.userService.updateUserArray(this.originalUser.rut!, updateFields);
 
     this.closeModal.emit();
   }
