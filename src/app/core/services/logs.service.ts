@@ -36,7 +36,7 @@ export class LogsService {
     return this.http.get(`${this.apiUrl}/logs?page=${page}&pageSize=${pageSize}`);
   }
 
-  getByCode(statusCode: number) {
-    return this.http.get(`${this.apiUrl}/logs/${statusCode}`);
+  getByCode(statusCode: number, page: number = 0, pageSize: number = 10) {
+    return this.http.get(`${this.apiUrl}/logs/${statusCode}?page=${page}&pageSize=${pageSize}`);
   }
 }

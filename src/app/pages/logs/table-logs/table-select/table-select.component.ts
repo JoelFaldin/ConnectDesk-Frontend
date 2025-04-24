@@ -26,7 +26,13 @@ export class TableSelectComponent {
   onSelectChange(event: any) {
     this.logService.getByCode(event.value).subscribe({
       next: (res: any) => {
-        this.logService.setLogData(res ?? []);
+        this.logService.setLogData(res.content ?? []);
+
+        this.logService.setPaginationData({
+          total: res.total,
+          pageSize: res.pageSize,
+          page: res.page! - 1,
+        });
       }
     });
   }
