@@ -26,17 +26,17 @@ export class LogsService {
     })
   }
 
+  getPagination() {
+    return this.page.getValue();
+  }
+
   // Methods to handle log data:
   setLogData(logData: LogsInterface[]) {
     this.logs.next(logData);
   }
 
   // Interact with backend:
-  getLogs(page: number = 0, pageSize: number = 10) {
-    return this.http.get(`${this.apiUrl}/logs?page=${page}&pageSize=${pageSize}`);
-  }
-
-  getByCode(statusCode: number, page: number = 0, pageSize: number = 10) {
+  getByCode(statusCode: number = 1, page: number = 0, pageSize: number = 10) {
     return this.http.get(`${this.apiUrl}/logs/${statusCode}?page=${page}&pageSize=${pageSize}`);
   }
 }

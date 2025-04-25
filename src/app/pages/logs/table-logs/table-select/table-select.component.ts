@@ -20,15 +20,20 @@ export class TableSelectComponent {
     { name: 'Success', value: 201 },
     { name: 'Ok', value: 200 },
     { name: 'Warning', value: 401 },
-    { name: 'Error', value: 304 },
+    { name: 'Error', value: 400 },
   ];
 
   onSelectChange(event: any) {
+    if (!event.value) {
+      return
+    }
+
     this.logService.getByCode(event.value).subscribe({
       next: (res: any) => {
         this.logService.setLogData(res.content ?? []);
 
         this.logService.setPaginationData({
+          code: event.value ?? null,
           total: res.total,
           pageSize: res.pageSize,
           page: res.page! - 1,

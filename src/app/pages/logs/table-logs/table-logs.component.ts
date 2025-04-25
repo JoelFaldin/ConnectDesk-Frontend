@@ -27,7 +27,7 @@ export class TableLogsComponent {
   }
 
   fetchLogs() {
-    this.logsService.getLogs().subscribe({
+    this.logsService.getByCode().subscribe({
       next: (res: LogsDataResponse) => {
         if (res.content!.length === 0) {
           this.dataSource = [];

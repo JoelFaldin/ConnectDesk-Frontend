@@ -40,7 +40,7 @@ export class TableFooterComponent {
     this.pageSize = event;
     this.page = 0;
 
-    this.logService.getLogs(this.page, this.pageSize).subscribe({
+    this.logService.getByCode(1, this.page, this.pageSize).subscribe({
       next: (res: LogsDataResponse) => {
         this.logService.setLogData(res.content!);
 
@@ -60,7 +60,10 @@ export class TableFooterComponent {
 
     this.page = event.page!;
 
-    this.logService.getLogs(event.page!, this.pageSize).subscribe({
+    const paginationData = this.logService.getPagination();
+    const statusCode = paginationData.code ?? 1;
+
+    this.logService.getByCode(statusCode, event.page!, this.pageSize).subscribe({
       next: (res: LogsDataResponse) => {
         this.logService.setLogData(res.content!);
       }
