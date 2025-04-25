@@ -24,4 +24,10 @@ export class ExcelService {
       responseType: 'blob',
     })
   }
+
+  downloadLogsData() {
+    return this.http.get(`${this.apiUrl}/excel/download/logs`, {
+      responseType: 'blob',
+    })
+  }
 }
