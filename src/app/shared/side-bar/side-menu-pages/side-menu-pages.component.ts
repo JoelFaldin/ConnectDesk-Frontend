@@ -35,22 +35,22 @@ export class SideMenuPagesComponent {
     {
       icon: 'people',
       label: 'Users',
-      route: '/dashboard/users'
+      route: '/users'
     },
     {
       icon: 'table_chart',
       label: 'Excel',
-      route: '/dashboard/excel'
+      route: '/excel'
     },
     {
       icon: 'dns',
       label: 'Logs',
-      route: '/dashboard/logs'
+      route: '/logs'
     },
     {
       icon: 'settings',
       label: 'Settings',
-      route: '/dashboard/settings'
+      route: '/settings'
     }
   ]
 
