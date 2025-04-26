@@ -5,7 +5,7 @@ export interface LogsInterface {
   method: string;
   statusCode: number;
   description: string;
-  date: string;
+  date: Date;
 }
 
 export interface LogsDataResponse {

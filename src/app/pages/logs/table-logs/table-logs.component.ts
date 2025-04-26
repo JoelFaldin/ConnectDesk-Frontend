@@ -2,6 +2,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TableModule } from 'primeng/table';
 
 import { Component, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { TableSelectComponent } from './table-select/table-select.component';
 import { LogsDataResponse, LogsInterface } from '@interfaces/logs.interface';
@@ -9,7 +10,7 @@ import { LogsService } from '@services/logs.service';
 
 @Component({
   selector: 'table-logs',
-  imports: [TableModule, MatIconModule, TableSelectComponent],
+  imports: [TableModule, MatIconModule, TableSelectComponent, DatePipe],
   templateUrl: './table-logs.component.html',
 })
 export class TableLogsComponent {
@@ -36,15 +37,12 @@ export class TableLogsComponent {
 
         this.dataSource = (res.content ?? []).map((log: LogsInterface) => {
           const newEndpoint = log.endpoint.slice(4);
-          const logDate = new Date(log.date);
-
-          const pad = (n: number) => n.toString().padStart(2, '0');
 
           return {
             ...log,
             statusCode: Number(log.statusCode),
             endpoint: newEndpoint,
-            date: `${logDate.getFullYear()}-${pad(logDate.getMonth() + 1)}-${pad(logDate.getDate())} ${pad(logDate.getHours())}:${pad(logDate.getMinutes())}:${pad(logDate.getSeconds())}`
+            date: new Date(log.date),
           }
         })
 
