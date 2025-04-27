@@ -15,3 +15,9 @@ export interface LogsDataResponse {
   total?: number;
   page?: number;
 }
+
+export interface AllLogsInterface {
+  logId: string;
+  description: string;
+  date: string;
+}

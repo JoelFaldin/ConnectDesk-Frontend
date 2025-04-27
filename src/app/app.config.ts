@@ -1,11 +1,12 @@
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideHttpClient } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { provideRouter } from '@angular/router';
 import Aura from '@primeng/themes/aura';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura
       }
-    })
+    }),
+    provideCharts(withDefaultRegisterables())
   ]
 };

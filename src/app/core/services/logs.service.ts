@@ -43,4 +43,8 @@ export class LogsService {
   getSummary() {
     return this.http.get(`${this.apiUrl}/logs/summary`);
   }
+
+  getAllLogs() {
+    return this.http.get(`${this.apiUrl}/logs/all`);
+  }
 }
