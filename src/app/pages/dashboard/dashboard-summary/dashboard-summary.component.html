@@ -1,0 +1,75 @@
+<div class="grid grid-cols-4 gap-4">
+
+  <div class="bg-black border border-slate-700/60 rounded-lg p-4 flex flex-col space-y-2">
+    <span class="flex flex-row justify-between" [class.text-green-500]="userCount()" [class.text-yellow-500]="!userCount()">
+      <p class="text-sm text-slate-400">Users</p>
+      @if (userCount()) {
+        <mat-icon>check_circle_outline</mat-icon>
+      } @else {
+        <mat-icon>warning_outline</mat-icon>
+      }
+    </span>
+    @if (userCount()) {
+      <span class="text-lg font-bold">{{ userCount() }}</span>
+      <span class="text-sm text-slate-400">Users service working correclty!</span>
+    } @else {
+      <span class="text-lg font-bold">-</span>
+      <span class="text-sm text-slate-400">Users service not working.</span>
+    }
+  </div>
+
+  <div class="bg-black border border-slate-700/60 rounded-lg p-4 flex flex-col space-y-2">
+    <span class="flex flex-row justify-between" [class.text-green-500]="logsCount()" [class.text-yellow-500]="!logsCount()">
+      <p class="text-sm text-slate-400">Logs</p>
+      @if (logsCount()) {
+        <mat-icon>check_circle_outline</mat-icon>
+      } @else {
+        <mat-icon>warning_outline</mat-icon>
+      }
+    </span>
+    @if (logsCount()) {
+      <span class="text-lg font-bold">{{ logsCount() }}</span>
+      <span class="text-sm text-slate-400">Logs working correclty!</span>
+    } @else {
+      <span class="text-lg font-bold">-</span>
+      <span class="text-sm text-slate-400">Logs service not working.</span>
+    }
+  </div>
+
+  <div class="bg-black border border-slate-700/60 rounded-lg p-4 flex flex-col space-y-2">
+    <span class="flex flex-row justify-between" [class.text-green-500]="backendStatus()" [class.text-yellow-500]="!backendStatus()">
+      <p class="text-sm text-slate-400">Server</p>
+      @if (backendStatus() === 'ok') {
+        <mat-icon>check_circle_outline</mat-icon>
+      } @else {
+        <mat-icon>warning_outline</mat-icon>
+      }
+    </span>
+    @if (backendStatus() === 'ok') {
+      <span class="text-lg font-bold">Active</span>
+      <p class="text-sm text-green-500">All good here!</p>
+    } @else {
+      <span class="text-lg font-bold">Inactive</span>
+      <p class="text-sm text-red-500">Check backend connection to continue!</p>
+    }
+  </div>
+
+  <div class="bg-black border border-slate-700/60 rounded-lg p-4 flex flex-col space-y-2">
+    <span class="flex flex-row justify-between" [class.text-green-500]="excelSummary().success" [class.text-yellow-500]="!excelSummary().success">
+      <p class="text-sm text-slate-400">Excel Import/Export</p>
+      @if (excelSummary().success) {
+        <mat-icon>check_circle_outline</mat-icon>
+      } @else {
+        <mat-icon>warning_outline</mat-icon>
+      }
+    </span>
+    @if (excelSummary().success) {
+      <span class="text-lg text-green-500 font-bold">{{ excelSummary().success }} completed!</span>
+      <span class="text-sm text-red-500">{{ excelSummary().error }} failures</span>
+    } @else {
+      <span class="text-lg font-bold">-</span>
+      <span class="text-sm text-slate-400">Excel service not working.</span>
+    }
+  </div>
+
+</div>

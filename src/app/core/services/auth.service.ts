@@ -22,6 +22,10 @@ export class AuthService {
     );
   }
 
+  checkBackendConnection() {
+    return this.http.get(`${this.apiUrl}/auth/ping`);
+  }
+
   //Methods to save and retrieve user data from localStorage:
   setSession(res: LoginResponsePayload) {
     localStorage.setItem('token', res.token);

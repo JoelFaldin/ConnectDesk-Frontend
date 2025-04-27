@@ -78,4 +78,8 @@ export class UserService {
   deleteUser(rut: string) {
     return this.http.delete(`${this.apiUrl}/users/${rut}`);
   }
+
+  getSummary() {
+    return this.http.get(`${this.apiUrl}/users/summary`);
+  }
 }

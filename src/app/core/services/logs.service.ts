@@ -39,4 +39,8 @@ export class LogsService {
   getByCode(statusCode: number = 1, page: number = 0, pageSize: number = 10) {
     return this.http.get(`${this.apiUrl}/logs/${statusCode}?page=${page}&pageSize=${pageSize}`);
   }
+
+  getSummary() {
+    return this.http.get(`${this.apiUrl}/logs/summary`);
+  }
 }

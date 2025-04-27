@@ -30,4 +30,8 @@ export class ExcelService {
       responseType: 'blob',
     })
   }
+
+  getSummary() {
+    return this.http.get(`${this.apiUrl}/excel/summary`);
+  }
 }
