@@ -1,6 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
 
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AddUsersComponent } from '@shared/users/users.component';
 import { ExcelService } from '@services/excel.service';
@@ -12,6 +13,7 @@ import { ExcelService } from '@services/excel.service';
 })
 export class DashboardActionsComponent {
   excelService = inject(ExcelService);
+  router = inject(Router)
 
   visible = signal(false);
 
@@ -30,5 +32,9 @@ export class DashboardActionsComponent {
 
   toggleVisibility(value: boolean) {
     this.visible.set(value);
+  }
+
+  handleLogNavigation() {
+    this.router.navigate(["/logs"])
   }
 }
