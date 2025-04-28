@@ -4,12 +4,14 @@ import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 
-import { Component, Input, signal, WritableSignal } from '@angular/core';
+import { Component, inject, Input, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 import { ResetModalComponent } from './reset-modal/reset-modal.component';
 import { EditModalComponent } from './edit-modal/edit-modal.component';
+import { UserRole } from '@interfaces/auth-payload.interface';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'users-actions',
@@ -18,6 +20,8 @@ import { EditModalComponent } from './edit-modal/edit-modal.component';
   templateUrl: './users-actions.component.html',
 })
 export class UsersActionsComponent {
+  authService = inject(AuthService);
+
   menuItems: MenuItem[] = [];
   @Input() userRut: string = '';
 
@@ -25,7 +29,11 @@ export class UsersActionsComponent {
   resetDialogVisible: WritableSignal<boolean> = signal(false);
   deleteDialogVisible: WritableSignal<boolean> = signal(false);
 
+  role: UserRole = UserRole.USER;
+
   ngOnInit() {
+    this.role = this.authService.getRole() ?? UserRole.USER;
+
     this.menuItems = [
       {
         label: 'Edit',

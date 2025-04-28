@@ -3,9 +3,9 @@ export interface LoginPayload {
   password: string;
 }
 
-enum UserRole {
-  ADMIN,
-  USER,
+export enum UserRole {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
 }
 
 export interface LoginResponsePayload {

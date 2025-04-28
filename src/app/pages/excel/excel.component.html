@@ -4,16 +4,21 @@
   </div>
 
   <div class="bg-black border border-slate-700/60 rounded-lg p-4 flex flex-col gap-y-4">
-    <p-selectbutton
-      [options]="stateOptions"
-      [(ngModel)]="value"
-      optionLabel="label"
-      optionValue="value"
-      aria-labelledby="basic"
-    />
 
-    @if (value() === 1) {
-      <data-import />
+    @if (role === 'ADMIN') {
+      <p-selectbutton
+        [options]="stateOptions"
+        [(ngModel)]="value"
+        optionLabel="label"
+        optionValue="value"
+        aria-labelledby="basic"
+      />
+
+      @if (value() === 1) {
+        <data-import />
+      } @else {
+        <data-export />
+      }
     } @else {
       <data-export />
     }

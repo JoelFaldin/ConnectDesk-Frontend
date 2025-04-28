@@ -8,7 +8,9 @@ import { UsersSearchComponent } from './users-search/users-search.component';
 import { UsersResetComponent } from './users-reset/users-reset.component';
 import type { User, UserDataResponse } from '@interfaces/user.interface';
 import { UsersAddComponent } from './users-add/users-add.component';
+import { UserRole } from '@interfaces/auth-payload.interface';
 import { UserService } from '@services/user.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'users-table',
@@ -16,12 +18,17 @@ import { UserService } from '@services/user.service';
   templateUrl: './users-table.component.html',
 })
 export class UsersTableComponent implements OnInit {
-  userService = inject(UserService)
+  userService = inject(UserService);
+  authService = inject(AuthService);
+
   dataSource: User[] = [];
+  role: UserRole = UserRole.USER;
 
   displayedColumns = ['Name', 'Last Name', 'Email', 'Rut', 'Job Number', '']
 
   ngOnInit() {
+    this.role = this.authService.getRole();
+
     this.userService.users$.subscribe(users => {
       this.dataSource = users;
     })

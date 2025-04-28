@@ -2,7 +2,9 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { Component, inject } from '@angular/core';
 
+import { UserRole } from '@interfaces/auth-payload.interface';
 import { ExcelService } from '@services/excel.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'data-export',
@@ -11,6 +13,13 @@ import { ExcelService } from '@services/excel.service';
 })
 export class DataExportComponent {
   excelService = inject(ExcelService);
+  authService = inject(AuthService);
+
+  role: UserRole = UserRole.USER;
+
+  ngOnInit() {
+    this.role = this.authService.getRole();
+  }
 
   handleDownloadUserData() {
     this.excelService.downloadUserData().subscribe(blob => {

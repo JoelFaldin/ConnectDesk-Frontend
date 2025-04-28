@@ -33,6 +33,7 @@ export class AuthService {
       names: res.names,
       identifier: res.identifier,
       email: res.email,
+      role: res.role,
     }));
   }
 
@@ -48,6 +49,11 @@ export class AuthService {
   getUser() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
+  }
+
+  getRole() {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user).role : null;
   }
 
   isLoggedIn() {

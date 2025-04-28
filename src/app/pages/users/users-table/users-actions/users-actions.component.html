@@ -18,24 +18,28 @@
     </ng-template>
   </p-menu>
 
-  <p-button
-    (click)="menu.toggle($event)"
-    styleClass="p-button-text p-button-rounded p-button-plain text-white"
-  >
-    <mat-icon>
-      more_horiz
-    </mat-icon>
-  </p-button>
+  @if (role === 'ADMIN') {
+    <p-button
+      (click)="menu.toggle($event)"
+      styleClass="p-button-text p-button-rounded p-button-plain text-white"
+    >
+      <mat-icon>
+        more_horiz
+      </mat-icon>
+    </p-button>
+  }
 
-  <p-dialog header="Edit user" [draggable]="false" [(visible)]="editDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-    <edit-modal [userRut]="this.userRut" (closeModal)="onCloseEditModal()" />
-  </p-dialog>
+  @if (role === 'ADMIN') {
+    <p-dialog header="Edit user" [draggable]="false" [(visible)]="editDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
+      <edit-modal [userRut]="this.userRut" (closeModal)="onCloseEditModal()" />
+    </p-dialog>
 
-  <p-dialog header="Reset password" [draggable]="false" [(visible)]="resetDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-    <reset-modal [userRut]="this.userRut" (closeModal)="onCloseResetModal()" />
-  </p-dialog>
+    <p-dialog header="Reset password" [draggable]="false" [(visible)]="resetDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
+      <reset-modal [userRut]="this.userRut" (closeModal)="onCloseResetModal()" />
+    </p-dialog>
 
-  <p-dialog header="Delete user" [draggable]="false" [(visible)]="deleteDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-    <delete-modal [userRut]="this.userRut" (closeModal)="onCloseDeleteModal()" />
-  </p-dialog>
-</div>
+    <p-dialog header="Delete user" [draggable]="false" [(visible)]="deleteDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
+      <delete-modal [userRut]="this.userRut" (closeModal)="onCloseDeleteModal()" />
+    </p-dialog>
+  }
+  </div>
