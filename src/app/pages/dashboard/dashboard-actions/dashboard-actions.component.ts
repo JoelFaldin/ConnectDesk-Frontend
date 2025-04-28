@@ -1,16 +1,19 @@
 import { MatIconModule } from '@angular/material/icon';
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
+import { AddUsersComponent } from '@shared/users/users.component';
 import { ExcelService } from '@services/excel.service';
 
 @Component({
   selector: 'dashboard-actions',
-  imports: [MatIconModule],
+  imports: [MatIconModule, AddUsersComponent],
   templateUrl: './dashboard-actions.component.html',
 })
 export class DashboardActionsComponent {
   excelService = inject(ExcelService);
+
+  visible = signal(false);
 
   handleDownloadUserData() {
     this.excelService.downloadUserData().subscribe(blob => {
@@ -23,5 +26,9 @@ export class DashboardActionsComponent {
 
       window.URL.revokeObjectURL(url);
     })
+  }
+
+  toggleVisibility(value: boolean) {
+    this.visible.set(value);
   }
 }
