@@ -11,6 +11,7 @@ import { UpdateUser, User } from '@interfaces/user.interface';
 export class UserService {
   private apiUrl = 'http://localhost:3000/api';
   private http = inject(HttpClient);
+  private jwt = localStorage.getItem('token') ?? '';
 
   private usersSource = new BehaviorSubject<User[]>([]);
   users$ = this.usersSource.asObservable();
@@ -66,17 +67,29 @@ export class UserService {
   }
 
   createUser(newUser: User) {
-    return this.http.post(`${this.apiUrl}/users`, newUser);
+    return this.http.post(`${this.apiUrl}/users`, newUser, {
+      headers: {
+        Authorization: `Bearer ${this.jwt}`
+      }
+    });
   }
 
   updateUser(rut: string, updatedValues: UpdateUser[]) {
     return this.http.patch(`${this.apiUrl}/users?originalRut=${rut}`, {
       values: updatedValues,
+    }, {
+      headers: {
+        Authorization: `Bearer ${this.jwt}`
+      }
     })
   }
 
   deleteUser(rut: string) {
-    return this.http.delete(`${this.apiUrl}/users/${rut}`);
+    return this.http.delete(`${this.apiUrl}/users/${rut}`, {
+      headers: {
+        Authorization: `Bearer ${this.jwt}`
+      }
+    });
   }
 
   getSummary() {
