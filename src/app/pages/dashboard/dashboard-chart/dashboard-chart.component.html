@@ -1,10 +1,17 @@
-<span>
-  <h1 class="text-xl font-bold pt-4 pl-4">Logs Metrics</h1>
-  <p class="text-sm text-slate-400 pl-4">Logs metrics grouped by date</p>
+<div class="flex flex-col h-full">
+  <div class="p-4">
+    <h1 class="text-xl font-bold">Logs Metrics</h1>
+    <p class="text-sm text-slate-400">Logs metrics grouped by date</p>
+  </div>
 
-  <canvas baseChart
-    [data]="chartData"
-    [type]="chartType">
-  </canvas>
-</span>
+  <div class="flex-1 p-4 overflow-hidden">
+    <canvas baseChart
+      class="w-full h-full max-h-[500px]"
+      height="200"
+      [data]="chartData"
+      [type]="chartType">
+    </canvas>
+  </div>
+
+</div>
 
