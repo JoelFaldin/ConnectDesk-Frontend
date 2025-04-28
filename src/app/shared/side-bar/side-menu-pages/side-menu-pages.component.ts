@@ -47,11 +47,6 @@ export class SideMenuPagesComponent {
       label: 'Logs',
       route: '/logs'
     },
-    {
-      icon: 'settings',
-      label: 'Settings',
-      route: '/settings'
-    }
   ]
 
   renderActive(path: string): string {

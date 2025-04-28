@@ -29,11 +29,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/logs/logs.component')
       },
-      {
-        path: 'settings',
-        loadComponent: () =>
-          import('./pages/settings/settings.component')
-      }
     ]
   },
   {
