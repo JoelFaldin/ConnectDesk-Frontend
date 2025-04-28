@@ -5,6 +5,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { UserDataResponse } from '@interfaces/user.interface';
+import { ToastService } from '@services/toast.service';
 import { UserService } from '@services/user.service';
 
 @Component({
@@ -14,12 +15,13 @@ import { UserService } from '@services/user.service';
 })
 export class UsersSearchComponent {
   userService = inject(UserService);
+  toast = inject(ToastService);
 
   value = signal('');
 
   handleSearch() {
     if (!this.value()) {
-      console.log('nothing to search dude');
+      this.toast.warn('Warning', 'You should input something to search!');
       return;
     }
 

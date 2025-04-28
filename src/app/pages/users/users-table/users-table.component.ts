@@ -9,6 +9,7 @@ import { UsersResetComponent } from './users-reset/users-reset.component';
 import type { User, UserDataResponse } from '@interfaces/user.interface';
 import { UsersAddComponent } from './users-add/users-add.component';
 import { UserRole } from '@interfaces/auth-payload.interface';
+import { ToastService } from '@services/toast.service';
 import { UserService } from '@services/user.service';
 import { AuthService } from '@services/auth.service';
 
@@ -20,6 +21,7 @@ import { AuthService } from '@services/auth.service';
 export class UsersTableComponent implements OnInit {
   userService = inject(UserService);
   authService = inject(AuthService);
+  toast = inject(ToastService);
 
   dataSource: User[] = [];
   role: UserRole = UserRole.USER;
@@ -49,12 +51,9 @@ export class UsersTableComponent implements OnInit {
         });
       },
       error: (error) => {
-        console.log('there was an error...', error);
+        this.toast.error('Error', error.error.message ?? 'There was a problem with the server, try again later.');
+        // console.error(error);
       }
     })
-  }
-
-  handleAdd() {
-    console.log('test')
   }
 }

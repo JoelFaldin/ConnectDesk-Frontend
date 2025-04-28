@@ -10,6 +10,7 @@ export enum UserRole {
 
 export interface LoginResponsePayload {
   token: string;
+  message: string;
   identifier: string;
   names: string;
   email: string;

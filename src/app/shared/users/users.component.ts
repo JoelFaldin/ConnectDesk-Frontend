@@ -9,6 +9,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 import { CreateUserInterface, UserDataResponse } from '@interfaces/user.interface';
 import { passwordsMatchValidator } from '@utils/passwords-match.validator';
+import { ToastService } from '@services/toast.service';
 import { UserService } from '@services/user.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class AddUsersComponent {
   @Input({ required: true }) visible: WritableSignal<boolean> = signal(false);
   @Output() setVisible = new EventEmitter();
 
-  userService = inject(UserService)
+  userService = inject(UserService);
+  toast = inject(ToastService);
 
   form = new FormGroup({
     names: new FormControl('', Validators.required),
@@ -58,10 +60,12 @@ export class AddUsersComponent {
         next: (res: UserDataResponse) => {
           const dataSource = res.content ?? [];
 
+          this.toast.success('Success', res.message ?? 'User added successfully!');
           this.userService.setUsers(dataSource);
         },
         error: (error) => {
-          console.log('there was an error...', error);
+          this.toast.error('Error', error.error.message ?? 'There was a problem with the server, try again later.');
+          // console.error(error);
         }
       })
 

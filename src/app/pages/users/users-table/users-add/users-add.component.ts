@@ -4,8 +4,8 @@ import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
-import { ReactiveFormsModule } from '@angular/forms';
 import { Component, signal, inject } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AddUsersComponent } from "@shared/users/users.component";
 import { UserService } from '@services/user.service';
@@ -17,9 +17,9 @@ import { UserService } from '@services/user.service';
 
 })
 export class UsersAddComponent {
-  visible = signal(false);
-
   userService = inject(UserService);
+
+  visible = signal(false);
 
   toggleVisibility(value: boolean) {
     this.visible.set(value);

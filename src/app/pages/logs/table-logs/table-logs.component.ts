@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 
 import { TableSelectComponent } from './table-select/table-select.component';
 import { LogsDataResponse, LogsInterface } from '@interfaces/logs.interface';
+import { ToastService } from '@services/toast.service';
 import { LogsService } from '@services/logs.service';
 
 @Component({
@@ -15,6 +16,8 @@ import { LogsService } from '@services/logs.service';
 })
 export class TableLogsComponent {
   logsService = inject(LogsService);
+  toast = inject(ToastService);
+
   dataSource: LogsInterface[] = [];
 
   displayedColumns = ['Timestamp', 'Endpoint', 'Method', 'Status Code'];
@@ -53,6 +56,12 @@ export class TableLogsComponent {
           pageSize: res.pageSize!,
           total: res.total!
         });
+
+        this.toast.success('Success', 'Logs obtained!');
+      },
+      error: (error) => {
+        this.toast.error('Error', error.error.message ?? 'There was a problem with the server, try again later.');
+        // console.error(error);
       }
     })
   }

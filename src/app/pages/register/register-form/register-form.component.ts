@@ -5,6 +5,7 @@ import { passwordsMatchValidator } from '@utils/passwords-match.validator';
 import { RegisterPayload } from '@interfaces/auth-payload.interface';
 import { AuthService } from '@services/auth.service';
 import { Router } from '@angular/router';
+import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'register-form',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterFormComponent {
   authService = inject(AuthService);
+  toast = inject(ToastService);
   router = inject(Router);
 
   form = new FormGroup({
@@ -39,6 +41,13 @@ export class RegisterFormComponent {
           console.log(control.errors);
         }
       }
+
+      if (this.form.errors?.['passwordDismatch']) {
+        this.toast.warn('Password dismatch', 'Passwords do not match. Try again!');
+      }
+
+      this.toast.warn('Warning', 'There are errors in the form, correct them to continue.');
+
       return
     }
     const raw = this.form.getRawValue();
@@ -58,11 +67,13 @@ export class RegisterFormComponent {
 
     this.authService.register(payload).subscribe({
       next: (res) => {
-        console.log('user created! refirecting...')
+        this.toast.success('Registration', 'User registered! Redirecting...');
+        this.toast.info('Info', 'Please, log in with your new credentials');
         this.router.navigate(['/login'])
       },
       error: (error) => {
-        console.error(error);
+        this.toast.error('Server error', 'There was a server error, try again later.');
+        // console.error(error);
       }
     })
   }

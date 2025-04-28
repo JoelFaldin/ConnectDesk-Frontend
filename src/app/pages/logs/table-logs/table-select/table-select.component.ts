@@ -3,6 +3,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { ToastService } from '@services/toast.service';
 import { LogsService } from '@services/logs.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { LogsService } from '@services/logs.service';
 })
 export class TableSelectComponent {
   logService = inject(LogsService);
+  toast = inject(ToastService);
 
   statusSelector = signal(1);
 
@@ -38,7 +40,11 @@ export class TableSelectComponent {
           pageSize: res.pageSize,
           page: res.page! - 1,
         });
-      }
+      },
+      error: (error) => {
+        this.toast.error('Error', error.error.message ?? 'There was a problem with the server, try again later.');
+        // console.error(error);
+      },
     });
   }
 }
