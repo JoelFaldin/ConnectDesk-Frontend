@@ -1,0 +1,216 @@
+<form [formGroup]="form" (ngSubmit)="handleSubmit()" class="flex flex-col gap-y-5">
+  <section class="space-y-4">
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="name" class="text-white">Name</label>
+      <span class="flex flex-col space-y-1">
+        <input
+          id="name"
+          type="text"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+          formControlName="name"
+          [class.border]="form.get('name')?.invalid && form.get('name')?.touched"
+          [class.border-red-500]="form.get('name')?.invalid && form.get('name')?.touched"
+        />
+
+        @if (form.get('name')?.invalid && form.get('name')?.touched) {
+          <span class="text-red-500 text-[12px]">Field 'name' is required!</span>
+        }
+      </span>
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="lastname" class="text-white">Lastname</label>
+      <span class="flex flex-col space-y-1">
+        <input
+          id="lastname"
+          type="text"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+          formControlName="lastname"
+          [class.border]="form.get('lastname')?.invalid && form.get('lastname')?.touched"
+          [class.border-red-500]="form.get('lastname')?.invalid && form.get('lastname')?.touched"
+        />
+
+        @if (form.get('lastname')?.invalid && form.get('lastname')?.touched) {
+          <span class="text-red-500 text-[12px]">Field 'lastname' is required!</span>
+        }
+      </span>
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="rut" class="text-white">Rut</label>
+      <span class="flex flex-col space-y-1">
+        <input
+          id="rut"
+          type="text"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+          formControlName="rut"
+          pattern="[0-9]{1,2}\.?[0-9]{3}\.?[0-9]{3}-[kK0-9]"
+          [class.border]="form.get('rut')?.invalid && form.get('rut')?.touched"
+          [class.border-red-500]="form.get('rut')?.invalid && form.get('rut')?.touched"
+          (change)="form.get('rut')?.markAsUntouched()"
+        />
+
+        @if (form.get('rut')?.invalid && form.get('rut')?.touched) {
+          @if (form.get('rut')?.errors?.['required']) {
+            <span class="text-red-500 text-[12px]">Field 'rut' is required!</span>
+          }
+          @else if (form.get('rut')?.errors?.['pattern']) {
+            <span class="text-red-500 text-[12px]">The field 'rut' should match the chilean rut structure! (12.345.678-9)</span>
+          }
+        }
+      </span>
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="email" class="text-white">Email</label>
+      <span class="flex flex-col space-y-1">
+        <input
+          id="email"
+          type="email"
+          placeholder="example@test.com"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+          formControlName="email"
+          [class.border]="form.get('email')?.invalid && form.get('email')?.touched"
+          [class.border-red-500]="form.get('email')?.invalid && form.get('email')?.touched"
+        />
+
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+          <span class="text-red-500 text-[12px]">Field 'email' is required!</span>
+        }
+        @else if (form.get('email')?.errors?.['email']) {
+          <span class="text-red-500 text-[12px]">Please enter a valid email!</span>
+        }
+      </span>
+    </div>
+
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+      <div class="space-y-2">
+        <label htmlFor="jobNumber" class="text-white">Job Number</label>
+        <span class="flex flex-col space-y-1">
+          <input
+            id="jobNumber"
+            type="number"
+            required
+            class="bg-slate-900/50 p-2 text-slate-400"
+            formControlName="jobNumber"
+            [class.border]="form.get('jobNumber')?.invalid && form.get('jobNumber')?.touched"
+            [class.border-red-500]="form.get('jobNumber')?.invalid && form.get('jobNumber')?.touched"
+          />
+
+          @if (form.get('jobNumber')?.invalid && form.get('jobNumber')?.touched) {
+            <span class="text-red-500 text-[12px]">Field 'Job Number' is required!</span>
+          }
+        </span>
+      </div>
+      <div class="space-y-2">
+        <label htmlFor="contactNumber" class="text-white">Contact Number</label>
+        <span class="flex flex-col space-y-1">
+          <input
+            id="contactNumber"
+            type="number"
+            required
+            class="bg-slate-900/50 p-2 text-slate-400"
+            formControlName="contactNumber"
+            [class.border]="form.get('contactNumber')?.invalid && form.get('contactNumber')?.touched"
+            [class.border-red-500]="form.get('contactNumber')?.invalid && form.get('contactNumber')?.touched"
+          />
+
+          @if (form.get('contactNumber')?.invalid && form.get('contactNumber')?.touched) {
+            <span class="text-red-500 text-[12px]">Field 'Contact Number' is required!</span>
+          }
+        </span>
+      </div>
+    </div>
+
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+      <div class="space-y-2">
+        <label htmlFor="password" class="text-white">Password</label>
+        <span class="flex flex-col space-y-1">
+          <input
+            id="password"
+            type="password"
+            required
+            class="bg-slate-900/50 p-2 text-slate-400"
+            formControlName="password"
+            [class.border]="form.get('password')?.invalid && form.get('password')?.touched"
+            [class.border-red-500]="form.get('password')?.invalid && form.get('password')?.touched"
+          />
+
+          @if (form.get('password')?.invalid && form.get('password')?.touched) {
+            <span class="text-red-500 text-[12px]">Field 'Password' is required!</span>
+          }
+        </span>
+      </div>
+      <div class="space-y-2">
+        <label htmlFor="confirmPassword" class="text-white">Confirm Password</label>
+        <span class="flex flex-col space-y-1">
+          <input
+            id="confirmPassword"
+            type="password"
+            required
+            class="bg-slate-900/50 p-2 text-slate-400"
+            formControlName="confirmPassword"
+            [class.border]="form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched"
+            [class.border-red-500]="form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched"
+          />
+
+          @if (form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched) {
+            <span class="text-red-500 text-[12px]">Please input the password again to check if they match!</span>
+          }
+        </span>
+      </div>
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="department" class="text-white">Department</label>
+      <span class="flex flex-col space-y-1">
+        <input
+          id="department"
+          type="text"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+          formControlName="department"
+          [class.border]="form.get('department')?.invalid && form.get('department')?.touched"
+          [class.border-red-500]="form.get('department')?.invalid && form.get('department')?.touched"
+        />
+
+        @if (form.get('department')?.invalid && form.get('department')?.touched) {
+          <span class="text-red-500 text-[12px]">Field 'Department' is required!</span>
+        }
+      </span>
+    </div>
+
+    <div class="flex flex-col space-y-2">
+      <label htmlFor="direction" class="text-white">Direction</label>
+      <span class="flex flex-col space-y-1">
+        <input
+          id="direction"
+          type="text"
+          required
+          class="bg-slate-900/50 p-2 text-slate-400"
+          formControlName="direction"
+          [class.border]="form.get('direction')?.invalid && form.get('direction')?.touched"
+          [class.border-red-500]="form.get('direction')?.invalid && form.get('direction')?.touched"
+        />
+
+        @if (form.get('direction')?.invalid && form.get('direction')?.touched) {
+          <span class="text-red-500 text-[12px]">Field 'Direction' is required!</span>
+        }
+      </span>
+    </div>
+  </section>
+
+  <section class="flex flex-col space-y-4">
+    <button
+      type="submit"
+      class="w-full rounded-md bg-purple-600 p-2 cursor-pointer hover:bg-purple-700 text-white"
+    >
+      Register
+    </button>
+  </section>
+</form>

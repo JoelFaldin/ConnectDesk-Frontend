@@ -1,0 +1,35 @@
+<span class="flex flex-col gap-y-4">
+  <section class="flex flex-row justify-between">
+    <users-search />
+    <span class="flex flex-row gap-x-5">
+      <users-reset />
+
+      @if (role === 'ADMIN') {
+        <users-add />
+      }
+    </span>
+  </section>
+
+  <p-table [value]="dataSource" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+      <tr>
+        @for (column of displayedColumns; track `table-header-${column}`) {
+          <th>{{ column }}</th>
+        }
+      </tr>
+    </ng-template>
+    <ng-template #body let-user>
+      <tr>
+        <td>{{ user.names }}</td>
+        <td>{{ user.lastNames }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.rut }}</td>
+        <td>{{ user.jobNumber }}</td>
+        <td>
+          <users-actions [userRut]="user.rut" />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</span>
+

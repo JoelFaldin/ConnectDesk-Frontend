@@ -1,0 +1,40 @@
+<div class="flex flex-col h-full justify-between p-2">
+  <div>
+    <h1 class="text-xl font-bold">Quick actions</h1>
+    <p class="text-sm text-slate-400">Common system operations</p>
+  </div>
+
+  <section class="flex flex-col gap-y-2 mt-4">
+    <button type="button" (click)="handleDownloadUserData()" class="flex flex-col items-center justify-center gap-y-1 border border-slate-700/90 rounded-md p-4 text-purple-500 cursor-pointer hover:bg-neutral-900">
+      <mat-icon>table_chart</mat-icon>
+      <span class="text-slate-400">Download user data</span>
+    </button>
+
+    @if (role === 'ADMIN') {
+      <button type="button" (click)="handleDownloadLogsData()" class="flex flex-col items-center justify-center gap-y-1 border border-slate-700/90 rounded-md p-4 text-purple-500 cursor-pointer hover:bg-neutral-900">
+        <mat-icon>format_list_bulleted</mat-icon>
+        <span class="text-slate-400">Download log data</span>
+      </button>
+      <button type="button" (click)="toggleVisibility(true)" class="flex flex-col items-center justify-center gap-y-1 border border-slate-700/90 rounded-md p-4 text-purple-500 cursor-pointer hover:bg-neutral-900">
+        <mat-icon>person_add</mat-icon>
+        <span class="text-slate-400">Create new user</span>
+      </button>
+    } @else {
+      <button type="button" (click)="handleUserNavigation()" class="flex flex-col items-center justify-center gap-y-1 border border-slate-700/90 rounded-md p-4 text-purple-500 cursor-pointer hover:bg-neutral-900">
+        <mat-icon>group</mat-icon>
+        <span class="text-slate-400">Check users</span>
+      </button>
+      <button type="button" (click)="handleExcelNavigation()" class="flex flex-col items-center justify-center gap-y-1 border border-slate-700/90 rounded-md p-4 text-purple-500 cursor-pointer hover:bg-neutral-900">
+        <mat-icon>table_view</mat-icon>
+        <span class="text-slate-400">Go to excel page</span>
+      </button>
+    }
+
+    <button type="button" (click)="handleLogNavigation()" class="flex flex-col items-center justify-center gap-y-1 border border-slate-700/90 rounded-md p-4 text-purple-500 cursor-pointer hover:bg-neutral-900">
+      <mat-icon>list_alt</mat-icon>
+      <span class="text-slate-400">Check logs</span>
+    </button>
+  </section>
+</div>
+
+<add-users [visible]="visible" (setVisible)="toggleVisibility($event)" />

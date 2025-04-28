@@ -1,0 +1,6 @@
+<button (click)="toggleVisibility(true)" class="flex flex-row items-center gap-x-2 rounded-md bg-teal-600 p-2 px-4 cursor-pointer hover:bg-teal-700 text-white transition">
+  <mat-icon>person_add</mat-icon>
+  <span>Add New User</span>
+</button>
+
+<add-users [visible]="visible" (setVisible)="toggleVisibility($event)" />

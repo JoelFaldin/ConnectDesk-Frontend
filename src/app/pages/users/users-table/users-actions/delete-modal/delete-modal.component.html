@@ -1,0 +1,15 @@
+<p-toast />
+<p-confirmdialog />
+
+<div class="flex flex-col gap-y-4">
+  <span class="flex flex-row gap-x-4">
+    <mat-icon>warning</mat-icon>
+    <p>Are you sure you want to remove this user?</p>
+  </span>
+
+  <span class="flex flex-row justify-end gap-x-2">
+    <p-button (click)="handleCloseModal()" label="Cancel" severity="secondary" />
+    <p-button (click)="handleDelete()" label="Delete user" severity="danger" />
+  </span>
+</div>
+
