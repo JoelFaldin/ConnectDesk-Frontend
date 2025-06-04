@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
 import { PaginationInterface } from '@interfaces/pagination.interface';
+import { environment } from '../../../environments/environment';
 import { LogsInterface } from '@interfaces/logs.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogsService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
   private logs = new BehaviorSubject<LogsInterface[]>([]);
