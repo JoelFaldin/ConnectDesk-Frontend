@@ -3,13 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { PaginationInterface } from '@interfaces/pagination.interface';
+import { environment } from '../../../environments/environment';
 import { UpdateUser, User } from '@interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private jwt = localStorage.getItem('token') ?? '';
 
@@ -63,7 +64,7 @@ export class UserService {
 
   // Interact with backend:
   getUserData(searchValue: string = '', searchColumn: string = '', page: number = 1, pageSize: number = 5) {
-    return this.http.get(`${this.apiUrl}/users?searchValue=${searchValue}&searchColumn=${searchColumn}&page=${page}&pageSize=${pageSize}`)
+    return this.http.get(`${this.apiUrl}/users?searchValue=${searchValue}&page=${page}&pageSize=${pageSize}`)
   }
 
   createUser(newUser: User) {
