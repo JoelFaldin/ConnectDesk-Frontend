@@ -24,7 +24,8 @@ export class ExcelService {
     return this.http.get(`${this.apiUrl}/excel/template`, {
       responseType: 'blob',
       headers: {
-        Authorization: `Bearer ${this.jwt}`
+        Authorization: `Bearer ${this.jwt}`,
+        Accept: "*/*",
       }
     });
   }

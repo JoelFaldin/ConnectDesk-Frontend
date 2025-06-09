@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   checkBackendConnection() {
-    return this.http.get(`${this.apiUrl}/auth/ping`);
+    return this.http.get(`${this.apiUrl}/health`);
   }
 
   //Methods to save and retrieve user data from localStorage:
