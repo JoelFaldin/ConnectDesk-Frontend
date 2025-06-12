@@ -37,7 +37,7 @@ export class EditModalComponent {
 
       this.form.patchValue({
         names: user?.names,
-        lastNames: user?.lastNames,
+        lastNames: user?.lastnames,
         rut: user?.rut,
         email: user?.email,
         jobNumber: user?.jobNumber,

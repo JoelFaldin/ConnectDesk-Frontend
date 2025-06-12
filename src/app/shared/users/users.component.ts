@@ -44,7 +44,7 @@ export class AddUsersComponent {
 
     const payload: CreateUserInterface = {
       names: raw.names!,
-      lastNames: raw.lastNames!,
+      lastnames: raw.lastNames!,
       rut: raw.rut!,
       email: raw.email!,
       role: raw.role!,

@@ -1,7 +1,7 @@
 export interface User {
   rut: string,
   names: string,
-  lastNames: string,
+  lastnames: string,
   email: string,
   role: string,
   departments: string,
