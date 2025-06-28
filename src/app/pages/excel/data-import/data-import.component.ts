@@ -1,15 +1,13 @@
 import { MatIconModule } from '@angular/material/icon';
 import { FileUploadModule } from 'primeng/fileupload';
-
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { ExcelService } from '@services/excel.service';
 import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'data-import',
-  imports: [CommonModule, FileUploadModule, MatIconModule],
+  imports: [FileUploadModule, MatIconModule],
   templateUrl: './data-import.component.html',
 })
 export class DataImportComponent {

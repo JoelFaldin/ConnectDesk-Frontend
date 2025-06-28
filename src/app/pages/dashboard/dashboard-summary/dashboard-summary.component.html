@@ -55,17 +55,17 @@
   </div>
 
   <div class="bg-black border border-slate-700/60 rounded-lg p-4 flex flex-col space-y-2">
-    <span class="flex flex-row justify-between" [class.text-green-500]="excelSummary().success" [class.text-yellow-500]="!excelSummary().success">
+    <span class="flex flex-row justify-between" [class.text-green-500]="excelSummary().successCount !== null" [class.text-yellow-500]="!excelSummary().successCount !== null">
       <p class="text-sm text-slate-400">Excel Import/Export</p>
-      @if (excelSummary().success) {
+      @if (excelSummary().successCount !== null) {
         <mat-icon>check_circle_outline</mat-icon>
       } @else {
         <mat-icon>warning_outline</mat-icon>
       }
     </span>
-    @if (excelSummary().success) {
-      <span class="text-lg text-green-500 font-bold">{{ excelSummary().success }} completed!</span>
-      <span class="text-sm text-red-500">{{ excelSummary().error }} failures</span>
+    @if (excelSummary().successCount !== null) {
+      <span class="text-lg text-green-500 font-bold">{{ excelSummary().successCount }} completed!</span>
+      <span class="text-sm text-red-500">{{ excelSummary().errorCount }} failures</span>
     } @else {
       <span class="text-lg font-bold">-</span>
       <span class="text-sm text-slate-400">Excel service not working.</span>

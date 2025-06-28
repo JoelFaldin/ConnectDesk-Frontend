@@ -33,15 +33,15 @@ export class DashboardSummaryComponent {
     .pipe(
       map((res: any) => {
         return {
-          success: res.successCount,
-          error: res.errorCount,
+          successCount: res.successCount,
+          errorCount: res.errorCount,
         }
       }),
     ),
     {
       initialValue: {
-        success: 0,
-        error: 0,
+        successCount: 0,
+        errorCount: 0,
       }
     })
 }

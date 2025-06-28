@@ -1,7 +1,5 @@
-import { TableModule } from 'primeng/table';
-
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { TableModule } from 'primeng/table';
 
 import { UsersActionsComponent } from './users-actions/users-actions.component';
 import { UsersSearchComponent } from './users-search/users-search.component';
@@ -15,7 +13,7 @@ import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'users-table',
-  imports: [TableModule, CommonModule, UsersSearchComponent, UsersResetComponent, UsersAddComponent, UsersActionsComponent],
+  imports: [TableModule, UsersSearchComponent, UsersResetComponent, UsersAddComponent, UsersActionsComponent],
   templateUrl: './users-table.component.html',
 })
 export class UsersTableComponent implements OnInit {
