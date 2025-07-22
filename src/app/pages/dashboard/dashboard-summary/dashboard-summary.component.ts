@@ -1,7 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 
@@ -15,17 +14,24 @@ import { AuthService } from '@services/auth.service';
   imports: [MatIconModule],
   templateUrl: './dashboard-summary.component.html',
 })
-export class DashboardSummaryComponent implements OnInit {
+export class DashboardSummaryComponent {
   userService = inject(UserService);
   userCount = toSignal(this.userService.getSummary(), { initialValue: 0 });
 
   logsService = inject(LogsService);
   logsCount = toSignal(this.logsService.getSummary(), { initialValue: 0 });
 
-  constructor(private router: Router) { }
+  router = inject(Router);
 
   authService = inject(AuthService);
-  backendStatus = 0;
+  backendStatus = toSignal(this.authService.checkBackendConnection()
+    .pipe(
+      map((res: any) => {
+        return res.status
+      }),
+    )
+    , { initialValue: false }
+  );
 
   excelService = inject(ExcelService);
   excelSummary = toSignal(this.excelService.getSummary()
@@ -43,19 +49,4 @@ export class DashboardSummaryComponent implements OnInit {
         errorCount: 0,
       }
     })
-
-  ngOnInit() {
-    this.authService.checkBackendConnection().subscribe({
-      next: (res) => {
-        this.backendStatus = res.status;
-      },
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.router.navigate(['/login']);
-        } else {
-          console.log("backend error: ", error);
-        }
-      }
-    })
-  }
 }

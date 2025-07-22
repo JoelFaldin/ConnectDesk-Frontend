@@ -34,6 +34,8 @@ export class AuthService {
 
   //Methods to save and retrieve user data from localStorage:
   setSession(res: LoginResponsePayload) {
+    localStorage.clear();
+
     localStorage.setItem('token', res.token);
     localStorage.setItem('user', JSON.stringify({
       names: res.names,

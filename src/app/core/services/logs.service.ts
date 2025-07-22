@@ -41,7 +41,11 @@ export class LogsService {
 
   // Interact with backend:
   getByCode(statusCode: number = 1, page: number = 0, pageSize: number = 10) {
-    return this.http.get(`${this.apiUrl}/logs/${statusCode}?page=${page}&pageSize=${pageSize}`);
+    return this.http.get(`${this.apiUrl}/logs/${statusCode}?page=${page}&pageSize=${pageSize}`, {
+      headers: {
+        "Authorization": `Bearer ${this.authService.getToken()}`
+      }
+    });
   }
 
   getSummary() {

@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 
-import { authGuard } from './auth.guard';
+import { authGuard, checkBackendGuard } from './auth.guard';
 import LayoutComponent from './pages/layout-component.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivateChild: [authGuard],
+    canActivateChild: [authGuard, checkBackendGuard],
     children: [
       {
         path: '',

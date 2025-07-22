@@ -1,9 +1,7 @@
 import { SelectButtonModule } from 'primeng/selectbutton';
 
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { DataImportComponent } from './data-import/data-import.component';
 import { DataExportComponent } from './data-export/data-export.component';
@@ -16,7 +14,7 @@ import { UserRole } from '@interfaces/auth-payload.interface';
   templateUrl: './excel.component.html',
 })
 export default class ExcelComponent {
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService) { }
 
   role: UserRole = UserRole.USER;
   value = signal(1);
@@ -26,15 +24,6 @@ export default class ExcelComponent {
   ];
 
   ngOnInit() {
-    this.authService.checkBackendConnection().subscribe({
-      next: () => { },
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.router.navigate(['/login'])
-        }
-      }
-    })
-
     this.role = this.authService.getRole();
 
     if (this.role === 'ADMIN') {
