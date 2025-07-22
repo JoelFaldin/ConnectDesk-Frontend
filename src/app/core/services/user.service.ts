@@ -67,13 +67,17 @@ export class UserService {
 
   // Interact with backend:
   getUserData(searchValue: string = '', searchColumn: string = '', page: number = 1, pageSize: number = 5) {
-    return this.http.get(`${this.apiUrl}/users?searchValue=${searchValue}&page=${page}&pageSize=${pageSize}`)
+    return this.http.get(`${this.apiUrl}/users?searchValue=${searchValue}&page=${page}&pageSize=${pageSize}`, {
+      headers: {
+        "Authorization": `Bearer ${this.authService.getToken()}`
+      }
+    })
   }
 
   createUser(newUser: User) {
     return this.http.post(`${this.apiUrl}/users`, newUser, {
       headers: {
-        Authorization: `Bearer ${this.jwt}`
+        Authorization: `Bearer ${this.authService.getToken()}`
       }
     });
   }
@@ -83,7 +87,7 @@ export class UserService {
       values: updatedValues,
     }, {
       headers: {
-        Authorization: `Bearer ${this.jwt}`
+        Authorization: `Bearer ${this.authService.getToken()}`
       }
     })
   }
@@ -91,7 +95,7 @@ export class UserService {
   deleteUser(rut: string) {
     return this.http.delete(`${this.apiUrl}/users/${rut}`, {
       headers: {
-        Authorization: `Bearer ${this.jwt}`
+        Authorization: `Bearer ${this.authService.getToken()}`
       }
     });
   }
