@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { PaginationInterface } from '@interfaces/pagination.interface';
 import { environment } from '../../../environments/environment';
 import { LogsInterface } from '@interfaces/logs.interface';
+import { AuthService } from "@services/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ import { LogsInterface } from '@interfaces/logs.interface';
 export class LogsService {
   private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
+
+  private authService = inject(AuthService);
 
   private logs = new BehaviorSubject<LogsInterface[]>([]);
   logsData$ = this.logs.asObservable();
@@ -42,10 +45,18 @@ export class LogsService {
   }
 
   getSummary() {
-    return this.http.get(`${this.apiUrl}/logs/summary`);
+    return this.http.get(`${this.apiUrl}/logs/summary`, {
+      headers: {
+        "Authorization": `Bearer ${this.authService.getToken()}`
+      }
+    });
   }
 
   getAllLogs() {
-    return this.http.get(`${this.apiUrl}/logs/all`);
+    return this.http.get(`${this.apiUrl}/logs/all`, {
+      headers: {
+        "Authorization": `Bearer ${this.authService.getToken()}`
+      }
+    });
   }
 }

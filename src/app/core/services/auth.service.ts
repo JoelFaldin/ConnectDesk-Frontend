@@ -24,7 +24,12 @@ export class AuthService {
   }
 
   checkBackendConnection() {
-    return this.http.get(`${this.apiUrl}/health`);
+    return this.http.get(`${this.apiUrl}/health`, {
+      headers: {
+        "Authorization": `Bearer ${this.getToken()}`,
+      },
+      observe: 'response'
+    });
   }
 
   //Methods to save and retrieve user data from localStorage:
@@ -55,6 +60,10 @@ export class AuthService {
   getRole() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user).role : null;
+  }
+
+  getToken() {
+    return localStorage.getItem("token") ?? null;
   }
 
   isLoggedIn() {

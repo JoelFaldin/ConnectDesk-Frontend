@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
+import { AuthService} from '@services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ export class ExcelService {
   private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private jwt = localStorage.getItem('token') ?? '';
+
+  private authService = inject(AuthService);
 
   // Interact with backend:
   uploadExcelFile(formData: FormData) {
@@ -46,6 +49,10 @@ export class ExcelService {
   }
 
   getSummary() {
-    return this.http.get(`${this.apiUrl}/excel/summary`);
+    return this.http.get(`${this.apiUrl}/excel/summary`, {
+      headers: {
+        "Authorization": `Bearer ${this.authService.getToken()}`
+      }
+    });
   }
 }

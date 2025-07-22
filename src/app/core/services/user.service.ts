@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { PaginationInterface } from '@interfaces/pagination.interface';
 import { environment } from '../../../environments/environment';
 import { UpdateUser, User } from '@interfaces/user.interface';
+import { AuthService } from "@services/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class UserService {
   private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private jwt = localStorage.getItem('token') ?? '';
+
+  private authService = inject(AuthService);
 
   private usersSource = new BehaviorSubject<User[]>([]);
   users$ = this.usersSource.asObservable();
@@ -94,6 +97,10 @@ export class UserService {
   }
 
   getSummary() {
-    return this.http.get(`${this.apiUrl}/users/summary`);
+    return this.http.get(`${this.apiUrl}/users/summary`, {
+      headers: {
+        "Authorization": `Bearer ${this.authService.getToken()}`
+      }
+    });
   }
 }
