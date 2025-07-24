@@ -14,7 +14,7 @@
           [class.border]="form.get('email')?.invalid && form.get('email')?.touched"
           [class.border-red-500]="form.get('email')?.invalid && form.get('email')?.touched"
         />
-  
+
         @if (form.get('email')?.invalid && form.get('email')?.touched) {
           <span class="text-red-500 text-[12px]">Field 'email' is required!</span>
         }
@@ -28,15 +28,28 @@
           Forgot password?
         </a>
       </div>
-      <input
-        id="password"
-        type="password"
-        required
-        class="bg-slate-900/50 p-2 w-full text-slate-400"
-        formControlName="password"
-        [class.border]="form.get('password')?.invalid && form.get('password')?.touched"
-        [class.border-red-500]="form.get('password')?.invalid && form.get('password')?.touched"
-      />
+      <div class="relative">
+        <input
+          id="password"
+          [type]="visible()"
+          required
+          class="bg-slate-900/50 p-2 w-full text-slate-400"
+          formControlName="password"
+          [class.border]="form.get('password')?.invalid && form.get('password')?.touched"
+          [class.border-red-500]="form.get('password')?.invalid && form.get('password')?.touched"
+        />
+        <button
+          type="button"
+          class="absolute inset-y-0 right-0 pr-3 flex items-center z-10 cursor-pointer"
+          (click)="handleShowPassword()"
+        >
+          @if (visible() === "password") {
+            <mat-icon>visibility</mat-icon>
+          } @else {
+            <mat-icon>visibility_off</mat-icon>
+          }
+        </button>
+      </div>
 
       @if (form.get('password')?.invalid && form.get('password')?.touched) {
         <span class="text-red-500 text-[12px]">Remember to input your password!</span>

@@ -1,7 +1,8 @@
 import { ButtonModule } from 'primeng/button';
 
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 import type { LoginPayload, LoginResponsePayload } from '@interfaces/auth-payload.interface';
@@ -10,7 +11,7 @@ import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'login-form',
-  imports: [ReactiveFormsModule, ButtonModule],
+  imports: [ReactiveFormsModule, ButtonModule, MatIconModule],
   templateUrl: './login-form.component.html',
 })
 export class LoginFormComponent {
@@ -22,6 +23,16 @@ export class LoginFormComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl(''),
   })
+
+  visible = signal("password");
+
+  handleShowPassword() {
+    if (this.visible() === "password") {
+      this.visible.set("text");
+    } else {
+      this.visible.set("password");
+    }
+  }
 
   async handleLogin() {
     if (this.form.invalid) {

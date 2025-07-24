@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
-import { AuthService} from '@services/auth.service';
+import { AuthService } from '@services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,6 @@ import { AuthService} from '@services/auth.service';
 export class ExcelService {
   private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
-  private jwt = localStorage.getItem('token') ?? '';
 
   private authService = inject(AuthService);
 
@@ -18,7 +17,7 @@ export class ExcelService {
   uploadExcelFile(formData: FormData) {
     return this.http.post(`${this.apiUrl}/excel/upload`, formData, {
       headers: {
-        Authorization: `Bearer ${this.jwt}`
+        Authorization: `Bearer ${this.authService.getToken()}`
       }
     })
   }
@@ -27,7 +26,7 @@ export class ExcelService {
     return this.http.get(`${this.apiUrl}/excel/template`, {
       responseType: 'blob',
       headers: {
-        Authorization: `Bearer ${this.jwt}`,
+        Authorization: `Bearer ${this.authService.getToken()}`,
         Accept: "*/*",
       }
     });
@@ -36,6 +35,9 @@ export class ExcelService {
   downloadUserData() {
     return this.http.get(`${this.apiUrl}/excel/download`, {
       responseType: 'blob',
+      headers: {
+        "Authorization": `Bearer ${this.authService.getToken()}`
+      }
     })
   }
 
@@ -43,7 +45,7 @@ export class ExcelService {
     return this.http.get(`${this.apiUrl}/excel/download/logs`, {
       responseType: 'blob',
       headers: {
-        Authorization: `Bearer ${this.jwt}`
+        "Authorization": `Bearer ${this.authService.getToken()}`
       }
     })
   }
