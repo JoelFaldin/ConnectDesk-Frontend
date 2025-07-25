@@ -3,8 +3,9 @@ import { ButtonModule } from 'primeng/button';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { UserService } from '@services/user.service';
 import { UpdateUser, User } from '@interfaces/user.interface';
+import { UserService } from '@services/user.service';
+import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'edit-modal',
@@ -13,6 +14,8 @@ import { UpdateUser, User } from '@interfaces/user.interface';
 })
 export class EditModalComponent {
   userService = inject(UserService);
+  toastService = inject(ToastService);
+
   @Input() userRut: string = '';
   @Output() closeModal = new EventEmitter();
 
@@ -71,13 +74,14 @@ export class EditModalComponent {
 
     Object.keys(updateFields).forEach(key => {
       fields.push({
-        columnName: key,
+        column: key,
         value: updateFields[key]
       })
     })
 
     this.userService.updateUser(this.originalUser.rut!, fields).subscribe(res => {
       console.log(res);
+      this.toastService.success("User updated!", "The user has successfully been updated!")
     });
 
     this.userService.updateUserArray(this.originalUser.rut!, updateFields);

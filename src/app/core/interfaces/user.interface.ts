@@ -20,7 +20,7 @@ export interface UserDataResponse {
 }
 
 export interface UpdateUser {
-  columnName: string;
+  column: string;
   value: string;
 }
 

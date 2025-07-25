@@ -13,7 +13,6 @@ import { AuthService } from "@services/auth.service";
 export class UserService {
   private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
-  private jwt = localStorage.getItem('token') ?? '';
 
   private authService = inject(AuthService);
 
@@ -77,7 +76,7 @@ export class UserService {
   createUser(newUser: User) {
     return this.http.post(`${this.apiUrl}/users`, newUser, {
       headers: {
-        Authorization: `Bearer ${this.authService.getToken()}`
+        "Authorization": `Bearer ${this.authService.getToken()}`
       }
     });
   }
@@ -87,7 +86,7 @@ export class UserService {
       values: updatedValues,
     }, {
       headers: {
-        Authorization: `Bearer ${this.authService.getToken()}`
+        "Authorization": `Bearer ${this.authService.getToken()}`
       }
     })
   }
