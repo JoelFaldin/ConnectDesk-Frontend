@@ -1,35 +1,32 @@
 import { ButtonModule } from 'primeng/button';
 
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { UserService } from '@services/user.service';
-import { User } from '@interfaces/user.interface';
 
 @Component({
   selector: 'reset-modal',
   imports: [ReactiveFormsModule, ButtonModule],
   templateUrl: './reset-modal.component.html',
 })
-export class ResetModalComponent implements OnInit {
+export class ResetModalComponent {
   userService = inject(UserService);
 
   @Input() userRut: any;
-  user: User | undefined;
+  @Output() closeModal = new EventEmitter();
 
   form = new FormGroup({
     newPassword: new FormControl('', Validators.required),
     repeatPassword: new FormControl('', Validators.required),
   })
 
-  ngOnInit(): void {
-    this.userService.getSingleUser(this.userRut).subscribe(user => {
-      this.user = user;
-    })
-  }
-
   handleResetPassword() {
     console.log('aaa');
     console.log(this.form.value)
+  }
+
+  handleCloseModal() {
+    this.closeModal.emit();
   }
 }
