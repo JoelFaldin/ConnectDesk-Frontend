@@ -1,1 +1,31 @@
-<p>reset-modal works!</p>
+<span class="text-slate-600 text-sm my-4">Reset the password for {{ user?.names }}</span>
+
+<form [formGroup]="form" (ngSubmit)="handleResetPassword()" class="space-y-4">
+  <span class="flex flex-col space-y-2">
+    <label for="newPassword" class="w-fit">New Password</label>
+    <input pInputText id="newPassword"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md placeholder-slate-400" autocomplete="off"
+      placeholder="Enter the new password" formControlName="newPassword" />
+  </span>
+
+  <span class="flex flex-col space-y-2">
+    <label for="repeatPassword" class="w-fit">Repeat Password</label>
+    <input pInputText id="repeatPassword"
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md placeholder-slate-400" autocomplete="off"
+      placeholder="Confirm new password" formControlName="repeatPassword" />
+  </span>
+
+  <span class="flex flex-row space-x-4">
+    <input type="checkbox" id="sendEmail" />
+
+    <div>
+      <label for="sendEmail" class="text-sm font-medium">Send confirmation email</label>
+      <p class="text-sm text-slate-400">The user will receive an email with their new password</p>
+    </div>
+  </span>
+
+  <section class="flex flex-row justify-end space-x-4">
+    <p-button label="Cancel" severity="secondary" />
+    <p-button label="Reset Password" (click)="handleResetPassword()" />
+  </section>
+</form>
