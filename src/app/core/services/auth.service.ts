@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
 import { RegisterPayload, LoginPayload, LoginResponsePayload } from '@interfaces/auth-payload.interface';
+import { ResetPasswordInterface } from '@interfaces/user.interface';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -29,6 +30,14 @@ export class AuthService {
         "Authorization": `Bearer ${this.getToken()}`,
       },
       observe: 'response'
+    });
+  }
+
+  resetPassword(resetPassword: ResetPasswordInterface) {
+    return this.http.post(`${this.apiUrl}/reset`, resetPassword, {
+      headers: {
+        "Authorization": `Bearer ${this.getToken()}`
+      }
     });
   }
 

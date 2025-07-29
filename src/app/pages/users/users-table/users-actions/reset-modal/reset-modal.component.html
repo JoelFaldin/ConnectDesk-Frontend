@@ -1,27 +1,33 @@
-<form [formGroup]="form" (ngSubmit)="handleResetPassword()" class="space-y-4">
-  <span class="flex flex-col space-y-2">
+<form [formGroup]="form" (ngSubmit)="handleResetPassword()" class="space-y-6">
+  <span class="flex flex-col">
     <label for="newPassword" class="w-fit">New Password</label>
     <input pInputText id="newPassword" type="password"
-      class="flex-auto px-2 py-1 border border-slate-600 rounded-md placeholder-slate-400 mb-1" autocomplete="off"
-      placeholder="Enter the new password" formControlName="newPassword" />
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md placeholder-slate-400" autocomplete="off"
+      placeholder="Enter the new password" formControlName="newPassword" (input)="resetPasswordError()" />
 
     @if (newPassword?.hasError('required') && newPassword?.touched) {
     <p class="text-red-600 text-sm">New password should be provided!</p>
     }
   </span>
 
-  <span class="flex flex-col space-y-2">
+  <span class="flex flex-col">
     <label for="repeatPassword" class="w-fit">Repeat Password</label>
     <input pInputText id="repeatPassword" type="password"
-      class="flex-auto px-2 py-1 border border-slate-600 rounded-md placeholder-slate-400 mb-1" autocomplete="off"
-      placeholder="Confirm new password" formControlName="repeatPassword" />
+      class="flex-auto px-2 py-1 border border-slate-600 rounded-md placeholder-slate-400" autocomplete="off"
+      placeholder="Confirm new password" formControlName="repeatPassword" (input)="this.resetPasswordError()" />
 
     @if (repeatPassword?.hasError('required') && repeatPassword?.touched) {
     <p class="text-red-600 text-sm">Please repeat the password!</p>
     }
   </span>
 
-  <span class="flex flex-row space-x-4">
+  @if (passwordError()) {
+    <span class="text-red-600 text-sm">
+      <p>{{passwordError()}}</p>
+    </span>
+  }
+
+  <span class="flex flex-row space-x-4 mt-6">
     <input type="checkbox" id="sendEmail" formControlName="sendEmail" />
 
     <div>

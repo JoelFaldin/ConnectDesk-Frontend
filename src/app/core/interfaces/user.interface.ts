@@ -27,3 +27,8 @@ export interface UpdateUser {
 export interface CreateUserInterface extends User {
   password: string,
 }
+
+export interface ResetPasswordInterface {
+  newPassword: string;
+  sendEmail: boolean;
+}
