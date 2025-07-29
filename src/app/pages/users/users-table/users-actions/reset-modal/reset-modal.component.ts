@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 
 import { AuthService } from '@services/auth.service';
+import { ResetPasswordInterface } from '@interfaces/user.interface';
 
 @Component({
   selector: 'reset-modal',
@@ -40,7 +41,16 @@ export class ResetModalComponent {
       return;
     }
 
-    // this.authService.resetPassword(this.form.value)
+    const raw = this.form.getRawValue();
+
+    const payload: ResetPasswordInterface = {
+      newPassword: raw.newPassword!,
+      sendEmail: raw.sendEmail!,
+    }
+
+    this.authService.resetPassword(this.userRut, payload).subscribe(res => {
+      console.log(res);
+    })
   }
 
   resetState() {

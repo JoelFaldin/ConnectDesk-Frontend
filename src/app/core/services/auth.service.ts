@@ -33,8 +33,8 @@ export class AuthService {
     });
   }
 
-  resetPassword(resetPassword: ResetPasswordInterface) {
-    return this.http.post(`${this.apiUrl}/reset`, resetPassword, {
+  resetPassword(userRut: string, resetPassword: ResetPasswordInterface) {
+    return this.http.post(`${this.apiUrl}/auth/reset/${userRut}`, resetPassword, {
       headers: {
         "Authorization": `Bearer ${this.getToken()}`
       }
