@@ -30,16 +30,16 @@
   }
 
   @if (role === 'ADMIN') {
-    <p-dialog header="Edit user" [draggable]="false" [(visible)]="editDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-      <edit-modal [userRut]="this.userRut" (closeModal)="onCloseEditModal()" />
+    <p-dialog header="Edit user" [draggable]="false" [(visible)]="editDialogVisible" [modal]="true" (onHide)="handleEditDialogClose()" [style]="{ width: '25rem' }">
+      <edit-modal [userRut]="this.userRut" (closeModal)="handleEditDialogClose()" />
     </p-dialog>
 
-    <p-dialog header="Reset password" [draggable]="false" [(visible)]="resetDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-      <reset-modal [userRut]="this.userRut" (closeModal)="onCloseResetModal()" />
+    <p-dialog header="Reset password" [draggable]="false" [(visible)]="resetDialogVisible" [modal]="true" (onHide)="handleResetDialogClose()" [style]="{ width: '25rem' }">
+      <reset-modal [userRut]="this.userRut" (closeModal)="handleResetDialogClose()" />
     </p-dialog>
 
     <p-dialog header="Delete user" [draggable]="false" [(visible)]="deleteDialogVisible" [modal]="true" [style]="{ width: '25rem' }">
-      <delete-modal [userRut]="this.userRut" (closeModal)="onCloseDeleteModal()" />
+      <delete-modal [userRut]="this.userRut" (closeModal)="handleDeleteModalClose()" />
     </p-dialog>
   }
   </div>

@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal, WritableSignal } from '@angular/core';
+import { Component, inject, Input, signal, ViewChild, WritableSignal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -22,6 +22,9 @@ export class UsersActionsComponent {
 
   menuItems: MenuItem[] = [];
   @Input() userRut: string = '';
+
+  @ViewChild(EditModalComponent) editModal!: EditModalComponent;
+  @ViewChild(ResetModalComponent) resetModal!: ResetModalComponent;
 
   editDialogVisible: WritableSignal<boolean> = signal(false);
   resetDialogVisible: WritableSignal<boolean> = signal(false);
@@ -68,15 +71,19 @@ export class UsersActionsComponent {
     this.deleteDialogVisible.set(true);
   }
 
-  onCloseEditModal() {
+  handleEditDialogClose() {
+    this.editModal?.resetState?.();
+
     this.editDialogVisible.set(false);
   }
 
-  onCloseResetModal() {
+  handleResetDialogClose() {
+    this.resetModal?.resetState?.();
+
     this.resetDialogVisible.set(false);
   }
 
-  onCloseDeleteModal() {
+  handleDeleteModalClose() {
     this.deleteDialogVisible.set(false);
   }
 }

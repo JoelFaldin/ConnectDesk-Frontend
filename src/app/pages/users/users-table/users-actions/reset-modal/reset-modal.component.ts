@@ -43,7 +43,19 @@ export class ResetModalComponent {
     // this.authService.resetPassword(this.form.value)
   }
 
+  resetState() {
+    this.form.reset({
+      newPassword: '',
+      repeatPassword: '',
+      sendEmail: false,
+    });
+
+    this.passwordError.set("");
+  }
+
   handleCloseModal() {
+    this.resetState();
+
     this.closeModal.emit();
   }
 

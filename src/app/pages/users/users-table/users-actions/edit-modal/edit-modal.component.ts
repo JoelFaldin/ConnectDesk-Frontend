@@ -89,7 +89,22 @@ export class EditModalComponent {
     this.closeModal.emit();
   }
 
+  resetState() {
+    this.form.reset({
+      names: this.user?.names,
+      lastNames: this.user?.lastnames,
+      rut: this.user?.rut,
+      email: this.user?.email,
+      jobNumber: this.user?.jobNumber,
+      contact: this.user?.contact,
+      departments: this.user?.departments,
+      directions: this.user?.directions,
+    })
+  }
+
   handleCloseModal() {
+    this.resetState();
+
     this.closeModal.emit();
   }
 }
