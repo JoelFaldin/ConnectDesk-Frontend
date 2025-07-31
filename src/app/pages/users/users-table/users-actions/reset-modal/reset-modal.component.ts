@@ -3,8 +3,9 @@ import { ButtonModule } from 'primeng/button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 
-import { AuthService } from '@services/auth.service';
 import { ResetPasswordInterface } from '@interfaces/user.interface';
+import { AuthService } from '@services/auth.service';
+import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'reset-modal',
@@ -13,6 +14,7 @@ import { ResetPasswordInterface } from '@interfaces/user.interface';
 })
 export class ResetModalComponent {
   authService = inject(AuthService);
+  toast = inject(ToastService);
 
   @Input() userRut: any;
   @Output() closeModal = new EventEmitter();
@@ -49,7 +51,11 @@ export class ResetModalComponent {
     }
 
     this.authService.resetPassword(this.userRut, payload).subscribe(res => {
-      console.log(res);
+      this.resetState();
+
+      this.toast.success("Password updated!", "User password has been updated.");
+
+      this.closeModal.emit();
     })
   }
 
