@@ -1,16 +1,28 @@
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from "primeng/button";
 
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  signal,
+} from "@angular/core";
 
-import { ResetPasswordInterface } from '@interfaces/user.interface';
-import { AuthService } from '@services/auth.service';
-import { ToastService } from '@services/toast.service';
+import { ResetPasswordInterface } from "@interfaces/user.interface";
+import { AuthService } from "@services/auth.service";
+import { ToastService } from "@services/toast.service";
 
 @Component({
-  selector: 'reset-modal',
+  selector: "reset-modal",
   imports: [ReactiveFormsModule, ButtonModule],
-  templateUrl: './reset-modal.component.html',
+  templateUrl: "./reset-modal.component.html",
 })
 export class ResetModalComponent {
   authService = inject(AuthService);
@@ -22,10 +34,10 @@ export class ResetModalComponent {
   passwordError = signal("");
 
   form = new FormGroup({
-    newPassword: new FormControl('', Validators.required),
-    repeatPassword: new FormControl('', Validators.required),
+    newPassword: new FormControl("", Validators.required),
+    repeatPassword: new FormControl("", Validators.required),
     sendEmail: new FormControl(false, Validators.required),
-  })
+  });
 
   handleResetPassword() {
     this.passwordError.set("");
@@ -39,7 +51,9 @@ export class ResetModalComponent {
     const repeatPassword = this.form.value.repeatPassword;
 
     if (newPassword !== repeatPassword) {
-      this.passwordError.set("Passwords do not match. Ensure both password fields are identical.");
+      this.passwordError.set(
+        "Passwords do not match. Ensure both password fields are identical.",
+      );
       return;
     }
 
@@ -48,21 +62,24 @@ export class ResetModalComponent {
     const payload: ResetPasswordInterface = {
       newPassword: raw.newPassword!,
       sendEmail: raw.sendEmail!,
-    }
+    };
 
-    this.authService.resetPassword(this.userRut, payload).subscribe(res => {
+    this.authService.resetPassword(this.userRut, payload).subscribe((res) => {
       this.resetState();
 
-      this.toast.success("Password updated!", "User password has been updated.");
+      this.toast.success(
+        "Password updated!",
+        "User password has been updated.",
+      );
 
       this.closeModal.emit();
-    })
+    });
   }
 
   resetState() {
     this.form.reset({
-      newPassword: '',
-      repeatPassword: '',
+      newPassword: "",
+      repeatPassword: "",
       sendEmail: false,
     });
 
@@ -80,7 +97,7 @@ export class ResetModalComponent {
   }
 
   get repeatPassword() {
-    return this.form.get("repeatPassword")
+    return this.form.get("repeatPassword");
   }
 
   resetPasswordError() {

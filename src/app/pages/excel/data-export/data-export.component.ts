@@ -1,15 +1,15 @@
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from "@angular/material/icon";
 
-import { Component, inject } from '@angular/core';
+import { Component, inject } from "@angular/core";
 
-import { UserRole } from '@interfaces/auth-payload.interface';
-import { ExcelService } from '@services/excel.service';
-import { AuthService } from '@services/auth.service';
+import { UserRole } from "@interfaces/auth-payload.interface";
+import { ExcelService } from "@services/excel.service";
+import { AuthService } from "@services/auth.service";
 
 @Component({
-  selector: 'data-export',
+  selector: "data-export",
   imports: [MatIconModule],
-  templateUrl: './data-export.component.html',
+  templateUrl: "./data-export.component.html",
 })
 export class DataExportComponent {
   excelService = inject(ExcelService);
@@ -22,12 +22,12 @@ export class DataExportComponent {
   }
 
   handleDownloadUserData() {
-    this.excelService.downloadUserData().subscribe(blob => {
+    this.excelService.downloadUserData().subscribe((blob) => {
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
 
       a.href = url;
-      a.download = 'userdata.xlsx';
+      a.download = "userdata.xlsx";
       a.click();
 
       window.URL.revokeObjectURL(url);
@@ -35,15 +35,15 @@ export class DataExportComponent {
   }
 
   handleDownloadLogs() {
-    this.excelService.downloadLogsData().subscribe(blob => {
+    this.excelService.downloadLogsData().subscribe((blob) => {
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
 
       a.href = url;
-      a.download = 'logsdata.xlsx';
+      a.download = "logsdata.xlsx";
       a.click();
 
       window.URL.revokeObjectURL(url);
-    })
+    });
   }
 }

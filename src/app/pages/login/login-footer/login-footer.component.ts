@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: 'login-footer',
+  selector: "login-footer",
   imports: [RouterLink],
-  templateUrl: './login-footer.component.html',
+  templateUrl: "./login-footer.component.html",
 })
-export class LoginFooterComponent { }
+export class LoginFooterComponent {}

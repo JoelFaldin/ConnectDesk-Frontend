@@ -1,15 +1,15 @@
-import { SelectButtonModule } from 'primeng/selectbutton';
+import { SelectButtonModule } from "primeng/selectbutton";
 
-import { Component, signal, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, signal, inject } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
-import { ToastService } from '@services/toast.service';
-import { LogsService } from '@services/logs.service';
+import { ToastService } from "@services/toast.service";
+import { LogsService } from "@services/logs.service";
 
 @Component({
-  selector: 'table-select',
+  selector: "table-select",
   imports: [FormsModule, SelectButtonModule],
-  templateUrl: './table-select.component.html',
+  templateUrl: "./table-select.component.html",
 })
 export class TableSelectComponent {
   logService = inject(LogsService);
@@ -18,16 +18,16 @@ export class TableSelectComponent {
   statusSelector = signal(1);
 
   selectOptions = [
-    { name: 'All Logs', value: 1 },
-    { name: 'Success', value: 201 },
-    { name: 'Ok', value: 200 },
-    { name: 'Warning', value: 401 },
-    { name: 'Error', value: 400 },
+    { name: "All Logs", value: 1 },
+    { name: "Success", value: 201 },
+    { name: "Ok", value: 200 },
+    { name: "Warning", value: 401 },
+    { name: "Error", value: 400 },
   ];
 
   onSelectChange(event: any) {
     if (!event.value) {
-      return
+      return;
     }
 
     this.logService.getByCode(event.value).subscribe({
@@ -42,7 +42,11 @@ export class TableSelectComponent {
         });
       },
       error: (error) => {
-        this.toast.error('Error', error.error.message ?? 'There was a problem with the server, try again later.');
+        this.toast.error(
+          "Error",
+          error.error.message ??
+            "There was a problem with the server, try again later.",
+        );
         // console.error(error);
       },
     });

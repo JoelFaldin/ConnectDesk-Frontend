@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: 'register-footer',
+  selector: "register-footer",
   imports: [RouterLink],
-  templateUrl: './register-footer.component.html',
+  templateUrl: "./register-footer.component.html",
 })
-export class RegisterFooterComponent { }
+export class RegisterFooterComponent {}

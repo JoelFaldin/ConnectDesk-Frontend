@@ -1,14 +1,14 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject } from "rxjs";
 
-import { PaginationInterface } from '@interfaces/pagination.interface';
-import { environment } from '../../../environments/environment';
-import { LogsInterface } from '@interfaces/logs.interface';
+import { PaginationInterface } from "@interfaces/pagination.interface";
+import { environment } from "../../../environments/environment";
+import { LogsInterface } from "@interfaces/logs.interface";
 import { AuthService } from "@services/auth.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class LogsService {
   private apiUrl = environment.apiUrl;
@@ -27,7 +27,7 @@ export class LogsService {
     this.page.next({
       ...this.page.getValue(),
       ...pageData,
-    })
+    });
   }
 
   getPagination() {
@@ -41,26 +41,29 @@ export class LogsService {
 
   // Interact with backend:
   getByCode(statusCode: number = 1, page: number = 0, pageSize: number = 10) {
-    return this.http.get(`${this.apiUrl}/logs/${statusCode}?page=${page}&pageSize=${pageSize}`, {
-      headers: {
-        "Authorization": `Bearer ${this.authService.getToken()}`
-      }
-    });
+    return this.http.get(
+      `${this.apiUrl}/logs/${statusCode}?page=${page}&pageSize=${pageSize}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()}`,
+        },
+      },
+    );
   }
 
   getSummary() {
     return this.http.get(`${this.apiUrl}/logs/summary`, {
       headers: {
-        "Authorization": `Bearer ${this.authService.getToken()}`
-      }
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
     });
   }
 
   getAllLogs() {
     return this.http.get(`${this.apiUrl}/logs/all`, {
       headers: {
-        "Authorization": `Bearer ${this.authService.getToken()}`
-      }
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
     });
   }
 }

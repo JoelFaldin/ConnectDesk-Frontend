@@ -1,13 +1,13 @@
 export interface User {
-  rut: string,
-  names: string,
-  lastnames: string,
-  email: string,
-  role: string,
-  departments: string,
-  directions: string,
-  jobNumber: string,
-  contact: string,
+  rut: string;
+  names: string;
+  lastnames: string;
+  email: string;
+  role: string;
+  departments: string;
+  directions: string;
+  jobNumber: string;
+  contact: string;
 }
 
 export interface UserDataResponse {
@@ -25,7 +25,7 @@ export interface UpdateUser {
 }
 
 export interface CreateUserInterface extends User {
-  password: string,
+  password: string;
 }
 
 export interface ResetPasswordInterface {

@@ -1,14 +1,14 @@
-import { MatIconModule } from '@angular/material/icon';
-import { FileUploadModule } from 'primeng/fileupload';
-import { Component, inject } from '@angular/core';
+import { MatIconModule } from "@angular/material/icon";
+import { FileUploadModule } from "primeng/fileupload";
+import { Component, inject } from "@angular/core";
 
-import { ExcelService } from '@services/excel.service';
-import { ToastService } from '@services/toast.service';
+import { ExcelService } from "@services/excel.service";
+import { ToastService } from "@services/toast.service";
 
 @Component({
-  selector: 'data-import',
+  selector: "data-import",
   imports: [FileUploadModule, MatIconModule],
-  templateUrl: './data-import.component.html',
+  templateUrl: "./data-import.component.html",
 })
 export class DataImportComponent {
   excelService = inject(ExcelService);
@@ -20,17 +20,24 @@ export class DataImportComponent {
     const file = event.files[0];
 
     const formData = new FormData();
-    formData.append('excelFile', file);
+    formData.append("excelFile", file);
 
     this.excelService.uploadExcelFile(formData).subscribe({
       next: (res: any) => {
-        this.toast.success('Success', res.message ?? 'Excel file uploaded successfully!');
+        this.toast.success(
+          "Success",
+          res.message ?? "Excel file uploaded successfully!",
+        );
       },
       error: (error) => {
-        this.toast.error('Error', error.error.message ?? 'There was a problem on the server, try again later.');
+        this.toast.error(
+          "Error",
+          error.error.message ??
+            "There was a problem on the server, try again later.",
+        );
         // console.error(error);
-      }
-    })
+      },
+    });
   }
 
   handleSelect(event: any) {
@@ -38,15 +45,15 @@ export class DataImportComponent {
   }
 
   handleTemplate() {
-    this.excelService.downloadTemplate().subscribe(blob => {
+    this.excelService.downloadTemplate().subscribe((blob) => {
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
 
       a.href = url;
-      a.download = 'template.xlsx';
+      a.download = "template.xlsx";
       a.click();
 
       window.URL.revokeObjectURL(url);
-    })
+    });
   }
 }

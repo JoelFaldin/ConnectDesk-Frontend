@@ -4,8 +4,8 @@ export interface LoginPayload {
 }
 
 export enum UserRole {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
+  USER = "USER",
+  ADMIN = "ADMIN",
 }
 
 export interface LoginResponsePayload {

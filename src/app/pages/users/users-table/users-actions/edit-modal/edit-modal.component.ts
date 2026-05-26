@@ -1,40 +1,48 @@
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from "primeng/button";
 
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, inject, Input, Output } from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 
-import { UpdateUser, User } from '@interfaces/user.interface';
-import { UserService } from '@services/user.service';
-import { ToastService } from '@services/toast.service';
+import { UpdateUser, User } from "@interfaces/user.interface";
+import { UserService } from "@services/user.service";
+import { ToastService } from "@services/toast.service";
 
 @Component({
-  selector: 'edit-modal',
+  selector: "edit-modal",
   imports: [ButtonModule, ReactiveFormsModule],
-  templateUrl: './edit-modal.component.html',
+  templateUrl: "./edit-modal.component.html",
 })
 export class EditModalComponent {
   userService = inject(UserService);
   toastService = inject(ToastService);
 
-  @Input() userRut: string = '';
+  @Input() userRut: string = "";
   @Output() closeModal = new EventEmitter();
 
   user: User | undefined;
   originalUser: Partial<User> = {};
 
   form = new FormGroup({
-    names: new FormControl('', Validators.required),
-    lastNames: new FormControl('', Validators.required),
-    rut: new FormControl('', [Validators.required, Validators.pattern(/^(\d{1,2})\.?(\d{3})\.?(\d{3})\-([kK\d])$/)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    jobNumber: new FormControl('', Validators.required),
-    contact: new FormControl('', Validators.required),
-    departments: new FormControl('', Validators.required),
-    directions: new FormControl('', Validators.required),
-  })
+    names: new FormControl("", Validators.required),
+    lastNames: new FormControl("", Validators.required),
+    rut: new FormControl("", [
+      Validators.required,
+      Validators.pattern(/^(\d{1,2})\.?(\d{3})\.?(\d{3})\-([kK\d])$/),
+    ]),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    jobNumber: new FormControl("", Validators.required),
+    contact: new FormControl("", Validators.required),
+    departments: new FormControl("", Validators.required),
+    directions: new FormControl("", Validators.required),
+  });
 
   ngOnInit() {
-    this.userService.getSingleUser(this.userRut).subscribe(user => {
+    this.userService.getSingleUser(this.userRut).subscribe((user) => {
       this.user = user;
       this.originalUser = { ...user };
 
@@ -47,7 +55,7 @@ export class EditModalComponent {
         contact: user?.contact,
         departments: user?.departments,
         directions: user?.directions,
-      })
+      });
     });
   }
 
@@ -66,23 +74,28 @@ export class EditModalComponent {
     }
 
     if (Object.keys(updateFields).length === 0) {
-      console.log('No changes were made dude');
+      console.log("No changes were made dude");
       return;
     }
 
     const fields: UpdateUser[] = [];
 
-    Object.keys(updateFields).forEach(key => {
+    Object.keys(updateFields).forEach((key) => {
       fields.push({
         column: key,
-        value: updateFields[key]
-      })
-    })
-
-    this.userService.updateUser(this.originalUser.rut!, fields).subscribe(res => {
-      console.log(res);
-      this.toastService.success("User updated!", "The user has successfully been updated!")
+        value: updateFields[key],
+      });
     });
+
+    this.userService
+      .updateUser(this.originalUser.rut!, fields)
+      .subscribe((res) => {
+        console.log(res);
+        this.toastService.success(
+          "User updated!",
+          "The user has successfully been updated!",
+        );
+      });
 
     this.userService.updateUserArray(this.originalUser.rut!, updateFields);
 
@@ -99,7 +112,7 @@ export class EditModalComponent {
       contact: this.user?.contact,
       departments: this.user?.departments,
       directions: this.user?.directions,
-    })
+    });
   }
 
   handleCloseModal() {

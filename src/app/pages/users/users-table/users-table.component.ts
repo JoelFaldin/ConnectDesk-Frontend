@@ -1,20 +1,26 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import { Component, inject, OnInit } from "@angular/core";
+import { TableModule } from "primeng/table";
 
-import { UsersActionsComponent } from './users-actions/users-actions.component';
-import { UsersSearchComponent } from './users-search/users-search.component';
-import { UsersResetComponent } from './users-reset/users-reset.component';
-import type { User, UserDataResponse } from '@interfaces/user.interface';
-import { UsersAddComponent } from './users-add/users-add.component';
-import { UserRole } from '@interfaces/auth-payload.interface';
-import { ToastService } from '@services/toast.service';
-import { UserService } from '@services/user.service';
-import { AuthService } from '@services/auth.service';
+import { UsersActionsComponent } from "./users-actions/users-actions.component";
+import { UsersSearchComponent } from "./users-search/users-search.component";
+import { UsersResetComponent } from "./users-reset/users-reset.component";
+import type { User, UserDataResponse } from "@interfaces/user.interface";
+import { UsersAddComponent } from "./users-add/users-add.component";
+import { UserRole } from "@interfaces/auth-payload.interface";
+import { ToastService } from "@services/toast.service";
+import { UserService } from "@services/user.service";
+import { AuthService } from "@services/auth.service";
 
 @Component({
-  selector: 'users-table',
-  imports: [TableModule, UsersSearchComponent, UsersResetComponent, UsersAddComponent, UsersActionsComponent],
-  templateUrl: './users-table.component.html',
+  selector: "users-table",
+  imports: [
+    TableModule,
+    UsersSearchComponent,
+    UsersResetComponent,
+    UsersAddComponent,
+    UsersActionsComponent,
+  ],
+  templateUrl: "./users-table.component.html",
 })
 export class UsersTableComponent implements OnInit {
   userService = inject(UserService);
@@ -24,14 +30,14 @@ export class UsersTableComponent implements OnInit {
   dataSource: User[] = [];
   role: UserRole = UserRole.USER;
 
-  displayedColumns = ['Name', 'Last Name', 'Email', 'Rut', 'Job Number', '']
+  displayedColumns = ["Name", "Last Name", "Email", "Rut", "Job Number", ""];
 
   ngOnInit() {
     this.role = this.authService.getRole();
 
-    this.userService.users$.subscribe(users => {
+    this.userService.users$.subscribe((users) => {
       this.dataSource = users;
-    })
+    });
 
     this.fetchUsers();
   }
@@ -45,13 +51,17 @@ export class UsersTableComponent implements OnInit {
         this.userService.setPaginationData({
           page: res.page!,
           pageSize: res.showing!,
-          total: res.total!
+          total: res.total!,
         });
       },
       error: (error) => {
-        this.toast.error('Error', error.error.message ?? 'There was a problem with the server, try again later.');
+        this.toast.error(
+          "Error",
+          error.error.message ??
+            "There was a problem with the server, try again later.",
+        );
         // console.error(error);
-      }
-    })
+      },
+    });
   }
 }

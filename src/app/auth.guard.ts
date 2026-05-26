@@ -1,7 +1,7 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '@services/auth.service';
-import { catchError, map, of } from 'rxjs';
+import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
+import { AuthService } from "@services/auth.service";
+import { catchError, map, of } from "rxjs";
 
 export const authGuard: CanActivateFn = (route, state) => {
   const auth = inject(AuthService);
@@ -11,7 +11,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  return router.createUrlTree(['/login']);
+  return router.createUrlTree(["/login"]);
 };
 
 export const checkBackendGuard: CanActivateFn = (route, state) => {
@@ -26,6 +26,6 @@ export const checkBackendGuard: CanActivateFn = (route, state) => {
       }
 
       return of(false);
-    })
-  )
-}
+    }),
+  );
+};

@@ -1,14 +1,14 @@
-import { BehaviorSubject, filter, map } from 'rxjs';
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, filter, map } from "rxjs";
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { PaginationInterface } from '@interfaces/pagination.interface';
-import { environment } from '../../../environments/environment';
-import { UpdateUser, User } from '@interfaces/user.interface';
+import { PaginationInterface } from "@interfaces/pagination.interface";
+import { environment } from "../../../environments/environment";
+import { UpdateUser, User } from "@interfaces/user.interface";
 import { AuthService } from "@services/auth.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserService {
   private apiUrl = environment.apiUrl;
@@ -27,7 +27,7 @@ export class UserService {
     this.page.next({
       ...this.page.getValue(),
       ...pageData,
-    })
+    });
   }
 
   // Methods to handle local users data:
@@ -37,9 +37,9 @@ export class UserService {
 
   getSingleUser(rut: string) {
     return this.users$.pipe(
-      filter(users => users.length > 0),
-      map(users => users.find(user => user.rut === rut)),
-    )
+      filter((users) => users.length > 0),
+      map((users) => users.find((user) => user.rut === rut)),
+    );
   }
 
   getUsers() {
@@ -48,7 +48,7 @@ export class UserService {
 
   updateUserArray(rut: string, updatedValues: Partial<User>) {
     const users = this.usersSource.getValue();
-    const updatedUsers: User[] = users.map(user => {
+    const updatedUsers: User[] = users.map((user) => {
       return user.rut === rut ? { ...user, ...updatedValues } : user;
     });
 
@@ -57,53 +57,65 @@ export class UserService {
 
   removeUserFromArray(rut: string) {
     const users = this.usersSource.getValue();
-    const updatedUsers: User[] = users.filter(user => {
+    const updatedUsers: User[] = users.filter((user) => {
       return user.rut !== rut;
-    })
+    });
 
     this.setUsers(updatedUsers);
   }
 
   // Interact with backend:
-  getUserData(searchValue: string = '', searchColumn: string = '', page: number = 1, pageSize: number = 5) {
-    return this.http.get(`${this.apiUrl}/users?searchValue=${searchValue}&page=${page}&pageSize=${pageSize}`, {
-      headers: {
-        "Authorization": `Bearer ${this.authService.getToken()}`
-      }
-    })
+  getUserData(
+    searchValue: string = "",
+    searchColumn: string = "",
+    page: number = 1,
+    pageSize: number = 5,
+  ) {
+    return this.http.get(
+      `${this.apiUrl}/users?searchValue=${searchValue}&page=${page}&pageSize=${pageSize}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()}`,
+        },
+      },
+    );
   }
 
   createUser(newUser: User) {
     return this.http.post(`${this.apiUrl}/users`, newUser, {
       headers: {
-        "Authorization": `Bearer ${this.authService.getToken()}`
-      }
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
     });
   }
 
   updateUser(rut: string, updatedValues: UpdateUser[]) {
-    return this.http.patch(`${this.apiUrl}/users/${rut}`, {
-      values: updatedValues,
-    }, {
-      headers: {
-        "Authorization": `Bearer ${this.authService.getToken()}`
-      }
-    })
+    return this.http.patch(
+      `${this.apiUrl}/users/${rut}`,
+      {
+        values: updatedValues,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()}`,
+        },
+      },
+    );
   }
 
   deleteUser(rut: string) {
     return this.http.delete(`${this.apiUrl}/users/${rut}`, {
       headers: {
-        Authorization: `Bearer ${this.authService.getToken()}`
-      }
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
     });
   }
 
   getSummary() {
     return this.http.get(`${this.apiUrl}/users/summary`, {
       headers: {
-        "Authorization": `Bearer ${this.authService.getToken()}`
-      }
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
     });
   }
 }

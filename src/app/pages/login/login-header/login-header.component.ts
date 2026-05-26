@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { Component } from "@angular/core";
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
-  selector: 'login-header',
+  selector: "login-header",
   imports: [MatIconModule],
-  templateUrl: './login-header.component.html',
+  templateUrl: "./login-header.component.html",
 })
-export class LoginHeaderComponent { }
+export class LoginHeaderComponent {}
